@@ -13,15 +13,15 @@ categories: ocaml
 > in Emacs. It supports line edition, history, real-time and context
 > sensitive completion, colors, and more.
 
-I've found [utop](https://github.com/diml/utop) to be a really nice toplevel for playing around with OCaml and writing fairly simple code; espeically being able to evaluate code straight from an Emacs buffer is wonderful. However, as soon as you start using it on larger projects you will find that in a lot of cases it won't be able to evaluate the code in your buffer as it depends on various [opam](http://opam.ocamlpro.com) packages and modules you've defined in your project.
+I've found [utop](https://github.com/diml/utop) to be a really nice toplevel for playing around with OCaml. Espeically being able to evaluate code straight from an Emacs buffer is wonderful. However, as soon as you start using it on larger projects you will find that in a lot of cases it won't be able to evaluate the code in your buffer as it depends on various [opam](http://opam.ocamlpro.com) packages and modules you've defined in your project.
 
 Luckily there is a way to make utop aware of the opam packages that you require and the modules you've defined in your project. This is a short blog post that explain how. I also created a very small [example project](http://github.com/mads379/ocaml-utop-emacs-example) to go along with the blog post.
 
 ## Loading the appropriate packages
 
-If you fire up utop and invoke `#use "topfind";;` you will have a new directive named `#require` that you can use to load packages that you've installed using opam into the toplevel (e.g. `#require "batteries";;`)
+If you fire up utop and invoke `#use "topfind";;` you will have a new directive named `#require` that you can use to load your opam packages into the toplevel (e.g. `#require "batteries";;`)
 
-This is really nice and convenient when you want to play around with a specific package, but if you use a lot of modules it's still quite tedious (we use 24 in one of our OCaml projects at Issuu).
+This is really nice and convenient when you want to play around with a specific package, but if you use a lot of modules it's still quite tedious (we use 24 in one of our OCaml projects at [Issuu](http://www.issuu.com/about).
 
 Luckily utop provides the following command line option:
 
@@ -41,9 +41,9 @@ Again see [this makefile](https://github.com/mads379/ocaml-utop-emacs-example/bl
 
 ## Using it from inside of Emacs
 
-The example project contains a target that will compile your OCaml code and start a utop session with the appropriate arguments just as explained in the blog post so far.  However, to get utop set up properly as the toplevel that is recognized by Emacs we still need to do some tweaking.
+The example project contains a Makefile target that will compile your OCaml code and start a utop session with the appropriate arguments just as explained in the blog post so far.  However, to get utop set up properly as the toplevel that is recognized by Emacs we still need to do some tweaking.
 
-Now, I assume that you have utop and configured properly in Emacs as described in the [README](https://github.com/diml/utop) (you also have to set it as the default OCaml toplevel as described in this [section](https://github.com/diml/utop#integration-with-the-tuaregtyperex-mode)).
+Now, I assume that you have utop and configured it properly in Emacs as described in the [README](https://github.com/diml/utop) (you also have to set it as the default OCaml toplevel as described in this [section](https://github.com/diml/utop#integration-with-the-tuaregtyperex-mode), see my [Emacs config](https://github.com/mads379/.emacs.d/blob/master/languages.el#L18) if you need an example).
 
 Now all you need to do is copy the following elisp code, save it somewhere and load it into Emacs.
 
