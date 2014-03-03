@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Complete words based on active dictionary"
+title:  "Complete Words Based on the Active Dictionary in Emacs"
 date:   2014-03-03 20:19:00
 categories: Emacs
 ---
