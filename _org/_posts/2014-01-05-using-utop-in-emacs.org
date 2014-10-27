@@ -1,0 +1,92 @@
+#+STARTUP: showall no-indent
+#+STARTUP: hidestars
+#+OPTIONS: toc:nil
+#+BEGIN_HTML
+---
+layout: post
+title: "Using Utop in Emacs"
+date:   2014-01-05 14:08:52
+categories: ocaml
+---
+#+END_HTML
+
+#+BEGIN_HTML
+<a href="/images/ocaml-utop-session.png">
+    <img src="/images/ocaml-utop-session.png" width="100%"/>
+</a>
+#+END_HTML
+
+#+BEGIN_HTML
+<blockquote>
+utop is an improved toplevel for OCaml. It can run in a terminal or
+in Emacs. It supports line edition, history, real-time and context
+sensitive completion, colors, and more.
+</blockquote>
+#+END_HTML
+
+I've found [[https://github.com/diml/utop][utop]] to be a really nice toplevel for playing around with
+OCaml. Espeically being able to evaluate code straight from an Emacs
+buffer is wonderful. However, as soon as you start using it on larger
+projects you will find that in a lot of cases it won't be able to
+evaluate the code in your buffer as it depends on various [[http://opam.ocamlpro.com][opam]]
+packages and modules you've defined in your project.
+
+Luckily there is a way to make utop aware of the opam packages that
+you require and the modules you've defined in your project. This is a
+short blog post that explain how. I also created a very small [[http://github.com/mads379/ocaml-utop-emacs-example][example
+project]] to go along with the blog post.
+
+* Loading the appropriate packages
+
+If you fire up utop and invoke #use "topfind";; you will have a new
+directive named #require that you can use to load your opam packages
+into the toplevel (e.g. #require "batteries";;)
+
+This is really nice and convenient when you want to play around with a
+specific package, but if you use a lot of modules it's still quite
+tedious (we use 24 in one of our OCaml projects at [[http://www.issuu.com/about][issuu]].)
+
+Luckily utop makes it possible to put these directives (or anything
+else you could type in the toplevel) in a file and have utop load it
+on boot. If there's a file named .ocamlinit in the folder where you
+invoke utop it will load the, otherwise you can specify a file path
+using the -init option.
+
+So if you simply create a .ocamlinit file which contains the
+appropriate #use and #require statements then you will have
+everything loaded and ready when utop has launched. See [[https://github.com/mads379/ocaml-utop-emacs-example/blob/master/Makefile][this makefile]]
+for an example of a Makefile target that generates such a file.
+
+* Making utop aware of your compiled sources
+There are two ways to achieve this. You can use the #directory
+directive in the toplevel (or your .ocamlinit file) or you can specify
+it as command line argument when invoking utop using -I <dir>.
+
+* Using it from inside of Emacs
+I assume that you have Emacs configured properly so it can find
+emacs-lisp files installed through opam.
+
+#+BEGIN_SRC emacs-lisp
+(autoload 'utop "utop" "Toplevel for OCaml" t)
+(autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
+
+(add-hook 'tuareg-mode-hook (lambda ()
+    (merlin-mode)
+    (utop-setup-ocaml-buffer)
+    (set (make-local-variable 'compile-command) (make-cmd))
+    (setq utop-command (concat "utop -emacs " (utop-extra)))))
+#+END_SRC
+
+Inside of your [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html][.dir-locals]] file for your ocaml project add the
+following.
+
+#+BEGIN_SRC emacs-lisp
+((tuareg-mode .
+    ((utop-command . "utop -emacs -I ~/dev/backend-similarity/.ocamlinit"))))
+#+END_SRC
+
+Now you can just open an OCaml source file and hit M-x utop to get a
+properly configured utop toplevel buffer. Now you can start feeding code
+to your utop session using C-x C-e. This makes it refreshingly easy to
+play around with smaller pieces of OCaml code straight from your
+buffer.
