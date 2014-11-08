@@ -176,3 +176,7 @@ blockquote:before {
 blockquote p {
   display: inline;
 }
+
+p.footpara {
+    display: inline;
+}

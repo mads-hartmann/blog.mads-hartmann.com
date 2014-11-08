@@ -17,7 +17,7 @@ sensitive completion, colors, and more.
 
 <p>
 I've found <a href="https://github.com/diml/utop">utop</a> to be a really nice toplevel for playing around with
-OCaml. Espeically being able to evaluate code straight from an Emacs
+OCaml. Especially being able to evaluate code straight from an Emacs
 buffer is wonderful. However, as soon as you start using it on larger
 projects you will find that in a lot of cases it won't be able to
 evaluate the code in your buffer as it depends on various <a href="http://opam.ocamlpro.com">opam</a>
@@ -26,9 +26,14 @@ packages and modules you've defined in your project.
 
 <p>
 Luckily there is a way to make utop aware of the opam packages that
-you require and the modules you've defined in your project. This is a
-short blog post that explain how. I also created a very small <a href="http://github.com/mads379/ocaml-utop-emacs-example">example
-project</a> to go along with the blog post.
+you depend on and the modules you've defined in your project. This is
+a short blog post to explain how. I've also created a very small
+<a href="http://github.com/mads379/ocaml-utop-emacs-example">example project</a> to provide concrete examples.
+</p>
+
+<p>
+<b>Note</b>: This is the 2nd iteration. The setup was vastly simplified on
+November 8 2014. The previous version can be found <a href="https://github.com/mads379/mads379.github.com/blob/8c9e7b4c7e262d298e7e2401446ae0fa34c148cb/_posts/2014-01-05-using-utop-in-emacs.markdown">here</a>.
 </p>
 
 <div id="outline-container-sec-1" class="outline-2">
@@ -41,24 +46,24 @@ into the toplevel (e.g. #require "batteries";;)
 </p>
 
 <p>
-This is really nice and convenient when you want to play around with a
+This is really neat and convenient when you want to play around with a
 specific package, but if you use a lot of modules it's still quite
 tedious (we use 24 in one of our OCaml projects at <a href="http://www.issuu.com/about">issuu</a>.)
 </p>
 
 <p>
-Luckily utop makes it possible to put these directives (or anything
+Fortunately utop makes it possible to put these directives (or anything
 else you could type in the toplevel) in a file and have utop load it
-on boot. If there's a file named .ocamlinit in the folder where you
-invoke utop it will load the, otherwise you can specify a file path
+upon boot. If there's a file named .ocamlinit in the folder where you
+invoke utop it will load that, otherwise you can specify a file path
 using the -init option.
 </p>
 
 <p>
 So if you simply create a .ocamlinit file which contains the
-appropriate #use and #require statements then you will have
-everything loaded and ready when utop has launched. See <a href="https://github.com/mads379/ocaml-utop-emacs-example/blob/master/Makefile">this makefile</a>
-for an example of a Makefile target that generates such a file.
+appropriate #use and #require statements then you will have everything
+loaded and ready when utop has launched. See <a href="https://github.com/mads379/ocaml-utop-emacs-example/blob/master/.ocamlinit">this .ocamlinit</a> for a
+concrete example.
 </p>
 </div>
 </div>
@@ -67,9 +72,11 @@ for an example of a Makefile target that generates such a file.
 <h2 id="sec-2"><span class="section-number-2">2</span> Making utop aware of your compiled sources</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-There are two ways to achieve this. You can use the #directory
-directive in the toplevel (or your .ocamlinit file) or you can specify
-it as command line argument when invoking utop using -I &lt;dir&gt;.
+The other thing to solve is figuring out how to tell utop where to
+look for your bytecode. There are two ways to achieve this. You can
+use the #directory directive in the toplevel (or your .ocamlinit file)
+or you can specify it as command line argument when invoking utop
+using -I &lt;dir&gt;. Again See <a href="https://github.com/mads379/ocaml-utop-emacs-example/blob/master/.ocamlinit">this .ocamlinit</a> for a concrete example.
 </p>
 </div>
 </div>
@@ -78,41 +85,41 @@ it as command line argument when invoking utop using -I &lt;dir&gt;.
 <h2 id="sec-3"><span class="section-number-2">3</span> Using it from inside of Emacs</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-I assume that you have Emacs configured properly so it can find
-emacs-lisp files installed through opam.
+The last piece of the puzzle is a bit of Emacs configuration.
 </p>
 
-<div class="org-src-container">
-
-<pre class="src src-emacs-lisp">(autoload 'utop "utop" "Toplevel for OCaml" t)
-(autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
-
-(add-hook 'tuareg-mode-hook (lambda ()
-    (merlin-mode)
-    (utop-setup-ocaml-buffer)
-    (set (make-local-variable 'compile-command) (make-cmd))
-    (setq utop-command (concat "utop -emacs " (utop-extra)))))
-</pre>
-</div>
-
 <p>
-Inside of your <a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html">.dir-locals</a> file for your ocaml project add the
-following.
+You need to tell Emacs to use the -init option when starting the utop
+buffer. You can do this through the utop-command variable so you won't
+have to type it in manually every time you invoke M-x utop. I prefer
+setting it in the <a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html">.dir-locals</a> file of my ocaml projects<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup>. You can see a
+concrete example <a href="https://github.com/mads379/ocaml-utop-emacs-example/blob/master/.dir-locals.el">here</a>. An example is shown below.
 </p>
 
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">((tuareg-mode .
-    ((utop-command . "utop -emacs -I ~/dev/backend-similarity/.ocamlinit"))))
+    ((utop-command . "utop -emacs -init ~/dev/backend-similarity/.ocamlinit"))))
 </pre>
 </div>
 
 <p>
 Now you can just open an OCaml source file and hit M-x utop to get a
-properly configured utop toplevel buffer. Now you can start feeding code
-to your utop session using C-x C-e. This makes it refreshingly easy to
-play around with smaller pieces of OCaml code straight from your
-buffer.
+properly configured utop toplevel buffer. You can feed code to your
+utop session using C-x C-e. This makes it refreshingly easy to play
+around with smaller pieces of OCaml code straight from your buffer.
 </p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p class="footpara">
+Support for this is currently on master but a new release
+hasn't been pushed to opam yet. See this <a href="https://github.com/diml/utop/pull/111">PR</a>.
+</p></div>
+
+
 </div>
 </div>
