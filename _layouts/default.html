@@ -6,18 +6,26 @@
         <title>{{ page.title }}</title>
         <meta name="viewport" content="width=device-width">
 
-        <!-- syntax highlighting CSS -->
-        <link rel="stylesheet" href="/css/syntax.css">
-
-        <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
 
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+        <!-- highlighting -->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+        <script>
+          $(document).ready(function() {
+            $("pre.src").each(function(i, block) {
+              hljs.highlightBlock(block);
+            });
+          });
+        </script>
     </head>
     <body>
 
       <div class="header">
         <a href="/">
-          <img src="https://pbs.twimg.com/profile_images/486949461600374784/rUwq3Ujw.jpeg" width="90" height="90" />
+          <img src="/images/me.jpeg" width="90" height="90" />
         </a>
       </div>
       <div class="site">

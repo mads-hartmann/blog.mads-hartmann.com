@@ -11,7 +11,6 @@ h1, h2 {
 }
 
 h1 {
-    letter-spacing: -0.02em;
     font-weight: 700;
     font-style: normal;
     font-size: 2.3em;
@@ -81,7 +80,12 @@ blockquote p {
     top: 15px;
     left: 50%;
     margin-left: -45px;
+    transition: all .1s ease-in-out;
 }
+.header img:hover {
+    transform: scale(1.1);
+}
+
 
 .site {
     width: 70%;
