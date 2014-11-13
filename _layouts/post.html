@@ -1,8 +1,10 @@
 ---
 layout: default
 ---
-<h2>{{ page.title }}</h2>
-<p class="meta">{{ page.date | date_to_string }}</p>
+<h1>{{ page.title }}</h1>
+<section class="meta">
+by <a href="/">Mads Hartmann</a> - {{ page.date | date_to_string }}
+</section>
 
 <div class="post">
 {{ content }}

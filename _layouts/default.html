@@ -15,44 +15,43 @@
     </head>
     <body>
 
-        <div class="site">
-          <div class="header">
-            <h1 class="title"><a href="/">{{ site.name }}</a></h1>
-            <a class="extra" href="/">home</a>
+      <div class="header">
+        <a href="/">
+          <img src="https://pbs.twimg.com/profile_images/486949461600374784/rUwq3Ujw.jpeg" width="90" height="90" />
+        </a>
+      </div>
+      <div class="site">
+
+        {{ content }}
+
+        <div class="footer">
+          <div class="contact">
+            <p>
+              Mads Hartmann<br />
+              Software developer at <a href="http://www.issuu.com">issuu.com</a><br />
+              mads379@gmail.com
+            </p>
           </div>
-
-          {{ content }}
-
-          <div class="footer">
-            <div class="contact">
-              <p>
-                Mads Hartmann<br />
-                Software developer at Issuu<br />
-                mads379@gmail.com
-              </p>
-            </div>
-            <div class="contact">
-              <p>
-                <a href="https://github.com/mads379">github.com/mads379</a><br />
-                <a href="https://twitter.com/mads_hartmann">twitter.com/mads_hartmann</a><br />
-              </p>
-            </div>
+          <div class="contact">
+            <p>
+              <a href="https://github.com/mads379">github.com/mads379</a><br />
+              <a href="https://twitter.com/mads_hartmann">twitter.com/mads_hartmann</a><br />
+            </p>
           </div>
         </div>
+      </div>
 
-        <script type="text/javascript">
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-46867150-1']);
+        _gaq.push(['_trackPageview']);
 
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', 'UA-46867150-1']);
-          _gaq.push(['_trackPageview']);
-
-          (function() {
-          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          })();
-
-        </script>
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
 
     </body>
 </html>

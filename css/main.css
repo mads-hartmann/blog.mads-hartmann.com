@@ -1,185 +1,56 @@
-/*****************************************************************************/
-/*
-/* Common
-/*
-/*****************************************************************************/
-
-@font-face {
-    font-family: cardo;
-    src: url(/fonts/Cardo104s.ttf);
-}
-
-@font-face {
-    font-family: cardo;
-    src: url(/fonts/Cardob101.ttf);
-    font-weight: bold;
-}
-
-@font-face {
-    font-family: cardo;
-    src: url(/fonts/Cardoi99.otf);
-    font-style: italic;
-}
-
-/* Global Reset */
-* {
-  margin: 0;
-  padding: 0;
-}
-
-html, body { height: 100%; }
-
 body {
-  background-color: #FFF;
-  font: 13.34px cardo, Helvetica, Arial, sans-serif;
-  font-size: small;
-  text-align: center;
+    font-size: 1.1em;
+    line-height: 1.56em;
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    -webkit-font-smoothing: antialiased;
+    color: rgba(46,48,58,0.96);
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-size: 100%; }
-
-h1 { margin-bottom: 1em; }
-p { margin: 1em 0; }
-
-a         { color: #00a; }
-a:hover   { color: #000; }
-a:visited { color: #a0a; }
-
-/*****************************************************************************/
-/*
-/* Home
-/*
-/*****************************************************************************/
-.posts {
-  list-style-type: none;
-  margin-bottom: 2em;
+h1, h2 {
+    color: rgba(46,48,58,0.96);
 }
 
-.posts li {
-  line-height: 1.75em;
+h1 {
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 2.3em;
+    margin-left: -3px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-top: 40px;
+    padding-top: 0;
+    margin-bottom: 8px;
+    text-align: center;
 }
 
-.posts span {
-  color: #aaa;
-  font-family: Monaco, "Courier New", monospace;
-  font-size: 80%;
+h2 {
+    letter-spacing: -0.02em;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 2.0em
+    margin-left: -1.5px;
+    line-height: 1.2;
+    margin-top: 40px;
+    margin-bottom: 2px;
 }
 
-/*****************************************************************************/
-/*
-/* Site
-/*
-/*****************************************************************************/
+p {}
 
-.site {
-  font-size: 115%;
-  text-align: justify;
-  width: 42em;
-  margin: 3em auto 2em;
-  line-height: 1.5em;
+a {
+    color: #AD141E;
+    text-decoration: none;
+    transition: color 0.1s linear;
 }
 
-.header a {
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.title {
-  display: inline-block;
-  margin-bottom: 2em;
-}
-
-.title a {
-  color: #a00;
-}
-
-.title a:hover {
-  color: #000;
-}
-
-.header a.extra {
-  color: #aaa;
-  margin-left: 1em;
-}
-
-.header a.extra:hover {
-  color: #000;
-}
-
-.meta {
-  color: #aaa;
-}
-
-.footer {
-  font-size: 80%;
-  color: #666;
-  border-top: 4px solid #eee;
-  margin-top: 2em;
-  overflow: hidden;
-}
-
-.footer .contact {
-  float: left;
-  margin-right: 3em;
-}
-
-.footer .contact a {
-  color: #8085C1;
-}
-
-.footer .rss {
-  margin-top: 1.1em;
-  margin-right: -.2em;
-  float: right;
-}
-
-.footer .rss img {
-  border: 0;
-}
-
-/*****************************************************************************/
-/*
-/* Posts
-/*
-/*****************************************************************************/
-
-/* standard */
-.post pre {
-  border: 1px solid #ddd;
-  background-color: #eef;
-  padding: 0 .4em;
-}
-
-.post ul, .post ol {
-  margin-left: 1.35em;
-}
-
-.post code {
-  border: 1px solid #ddd;
-  background-color: #eef;
-  padding: 0 .2em;
-}
-
-.post pre code {
-  border: none;
-}
-
-/* terminal */
-.post pre.terminal {
-  border: 1px solid #000;
-  background-color: #333;
-  color: #FFF;
-}
-
-.post pre.terminal code {
-  background-color: #333;
+#text-table-of-contents a {
+    font-size: 18px;
 }
 
 blockquote {
   background: #f9f9f9;
   border-left: 10px solid #ccc;
-  margin: 1.5em 10px;
+  margin: 1.5em 0px;
   padding: 1em 20px;
   quotes: "\201C""\201D""\2018""\2019";
 }
@@ -194,6 +65,99 @@ blockquote p {
   display: inline;
 }
 
+/* Structure */
+
+.header {
+    margin-top: 60px;
+    margin-bottom: 80px;
+    border-top: 1px solid rgba(228,229,233,0.96);
+}
+
+.header img {
+    border-radius: 45px;
+    -webkit-border-radius: 45px;
+    -moz-border-radius: 45px;
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    margin-left: -45px;
+}
+
+.site {
+    width: 70%;
+    max-width: 800px;
+    margin: 0px auto;
+}
+
+section.meta {
+    padding-bottom: 60px;
+    margin-bottom: 60px;
+    text-align: center;
+    font-style: italic;
+    font-size: 0.9em;
+    color: rgba(91,95,115,0.96);
+    border-bottom: 1px solid rgba(228,229,233,0.96);
+}
+
+.footer {
+    border-top: 1px solid rgba(228,229,233,0.96);
+    margin-top: 60px;
+    font-size: 0.9em;
+    overflow: hidden;
+}
+
+.footer .contact {
+  float: left;
+  margin-right: 3em;
+}
+
+/* ORG-MODE Related classes. */
+
+p.author           {}
+p.date             {}
+p.creator          {}
+.title             {}
+.todo              {}
+.done              {}
+.WAITING           {}
+.timestamp         {}
+.timestamp-kwd     {}
+.timestamp-wrapper {}
+.tag               {}
+._HOME             {}
+.target            {}
+.linenr            {}
+.code-highlighted  {}
+div.outline-N      {}
+div.outline-text-N {}
+.section-number-N  {}
+.figure-number     {}
+.table-number      {}
+.listing-number    {}
+div.figure         {}
+pre.src, pre.example {
+    margin-bottom: 0.7em;
+    font-family: Monaco,'Courier New','Courier',monospace;
+    font-size: 0.7em;
+    background: rgba(0,0,0,0.05);
+    padding: 1em;
+    white-space: pre-wrap;
+    margin-left: 0px;
+    margin-right: 0px;
+    box-shadow: none;
+}
+
+pre.example {
+    background: rgba(191, 239, 206, 0.5);
+    margin-bottom: 20px;
+}
+
 p.footpara {
     display: inline;
 }
+
+p.verse            {}
+div.footnotes      {}
+p.footnote         {}
+.footref           {}
+.footnum           {}
