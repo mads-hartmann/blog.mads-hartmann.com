@@ -18,7 +18,7 @@ features I personally think represent OCaml the best.
 
 This document does very little to explain use-cases for the selected
 features but rather focuses on syntax. For a more in-depth coverage of
-all of these features I recommend reading he [[http://caml.inria.fr/pub/docs/manual-ocaml/][OCaml Document and User's
+all of these features I recommend reading the [[http://caml.inria.fr/pub/docs/manual-ocaml/][OCaml Document and User's
 Manual]] and [[https://realworldocaml.org/][Real World OCaml]].
 
 For each feature there is a small explaination of the syntax, some
