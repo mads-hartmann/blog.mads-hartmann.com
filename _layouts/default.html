@@ -11,11 +11,12 @@
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
         <!-- highlighting -->
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css">
-        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+        <link rel="stylesheet" href="/highlightjs/default.css">
+        <script src="/highlightjs/highlight.pack.js"></script>
         <script>
           $(document).ready(function() {
             $("pre.src").each(function(i, block) {
+              hljs.configure({});
               hljs.highlightBlock(block);
             });
           });

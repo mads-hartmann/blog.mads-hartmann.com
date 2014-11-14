@@ -1,4 +1,4 @@
-#+STARTUP: showall no-indent
+#+STARTUP: showall
 #+OPTIONS: toc:nil
 #+OPTIONS: ^:nil
 #+BEGIN_HTML
@@ -21,7 +21,7 @@ features but rather focuses on syntax. For a more in-depth coverage of
 all of these features I recommend reading the [[http://caml.inria.fr/pub/docs/manual-ocaml/][OCaml Document and User's
 Manual]] and [[https://realworldocaml.org/][Real World OCaml]].
 
-For each feature there is a small explaination of the syntax, some
+For each feature there is a small explanation of the syntax, some
 examples, and links for further reading. As such this document is
 ideal for someone who wants to get a taste of the features of OCaml or
 who want to learn more about a specific feature.
@@ -29,10 +29,12 @@ who want to learn more about a specific feature.
 If you have any comments please reach out to me at [[mailto:mads379@gmail.com][mads379@gmail.com]]
 or [[http://www.twitter.com/mads_hartmann][@mads_hartmann]] on twitter.
 
+If you want to play around with the code I recommend using [[http://ocsigen.org/js_of_ocaml/2.5/files/toplevel/index.html][this]] online
+REPL.
+
 *Note*: This is still a work in progress. I haven't yet covered the
-following: pattern matching, variants, records, modules, functors,
-exceptions, Abstract Data Types, Generalized Algebraic Datatypes, and
-much more.
+following: pattern matching, modules, functors, exceptions, Abstract
+Data Types, Generalized Algebraic Datatypes, and much more.
 
 #+TOC: headlines 3
 
@@ -100,7 +102,7 @@ languages. In another language the above example might look like this:
 : - : int * int -> int * int = <fun>
 
 However, in OCaml this will [[http://en.wikipedia.org/wiki/Partial_application][partially apply]] the function ~min~ with
-one arguemnt, the tuple ~(10, 24)~. Partial application is another
+one argument, the tuple ~(10, 24)~. Partial application is another
 nice feature of OCaml that allows you to supply ~N~ arguments to a
 function of arity ~X~ and get a function of arity ~X-N~ in
 return. This is possible as all functions in OCaml are [[http://en.wikipedia.org/wiki/Currying][curried]].
@@ -156,9 +158,9 @@ if you want to define a [[http://en.wikipedia.org/wiki/Recursion_(computer_scien
 the ~rec~ keyword.
 
 *** Labeled arguments
-By prefixing an arugment with ~~~ you can give it a label which
+By prefixing an argument with ~~~ you can give it a label which
 makes the code easier to read and makes the order of the arguments
-irrilevant.
+irrelevant.
 #+BEGIN_SRC ocaml :exports both :result output
   let welcome ~greeting ~name = Printf.printf "%s %s\n" greeting name in
   welcome ~name:"reader" ~greeting:"Hi"
@@ -168,7 +170,7 @@ irrilevant.
 : - : unit = ()
 
 *** Optional arguments
-By prefixing an arugment with ~?~ you can make it optional. The value
+By prefixing an argument with ~?~ you can make it optional. The value
 of optional arguments are represented using the [[https://realworldocaml.org/v1/en/html/a-guided-tour.html#options][~Option~ type]].
 #+BEGIN_SRC ocaml :exports both :result output
   let welcome ?greeting_opt name =
@@ -200,3 +202,111 @@ previous example could also have been written as such:
 : Hey reader
 : Hi reader
 : - : unit = ()
+
+* Records
+Records are used to store a collection of values together as a single
+value. The example below defines a record named ~person~ with two
+components.
+#+BEGIN_SRC ocaml :exports both :result output
+  type person = {
+    name: string;
+    age: int;
+  } ;;
+  let p = { name = "Mads" ; age = 25 } in
+  Printf.printf "%s is %d years old" p.name p.age
+#+END_SRC
+#+RESULTS:
+: Mads is 25 years old- : unit = ()
+
+Records can be parameterized using a polymorphic type.
+#+BEGIN_SRC ocaml :exports both :result output
+  type 'a ranked = {
+    item: 'a;
+    rank: int;
+  };;
+  let item = { item = Some 42 ; rank = 1 }
+#+END_SRC
+#+RESULTS:
+: val item : int option ranked = {item = Some 42; rank = 1}
+
+There is a lot more to be said of records. See this [[https://realworldocaml.org/v1/en/html/records.html][this section]] of
+Real World OCaml and [[http://caml.inria.fr/pub/docs/manual-ocaml/coreexamples.html#sec11][this section]] of the OCaml Users Guide.
+
+* Variants
+Variants, also known as [[http://en.wikipedia.org/wiki/Algebraic_data_type][algebraic data types]], are commonly used to
+define recursive data structures. Just like records they can be
+parameterized using a polymorphic type as shown in the example below
+where a variant is used to represent a binary tree.
+#+BEGIN_SRC ocaml :exports both
+  type 'a tree =
+    | Leaf of 'a
+    | Node of 'a tree * 'a * 'a tree;;
+  Node ((Leaf "foo"), "bar", (Leaf "foobar"));;
+#+END_SRC
+#+RESULTS:
+: - : string tree = Node (Leaf "foo", "bar", Leaf "foobar")
+
+The type ~tree~ has two constructors: ~Leaf~ and ~Node~. The example
+below shows one way to compute the height of such a tree:
+#+BEGIN_SRC ocaml :exports both
+  let rec depth = function
+    | Leaf _ -> 1
+    | Node (left, _ ,right) -> 1 + max (depth left) (depth right)
+  in
+  let tree =
+    Node ((Leaf 1), 2, (Node ((Leaf 3), 4, (Node ((Leaf 5), 6, (Leaf 6))))))
+  in
+  depth tree;;
+#+END_SRC
+#+RESULTS:
+: 4
+
+The example above uses the ~function~ keyword to define a function
+that takes a single argument that is pattern matched on.
+
+Variants are one of the most useful features of OCaml so it's well
+worth spending some more time studying them. See [[https://realworldocaml.org/v1/en/html/variants.html][this section]] of Real
+World OCaml for information on use-cases and best-practices.
+
+** Polymorphic Variants
+OCaml also has another type of variants that they call polymorphic
+variants. When using polymorphic variants you do not need to define
+the constructors prior to using them - you can think of them as an
+ad-hoc version of the regular variants.
+#+BEGIN_SRC ocaml :exports both
+  let length_of_title book_title =
+    match String.length book_title with
+    | length when length <= 5  -> `Short
+    | length when length <= 10 -> `Medium
+    | _  -> `Long
+  in
+  length_of_title "The Hitchhiker's Guide to the Galaxy"
+#+END_SRC
+#+RESULTS:
+: - : [> `Long | `Medium | `Short ] = `Long
+
+Once again this feature is thoroughly covered in [[https://realworldocaml.org/v1/en/html/variants.html#polymorphic-variants][this section]] of Real
+World OCaml.
+
+** Extensible Variants
+As the name suggests extensible variants are variants that can be
+extended with new constructors.
+
+This is a new feature that was introduced in OCaml 4.02 and as such I
+haven't yet used these in my own code so I will stick to the examples
+shown in the OCaml Users Manual.
+
+#+BEGIN_SRC ocaml :exports both
+  type attr = .. ;;
+  type attr += Str of string ;;
+  type attr +=
+    | Int of int
+    | Float of float ;;
+#+END_SRC
+#+RESULTS:
+: type attr += Int of int | Float of float
+
+For more information read this [[http://caml.inria.fr/pub/docs/manual-ocaml/extn.html#sec246][section]] of the OCaml Users Manual. This
+features was released after Real World Ocaml and as such it isn't
+covered in the book unfortunately. I look forward to then next
+revision.

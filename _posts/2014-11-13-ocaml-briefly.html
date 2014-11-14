@@ -19,7 +19,7 @@ Manual</a> and <a href="https://realworldocaml.org/">Real World OCaml</a>.
 </p>
 
 <p>
-For each feature there is a small explaination of the syntax, some
+For each feature there is a small explanation of the syntax, some
 examples, and links for further reading. As such this document is
 ideal for someone who wants to get a taste of the features of OCaml or
 who want to learn more about a specific feature.
@@ -31,10 +31,14 @@ or <a href="http://www.twitter.com/mads_hartmann">@mads_hartmann</a> on twitter.
 </p>
 
 <p>
+If you want to play around with the code I recommend using <a href="http://ocsigen.org/js_of_ocaml/2.5/files/toplevel/index.html">this</a> online
+REPL.
+</p>
+
+<p>
 <b>Note</b>: This is still a work in progress. I haven't yet covered the
-following: pattern matching, variants, records, modules, functors,
-exceptions, Abstract Data Types, Generalized Algebraic Datatypes, and
-much more.
+following: pattern matching, modules, functors, exceptions, Abstract
+Data Types, Generalized Algebraic Datatypes, and much more.
 </p>
 
 <div id="table-of-contents">
@@ -52,6 +56,13 @@ much more.
 <li><a href="#sec-3-1-3">3.1.3. Default argument</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#sec-4">4. Records</a></li>
+<li><a href="#sec-5">5. Variants</a>
+<ul>
+<li><a href="#sec-5-1">5.1. Polymorphic Variants</a></li>
+<li><a href="#sec-5-2">5.2. Extensible Variants</a></li>
 </ul>
 </li>
 </ul>
@@ -176,7 +187,7 @@ languages. In another language the above example might look like this:
 
 <p>
 However, in OCaml this will <a href="http://en.wikipedia.org/wiki/Partial_application">partially apply</a> the function <code>min</code> with
-one arguemnt, the tuple <code>(10, 24)</code>. Partial application is another
+one argument, the tuple <code>(10, 24)</code>. Partial application is another
 nice feature of OCaml that allows you to supply <code>N</code> arguments to a
 function of arity <code>X</code> and get a function of arity <code>X-N</code> in
 return. This is possible as all functions in OCaml are <a href="http://en.wikipedia.org/wiki/Currying">curried</a>.
@@ -264,9 +275,9 @@ the <code>rec</code> keyword.
 <h4 id="sec-3-1-1"><span class="section-number-4">3.1.1</span> Labeled arguments</h4>
 <div class="outline-text-4" id="text-3-1-1">
 <p>
-By prefixing an arugment with <code>~</code> you can give it a label which
+By prefixing an argument with <code>~</code> you can give it a label which
 makes the code easier to read and makes the order of the arguments
-irrilevant.
+irrelevant.
 </p>
 <div class="org-src-container">
 
@@ -285,7 +296,7 @@ Hi reader
 <h4 id="sec-3-1-2"><span class="section-number-4">3.1.2</span> Optional arguments</h4>
 <div class="outline-text-4" id="text-3-1-2">
 <p>
-By prefixing an arugment with <code>?</code> you can make it optional. The value
+By prefixing an argument with <code>?</code> you can make it optional. The value
 of optional arguments are represented using the <a href="https://realworldocaml.org/v1/en/html/a-guided-tour.html#options"><code>Option</code> type</a>.
 </p>
 <div class="org-src-container">
@@ -331,6 +342,172 @@ Hi reader
 - : unit = ()
 </pre>
 </div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Records</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Records are used to store a collection of values together as a single
+value. The example below defines a record named <code>person</code> with two
+components.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ocaml">type person = {
+  name: string;
+  age: int;
+} ;;
+let p = { name = "Mads" ; age = 25 } in
+Printf.printf "%s is %d years old" p.name p.age
+</pre>
+</div>
+<pre class="example">
+Mads is 25 years old- : unit = ()
+</pre>
+
+<p>
+Records can be parameterized using a polymorphic type.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ocaml">type 'a ranked = {
+  item: 'a;
+  rank: int;
+};;
+let item = { item = Some 42 ; rank = 1 }
+</pre>
+</div>
+<pre class="example">
+val item : int option ranked = {item = Some 42; rank = 1}
+</pre>
+
+<p>
+There is a lot more to be said of records. See this <a href="https://realworldocaml.org/v1/en/html/records.html">this section</a> of
+Real World OCaml and <a href="http://caml.inria.fr/pub/docs/manual-ocaml/coreexamples.html#sec11">this section</a> of the OCaml Users Guide.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Variants</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Variants, also known as <a href="http://en.wikipedia.org/wiki/Algebraic_data_type">algebraic data types</a>, are commonly used to
+define recursive data structures. Just like records they can be
+parameterized using a polymorphic type as shown in the example below
+where a variant is used to represent a binary tree.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ocaml">type 'a tree =
+  | Leaf of 'a
+  | Node of 'a tree * 'a * 'a tree;;
+Node ((Leaf "foo"), "bar", (Leaf "foobar"));;
+</pre>
+</div>
+<pre class="example">
+- : string tree = Node (Leaf "foo", "bar", Leaf "foobar")
+</pre>
+
+<p>
+The type <code>tree</code> has two constructors: <code>Leaf</code> and <code>Node</code>. The example
+below shows one way to compute the height of such a tree:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ocaml">let rec depth = function
+  | Leaf _ -&gt; 1
+  | Node (left, _ ,right) -&gt; 1 + max (depth left) (depth right)
+in
+let tree =
+  Node ((Leaf 1), 2, (Node ((Leaf 3), 4, (Node ((Leaf 5), 6, (Leaf 6))))))
+in
+depth tree;;
+</pre>
+</div>
+<pre class="example">
+4
+</pre>
+
+<p>
+The example above uses the <code>function</code> keyword to define a function
+that takes a single argument that is pattern matched on.
+</p>
+
+<p>
+Variants are one of the most useful features of OCaml so it's well
+worth spending some more time studying them. See <a href="https://realworldocaml.org/v1/en/html/variants.html">this section</a> of Real
+World OCaml for information on use-cases and best-practices.
+</p>
+</div>
+
+<div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> Polymorphic Variants</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+OCaml also has another type of variants that they call polymorphic
+variants. When using polymorphic variants you do not need to define
+the constructors prior to using them - you can think of them as an
+ad-hoc version of the regular variants.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ocaml">let length_of_title book_title =
+  match String.length book_title with
+  | length when length &lt;= 5  -&gt; `Short
+  | length when length &lt;= 10 -&gt; `Medium
+  | _  -&gt; `Long
+in
+length_of_title "The Hitchhiker's Guide to the Galaxy"
+</pre>
+</div>
+<pre class="example">
+- : [&gt; `Long | `Medium | `Short ] = `Long
+</pre>
+
+<p>
+Once again this feature is thoroughly covered in <a href="https://realworldocaml.org/v1/en/html/variants.html#polymorphic-variants">this section</a> of Real
+World OCaml.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> Extensible Variants</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+As the name suggests extensible variants are variants that can be
+extended with new constructors.
+</p>
+
+<p>
+This is a new feature that was introduced in OCaml 4.02 and as such I
+haven't yet used these in my own code so I will stick to the examples
+shown in the OCaml Users Manual.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ocaml">type attr = .. ;;
+type attr += Str of string ;;
+type attr +=
+  | Int of int
+  | Float of float ;;
+</pre>
+</div>
+<pre class="example">
+type attr += Int of int | Float of float
+</pre>
+
+<p>
+For more information read this <a href="http://caml.inria.fr/pub/docs/manual-ocaml/extn.html#sec246">section</a> of the OCaml Users Manual. This
+features was released after Real World Ocaml and as such it isn't
+covered in the book unfortunately. I look forward to then next
+revision.
+</p>
 </div>
 </div>
 </div>
