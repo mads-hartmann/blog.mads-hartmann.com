@@ -6,7 +6,7 @@
 layout: post
 title: "Using Utop in Emacs"
 date:   2014-01-05 14:08:52
-categories: ocaml
+categories: OCaml
 ---
 #+END_HTML
 
