@@ -38,7 +38,7 @@ file named ~.ocamldebug~ and prefix each line with ~directory~. After
 starting the debugger in Emacs you then need to run ~source <PATH>~ to
 configure it.
 
-* Using debugger
+* Using the debugger
 
 Starting the debugger from within Emacs is just a matter of running
 ~M-x ocamldebug~ and point it to the executable you want to debug.
