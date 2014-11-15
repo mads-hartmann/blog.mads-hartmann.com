@@ -12,27 +12,21 @@ work. This weekend I decided to give it a go.
 </p>
 
 <p>
-<b>Note:</b> Getting the debugger configured correctly was a bit of a hurdle and
-there are still a couple of problems that I'm hoping to
-resolve. Until I get these things sorted out this blog post is used
-as a way to describe my setup so I can get help from some of the more
-seasoned OCaml programmers out there. Once I have everything sorted
-out I'll re-write this post into a proper guide as I did with my <a href="http://mads379.github.io/ocaml/2014/01/05/using-utop-in-emacs.html">utop
-post</a>.
+I wanted to try it out on a simple but non-trivial program (in terms
+of setup, i.e. a program that requires opam packages to compile) so I
+used the <a href="https://github.com/mirage/ocaml-cohttp/blob/master/examples/async/hello_world.ml">hello world example</a> of the <a href="https://github.com/mirage/ocaml-cohttp">ocaml-cohttp</a> library.
 </p>
 
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Configuration</h2>
+<div class="outline-text-2" id="text-1">
 <p>
-I decided to try out the debugger on the <a href="https://github.com/mirage/ocaml-cohttp/blob/master/examples/async/hello_world.ml">hello world example</a> of
-<a href="https://github.com/mirage/ocaml-cohttp">ocaml-cohttp</a> to get a simple but non-trivial program (in terms of
-setup, i.e. a program that requires OPAM packages to compile).
-</p>
-
-<p>
-For the debugger to work properly on this example you need to make
-sure that your opam packages are compiled using the <code>-g</code> option. You
-can do this by setting <code>OCAMLPARAM</code> to <code>_,g</code> before running <code>opam
-install</code>. You will want to run <code>opam reinstall</code> on any package you
-have previously installed to make sure they get recompiled.
+Before the <code>ocamldebugger</code> can work with your programs they need to be
+compiled with the <code>-g</code> flag enabled. This is also required for any
+libraries that you use. You can configure the <code>ocamlc</code> parameters that
+opam uses by setting <code>OCAMLPARAM</code>; in this case you want to set it to
+<code>_,g</code>. You will want to run <code>opam reinstall</code> on any package you have
+previously installed to make sure they get recompiled.
 </p>
 
 <p>
@@ -44,17 +38,44 @@ can't pass arguments to <code>ocamldebug</code> when running it from within Emac
 (at least I couldn't get it to work). I decided to write the results
 of <code>ocamlfind query -recursive core async cohttp cohttp.async</code> into a
 file named <code>.ocamldebug</code> and prefix each line with <code>directory</code>. After
-having started the debugger in Emacs I ran <code>source &lt;PATH&gt;</code> to
+starting the debugger in Emacs you then need to run <code>source &lt;PATH&gt;</code> to
 configure it.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Using debugger</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Starting the debugger from within Emacs is just a matter of running
+<code>M-x ocamldebug</code> and point it to the executable you want to debug.
 </p>
 
 <p>
-I sat a breakpoint a line 6 of this <a href="https://github.com/mads379/ocaml-utop-emacs-example/blob/master/src/server.ml#L6">file</a> and wrote <code>run</code> in the
-ocamldebug buffer. I executed a request to
-<code>http://localhost:8080/test?hello=xyz%27</code> and successfully hit the
-breakpoint. I was able to inspect the value of <code>req</code> using <code>C-x C-a
-C-p</code> but as soon as I wrote <code>step</code> in the debugger I got the following
-error.
+You start the program by writing <code>run</code> in the <code>ocamldebug</code> buffer. You
+set break-points in your code using <code>C-x C-a C-b</code> and step through the
+code use <code>C-c C-s</code>. You can inspect values using <code>C-x C-a C-p</code>. For
+more information read this <a href="http://caml.inria.fr/pub/docs/manual-ocaml/debugger.html">chapter</a> of the OCaml Users Guide.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Shortcomings</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Unfortunately I found a couple of shortcomings when I played around
+with the debugger for a bit.
+</p>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> No support for <code>-pack</code>'ed compilation units</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Once you start setting some breakpoints and step through the code
+you're very likely to get an error like the following.
 </p>
 
 <pre>(ocd) step
@@ -62,17 +83,27 @@ Time: 1084742 - pc: 4416712 - module Cohttp.Request
 No source file for Cohttp.Request.</pre>
 
 <p>
-Any idea why I would be able to find the other modules of <code>cohttp</code> but
-not this one?
+This error had me puzzled for a bit as I thought I had already told
+<code>ocamldebug</code> where to look for my opam packages. I joined the <code>#ocaml</code>
+IRC channel and  <code>whitequark</code> was able to come up with a potential
+explanation. It seems that <code>ocamldebug</code> doesn't support compilation
+units that contain submodules that have been added using <code>-pack</code> and
+<code>-for-pack</code>. Search for <code>-pack</code> in this <a href="http://caml.inria.fr/pub/docs/manual-ocaml/comp.html">section</a> for the OCaml Users
+Guide for more information.
 </p>
+</div>
+</div>
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Wish List</h2>
-<div class="outline-text-2" id="text-1">
-<ul class="org-ul">
-<li>Is it possible to execute arbitrary OCaml code using the scope of
-the current breakpoint?
-</li>
-</ul>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> No arbitrary OCaml code execution</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Once you hit a breakpoint it's possible to inspect the values of the
+variables in the current scope. This is great, but it would have been
+even better if you could execute arbitrary OCaml code in the current
+scope. This doesn't seem to be possible. To be fair this might be
+better classified as an <b>awesome feature</b> rather than a shortcoming.
+</p>
+</div>
 </div>
 </div>

@@ -14,23 +14,18 @@ When I first read about the time-travel feature of the ocaml debugger
 I was very intrigued but never got around to trying it out in practice at
 work. This weekend I decided to give it a go.
 
-*Note:* Getting the debugger configured correctly was a bit of a hurdle and
-there are still a couple of problems that I'm hoping to
-resolve. Until I get these things sorted out this blog post is used
-as a way to describe my setup so I can get help from some of the more
-seasoned OCaml programmers out there. Once I have everything sorted
-out I'll re-write this post into a proper guide as I did with my [[http://mads379.github.io/ocaml/2014/01/05/using-utop-in-emacs.html][utop
-post]].
+I wanted to try it out on a simple but non-trivial program (in terms
+of setup, i.e. a program that requires opam packages to compile) so I
+used the [[https://github.com/mirage/ocaml-cohttp/blob/master/examples/async/hello_world.ml][hello world example]] of the [[https://github.com/mirage/ocaml-cohttp][ocaml-cohttp]] library.
 
-I decided to try out the debugger on the [[https://github.com/mirage/ocaml-cohttp/blob/master/examples/async/hello_world.ml][hello world example]] of
-[[https://github.com/mirage/ocaml-cohttp][ocaml-cohttp]] to get a simple but non-trivial program (in terms of
-setup, i.e. a program that requires OPAM packages to compile).
+* Configuration
 
-For the debugger to work properly on this example you need to make
-sure that your opam packages are compiled using the ~-g~ option. You
-can do this by setting ~OCAMLPARAM~ to ~_,g~ before running ~opam
-install~. You will want to run ~opam reinstall~ on any package you
-have previously installed to make sure they get recompiled.
+Before the ~ocamldebugger~ can work with your programs they need to be
+compiled with the ~-g~ flag enabled. This is also required for any
+libraries that you use. You can configure the ~ocamlc~ parameters that
+opam uses by setting ~OCAMLPARAM~; in this case you want to set it to
+~_,g~. You will want to run ~opam reinstall~ on any package you have
+previously installed to make sure they get recompiled.
 
 The second thing you need to do is tell ~ocamldebug~ where to look for
 your compiled files. Unfortunately this is not as easy as it is with
@@ -40,15 +35,28 @@ can't pass arguments to ~ocamldebug~ when running it from within Emacs
 (at least I couldn't get it to work). I decided to write the results
 of ~ocamlfind query -recursive core async cohttp cohttp.async~ into a
 file named ~.ocamldebug~ and prefix each line with ~directory~. After
-having started the debugger in Emacs I ran ~source <PATH>~ to
+starting the debugger in Emacs you then need to run ~source <PATH>~ to
 configure it.
 
-I sat a breakpoint a line 6 of this [[https://github.com/mads379/ocaml-utop-emacs-example/blob/master/src/server.ml#L6][file]] and wrote ~run~ in the
-ocamldebug buffer. I executed a request to
-~http://localhost:8080/test?hello=xyz%27~ and successfully hit the
-breakpoint. I was able to inspect the value of ~req~ using ~C-x C-a
-C-p~ but as soon as I wrote ~step~ in the debugger I got the following
-error.
+* Using debugger
+
+Starting the debugger from within Emacs is just a matter of running
+~M-x ocamldebug~ and point it to the executable you want to debug.
+
+You start the program by writing ~run~ in the ~ocamldebug~ buffer. You
+set break-points in your code using ~C-x C-a C-b~ and step through the
+code use ~C-c C-s~. You can inspect values using ~C-x C-a C-p~. For
+more information read this [[http://caml.inria.fr/pub/docs/manual-ocaml/debugger.html][chapter]] of the OCaml Users Guide.
+
+* Shortcomings
+
+Unfortunately I found a couple of shortcomings when I played around
+with the debugger for a bit.
+
+** No support for ~-pack~'ed compilation units
+
+Once you start setting some breakpoints and step through the code
+you're very likely to get an error like the following.
 
 #+BEGIN_HTML
 <pre>(ocd) step
@@ -56,10 +64,18 @@ Time: 1084742 - pc: 4416712 - module Cohttp.Request
 No source file for Cohttp.Request.</pre>
 #+END_HTML
 
-Any idea why I would be able to find the other modules of ~cohttp~ but
-not this one?
+This error had me puzzled for a bit as I thought I had already told
+~ocamldebug~ where to look for my opam packages. I joined the ~#ocaml~
+IRC channel and  ~whitequark~ was able to come up with a potential
+explanation. It seems that ~ocamldebug~ doesn't support compilation
+units that contain submodules that have been added using ~-pack~ and
+~-for-pack~. Search for ~-pack~ in this [[http://caml.inria.fr/pub/docs/manual-ocaml/comp.html][section]] for the OCaml Users
+Guide for more information.
 
-* Wish List
+** No arbitrary OCaml code execution
 
-- Is it possible to execute arbitrary OCaml code using the scope of
-  the current breakpoint?
+Once you hit a breakpoint it's possible to inspect the values of the
+variables in the current scope. This is great, but it would have been
+even better if you could execute arbitrary OCaml code in the current
+scope. This doesn't seem to be possible. To be fair this might be
+better classified as an *awesome feature* rather than a shortcoming.
