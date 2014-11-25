@@ -12,7 +12,7 @@ categories: ocaml
 
 # (setq tuareg-interactive-buffer-name "*ocaml-toplevel*")
 
-this document gives you a brief tour of [[https://ocaml.org/][OCaml]]. It covers a rather
+This document gives you a brief tour of [[https://ocaml.org/][OCaml]]. It covers a rather
 small selection of features; the selection has been based on what
 features I personally think represent OCaml the best.
 
