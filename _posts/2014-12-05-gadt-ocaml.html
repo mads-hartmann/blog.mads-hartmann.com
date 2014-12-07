@@ -1,0 +1,312 @@
+---
+layout: post
+title: "Detecting use-cases for GADTs in OCaml"
+date:   2014-12-05 21:00:00
+categories: ocaml
+---
+
+<p>
+I've been interested in GADTs<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup> for quite some time now but I've
+had a hard time finding proper use-cases for them in my day-to-day
+programming tasks; this is not because GADTs aren't useful, they are,
+but rather that my understanding of them has been limited. I often
+experience this when I'm learning more advanced features of
+programming languages and I've found that I personally find it easier
+to grasp language features when I have a clear understanding of what
+kinds of problems they're meant to solve. One way to achieve this is
+start out by solving a specific problem <b>without</b> the language feature
+and then show how, when you add the feature, the solution becomes more
+elegant. I haven't found any posts that do this with GADTs thus I set
+out to write this post. As I work through the example I will also try
+to point out symptoms in your code that might mean you're better of
+modeling your problem using a GADT; this will hopefully help you find
+use-cases for GADTs in your own code-base.
+</p>
+
+<p>
+In case you haven't stumbled upon GADTs before reading this here is a
+very brief description of what they do; this is the most succinct
+description I've found and it was written by <a href="http://www.reddit.com/user/Ptival">Ptival</a> on <a href="http://www.reddit.com/r/ocaml/comments/1jmjwf/explain_me_gadts_like_im_5_or_like_im_an/">reddit</a>. I've
+modified it slightly, but it goes as follows:
+</p>
+
+<em>In essence GADTs makes it possible to describe a richer relation
+between your data constructors and the types they inhabit. By doing so
+you give the compiler more information about your program and thus
+it's able to type your programs more precisely.</em>
+
+<p>
+Let that description dwell in the back of your mind as you read
+through the rest of the post.
+</p>
+
+<p>
+The example that we're going to use is similar to the canonical
+example that you can also find in the OCaml Users Guide <a href="http://caml.inria.fr/pub/docs/manual-ocaml/extn.html">section</a> on
+GADTs. I later hope to write a blog post with lots of examples of
+GADTs to help solidify the concept - but that's for another time.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> The canonical example</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The task is to write a small evaluator for a simple programming
+language. Now I know this might be quite different from the problems
+you would normally deal with at work but this is the canonical for a
+good reason so bear with me.
+</p>
+
+<p>
+The language is simple and only contains <code>if</code>-expressions, two
+operators (<code>=</code>, <code>&lt;</code>) and two primitive types, <code>int</code> and <code>boolean</code>.
+</p>
+
+<p>
+As I alluded to in the introduction we'll first try to model this
+using a regular ADT<sup><a id="fnr.2" name="fnr.2" class="footref" href="#fn.2">2</a></sup>; Once we've seen the ADT implementation it's
+easier to understand the benefits of using a GADT.
+</p>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Using ADTs</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="org-src-container">
+
+<pre class="src src-ocaml">type value =
+  | VBool of bool
+  | VInt of int
+
+type expr =
+  | EValue of value
+  | If of expr * expr * expr
+  | Eq of expr * expr
+  | Lt of expr * expr
+</pre>
+</div>
+<p>
+I've chosen to represent the <a href="http://en.wikipedia.org/wiki/Abstract_syntax_tree">abstract syntax tree</a> using two variants:
+<code>value</code> which models the primitive values and <code>expr</code> that model the
+expressions.
+</p>
+
+<p>
+Lets try and write a function that evaluates an <code>expr</code> into a <code>value</code>;
+this can be achieved with a straightforward recursive implementation.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ocaml">let rec eval: expr -&gt; value = function
+  | EValue v -&gt; v
+  | Lt (x, y) -&gt; begin match eval x, eval y with
+      | VInt x, VInt y -&gt; VBool (x &lt; y)
+      | VInt _, VBool _
+      | VBool _, VInt _
+      | VBool _, VBool _ -&gt; failwith "Invalid AST"
+    end
+  | If (b, l, r) -&gt; begin match eval b with
+      | VBool true -&gt; eval l
+      | VBool false -&gt; eval r
+      | VInt _ -&gt; failwith "Invalid AST"
+    end
+  | Eq (a, b) -&gt; begin match eval a, eval b with
+      | VInt  x, VInt  y -&gt; VBool (x = y)
+      | VBool _, VBool _
+      | VBool _, VInt  _
+      | VInt  _, VBool _ -&gt; failwith "Invalid AST"
+    end
+</pre>
+</div>
+<p>
+An example of how to invoke this function is shown below.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ocaml">eval (If ((Lt ((EValue (VInt 2)), (EValue (VInt 4)))),
+          (EValue (VInt 42)),
+          (EValue (VInt 0))))
+</pre>
+</div>
+<pre class="example">
+- : value = VInt 42
+</pre>
+
+<p>
+An here's what happens if we try to <code>eval</code> an invalid <code>expr</code>
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ocaml">eval (Eq ((EValue (VInt 42)), (EValue (VBool false))))
+</pre>
+</div>
+<pre class="example">
+Exception: Failure "Invalid AST".
+</pre>
+
+<p>
+Even though this implementation is correct (at least I hope it is) it
+leaves a lot to be desired. The first thing that springs to mind is
+that it's possible to construct <code>expr</code> values that we can't
+evaluate. This means we still need to cover these cases in our pattern
+matches in order for them to be exhaustive; we could use wildcard
+matches but then the compiler won't be able to warn us about missing
+cases if we decide to add new data constructs later. Exhaustiveness
+checking is extremely helpful when working with larger code-bases so
+it shouldn't be thrown away lightly. This gives us the first symptom
+you can look for when you're considering use-cases for GADTs
+</p>
+
+<em>symptom #1: When you need to to add extra cases for invalid states
+to make your pattern matches exhaustive</em>
+
+<p>
+Now lets say we wanted to write an <code>eval</code> function that returned a
+proper OCaml <code>int</code> or <code>bool</code> rather than the wrapped <code>value</code> values.
+</p>
+
+<p>
+To do this we would need to create a function for each primitive type,
+like so
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ocaml">let eval_int: value -&gt; int = function
+  | VInt x -&gt; x
+  | VBool _ -&gt; failwith "Got VBool, expected VInt"
+
+let eval_bool: value -&gt; bool = function
+  | VBool b -&gt; b
+  | VInt _ -&gt; failwith "Got VInt, expected VBool"
+</pre>
+</div>
+<p>
+Again, this solution works but it is rather unsatisfying to have
+boilerplate like that. This leads us to symptom #2:
+</p>
+
+<em>symptom #2: You want the result of a function to depend on
+the data constructor used to create the data</em>
+
+<p>
+With these two symptoms in mind lets see what the GADT implementation
+would look like.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Using GADT</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Now lets give the GADT implementation a go.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ocaml">type _ expr' =
+  | GBool : bool -&gt; bool expr'
+  | GInt : int -&gt; int expr'
+  | GIf : bool expr' * int expr' * int expr' -&gt; int expr'
+  | GEq : int expr' * int expr' -&gt; bool expr'
+  | GLt : int expr' * int expr' -&gt; bool expr'
+</pre>
+</div>
+<p>
+We've used the same keyword, <code>type</code>, but otherwise most has
+changed. The type is parameterized with a parameter which we ignore
+(notice the <code>_</code>) and each data constructor is explicitly typed with a
+type for this parameter, e.g. the <code>GBool</code> constructor takes a <code>bool</code>
+and gives you a <code>bool</code> typed <code>expr</code>'.
+</p>
+
+<p>
+This parameter allows us to associate a specific type with each data
+constructor, e.g. <code>GIf</code> requires that the first argument needs to be
+of type <code>bool expr</code>'.
+</p>
+
+<p>
+Now that we've told the compiler about the restrictions on what
+<code>expr</code>' values can be used in the different constructors lets see how
+the <code>eval</code>' function turns out.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ocaml">let rec eval' : type a. a expr' -&gt; a = function
+  | GBool b -&gt; b
+  | GInt i -&gt; i
+  | GIf (b, l, r) -&gt; if eval' b then eval' l else eval' r
+  | GEq (a, b) -&gt; a = b
+  | GLt (a,b) -&gt; a &lt; b
+</pre>
+</div>
+<p>
+This is so wonderfully concise that the previously solution now looks
+horrific. Notice that this match is exhaustive <i>and</i> the return type
+is an actual ocaml primitive type. This is possible as OCaml now
+associates a specific type for the type parameter of each data
+constructor.
+</p>
+
+<p>
+Lets give the <code>eval</code>' function as go with an example
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ocaml">eval' (GIf ((GEq ((GInt 2), (GInt 2))),
+      (GInt 42),
+      (GInt 0)))
+</pre>
+</div>
+<pre class="example">
+42
+</pre>
+
+<p>
+Now if we give an invalid example as try, let's see what happens
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ocaml">eval' (GIf (GInt 42, GInt 42, GInt 42));;
+</pre>
+</div>
+<pre class="example">
+Characters 12-19:
+  eval' (GIf (GInt 42, GInt 42, GInt 42));;;;
+              ^^^^^^^
+Error: This expression has type int expr'
+       but an expression was expected of type bool expr'
+       Type int is not compatible with type bool
+</pre>
+
+<p>
+Though it isn't obvious from the output this is actually a
+compile-time error rather than the runtime error we got in the ADT
+example, that is, it is no longer possible to construct an invalid
+AST.
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p class="footpara">
+Generalized Algebraic Datatypes
+</p></div>
+
+<div class="footdef"><sup><a id="fn.2" name="fn.2" class="footnum" href="#fnr.2">2</a></sup> <p class="footpara">
+Algebraic Datatypes
+</p></div>
+
+
+</div>
+</div>
