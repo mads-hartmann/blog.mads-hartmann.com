@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Detecting use-cases for GADTs in OCaml"
-date:   2014-12-05 21:00:00
+date:   2015-01-05 21:00:00
 categories: ocaml
 ---
 
@@ -42,7 +42,7 @@ through the rest of the post.
 
 <p>
 The example that we're going to use is similar to the canonical
-example that you can also find in the OCaml Users Guide <a href="http://caml.inria.fr/pub/docs/manual-ocaml/extn.html">section</a> on
+example that you can also find in the OCaml Users Guide <a href="http://caml.inria.fr/pub/docs/manual-ocaml/extn.html#sec238">section</a> on
 GADTs. I later hope to write a blog post with lots of examples of
 GADTs to help solidify the concept - but that's for another time.
 </p>
@@ -185,7 +185,9 @@ let eval_bool: value -&gt; bool = function
 </div>
 <p>
 Again, this solution works but it is rather unsatisfying to have
-boilerplate like that. This leads us to symptom #2:
+boilerplate like that. It would be preferable if we could have a
+single function where its return type would depend on the input. This
+leads us to symptom #2:
 </p>
 
 <em>symptom #2: You want the result of a function to depend on
@@ -202,7 +204,47 @@ would look like.
 <h3 id="sec-1-2"><span class="section-number-3">1.2</span> Using GADT</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
-Now lets give the GADT implementation a go.
+Before we dive into the GADT implementation lets do a quick review of
+how to define GADTs in OCaml. Remember that we previously defined
+the <code>value</code> type like this
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ocaml">type value =
+  | VBool of bool
+  | VInt of int
+</pre>
+</div>
+
+<p>
+To define a GADT we need to use a slightly different syntax. The
+following syntax definition is taken from the OCaml Users Guide.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-:exports">constr-decl ::= ...
+              ∣ constr-name :  [ typexpr  { * typexpr } -&gt; ]  typexpr
+</pre>
+</div>
+
+<p>
+For the <code>value</code> type the GADT definition would look like this
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ocaml">type value' =
+  | VBool' : bool -&gt; value'
+  | VInt' : int -&gt; value'
+</pre>
+</div>
+<p>
+Notice that we explicitly type the constructors. On its own this isn't
+that exciting but it comes in handy when we introduce type parameters
+to the GADT as you will see shortly. Now lets give the GADT
+implementation a go.
 </p>
 
 <div class="org-src-container">
@@ -216,22 +258,28 @@ Now lets give the GADT implementation a go.
 </pre>
 </div>
 <p>
-We've used the same keyword, <code>type</code>, but otherwise most has
-changed. The type is parameterized with a parameter which we ignore
-(notice the <code>_</code>) and each data constructor is explicitly typed with a
-type for this parameter, e.g. the <code>GBool</code> constructor takes a <code>bool</code>
-and gives you a <code>bool</code> typed <code>expr</code>'.
+We define an <code>expr</code>' GADT which is parameterized with an anonymous
+type (notice the <code>_</code>) and each data constructor is explicitly typed
+with a type for this parameter, e.g. the <code>GBool</code> constructor takes a
+<code>bool</code> and gives you a <code>bool</code> typed <code>expr</code>'.
 </p>
 
 <p>
-This parameter allows us to associate a specific type with each data
-constructor, e.g. <code>GIf</code> requires that the first argument needs to be
-of type <code>bool expr</code>'.
+The type parameter allows us to do two things:
 </p>
 
+<ul class="org-ul">
+<li>We can associate a specific type with each data constructor,
+e.g. <code>GBool</code> is of type <code>bool expr</code>'.
+</li>
+<li>We can restrict the input to functions using the type parameter of
+<code>expr</code>', e.g. <code>GIf</code> requires that the first argument needs to be of
+type <code>bool expr</code>'.
+</li>
+</ul>
+
 <p>
-Now that we've told the compiler about the restrictions on what
-<code>expr</code>' values can be used in the different constructors lets see how
+Now that we've told the compiler about these restrictions lets see how
 the <code>eval</code>' function turns out.
 </p>
 
@@ -291,6 +339,11 @@ Though it isn't obvious from the output this is actually a
 compile-time error rather than the runtime error we got in the ADT
 example, that is, it is no longer possible to construct an invalid
 AST.
+</p>
+
+<p>
+That's it for this time. If you have any feedback catch me on twitter
+at <a href="http:twitter.com/mads_hartmann">@mads_hartmann</a> or send an email my way a <a href="mailto:mads379@gmail.com">mads379@gmail.com</a>.
 </p>
 </div>
 </div>

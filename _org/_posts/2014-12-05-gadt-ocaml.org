@@ -5,7 +5,7 @@
 ---
 layout: post
 title: "Detecting use-cases for GADTs in OCaml"
-date:   2014-12-05 21:00:00
+date:   2015-01-05 21:00:00
 categories: ocaml
 ---
 #+END_HTML
@@ -42,7 +42,7 @@ Let that description dwell in the back of your mind as you read
 through the rest of the post.
 
 The example that we're going to use is similar to the canonical
-example that you can also find in the OCaml Users Guide [[http://caml.inria.fr/pub/docs/manual-ocaml/extn.html][section]] on
+example that you can also find in the OCaml Users Guide [[http://caml.inria.fr/pub/docs/manual-ocaml/extn.html#sec238][section]] on
 GADTs. I later hope to write a blog post with lots of examples of
 GADTs to help solidify the concept - but that's for another time.
 
@@ -163,7 +163,9 @@ like so
 : val eval_bool : value -> bool = <fun>
 
 Again, this solution works but it is rather unsatisfying to have
-boilerplate like that. This leads us to symptom #2:
+boilerplate like that. It would be preferable if we could have a
+single function where its return type would depend on the input. This
+leads us to symptom #2:
 
 #+BEGIN_HTML
 <em>symptom #2: You want the result of a function to depend on
@@ -174,7 +176,38 @@ With these two symptoms in mind lets see what the GADT implementation
 would look like.
 
 ** Using GADT
-Now lets give the GADT implementation a go.
+Before we dive into the GADT implementation lets do a quick review of
+how to define GADTs in OCaml. Remember that we previously defined
+the ~value~ type like this
+
+#+BEGIN_SRC ocaml :exports code :session
+  type value =
+    | VBool of bool
+    | VInt of int
+#+END_SRC
+
+To define a GADT we need to use a slightly different syntax. The
+following syntax definition is taken from the OCaml Users Guide.
+
+#+BEGIN_SRC :exports code
+constr-decl ::= ...
+              ∣ constr-name :  [ typexpr  { * typexpr } -> ]  typexpr
+#+END_SRC
+
+For the ~value~ type the GADT definition would look like this
+
+#+BEGIN_SRC ocaml :exports code :session
+  type value' =
+    | VBool' : bool -> value'
+    | VInt' : int -> value'
+#+END_SRC
+#+RESULTS:
+: type value' = VBool' : bool -> value' | VInt' : int -> value'
+
+Notice that we explicitly type the constructors. On its own this isn't
+that exciting but it comes in handy when we introduce type parameters
+to the GADT as you will see shortly. Now lets give the GADT
+implementation a go.
 
 #+BEGIN_SRC ocaml :exports code :session
   type _ expr' =
@@ -192,18 +225,20 @@ Now lets give the GADT implementation a go.
 :   | GEq : int expr' * int expr' -> bool expr'
 :   | GLt : int expr' * int expr' -> bool expr'
 
-We've used the same keyword, ~type~, but otherwise most has
-changed. The type is parameterized with a parameter which we ignore
-(notice the ~_~) and each data constructor is explicitly typed with a
-type for this parameter, e.g. the ~GBool~ constructor takes a ~bool~
-and gives you a ~bool~ typed ~expr~'.
+We define an ~expr~' GADT which is parameterized with an anonymous
+type (notice the ~_~) and each data constructor is explicitly typed
+with a type for this parameter, e.g. the ~GBool~ constructor takes a
+~bool~ and gives you a ~bool~ typed ~expr~'.
 
-This parameter allows us to associate a specific type with each data
-constructor, e.g. ~GIf~ requires that the first argument needs to be
-of type ~bool expr~'.
+The type parameter allows us to do two things:
 
-Now that we've told the compiler about the restrictions on what
-~expr~' values can be used in the different constructors lets see how
+- We can associate a specific type with each data constructor,
+  e.g. ~GBool~ is of type ~bool expr~'.
+- We can restrict the input to functions using the type parameter of
+  ~expr~', e.g. ~GIf~ requires that the first argument needs to be of
+  type ~bool expr~'.
+
+Now that we've told the compiler about these restrictions lets see how
 the ~eval~' function turns out.
 
 #+BEGIN_SRC ocaml :exports code :session
@@ -250,6 +285,9 @@ Though it isn't obvious from the output this is actually a
 compile-time error rather than the runtime error we got in the ADT
 example, that is, it is no longer possible to construct an invalid
 AST.
+
+That's it for this time. If you have any feedback catch me on twitter
+at [[http:twitter.com/mads_hartmann][@mads_hartmann]] or send an email my way a [[mailto:mads379@gmail.com][mads379@gmail.com]].
 
 # * resources
 # - http://lambda-the-ultimate.org/node/1293
