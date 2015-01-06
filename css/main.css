@@ -42,6 +42,13 @@ a {
     transition: color 0.1s linear;
 }
 
+em {
+    display: block;
+    padding: 20px 90px;
+    text-align: center;
+    font-weight: bold;
+}
+
 #text-table-of-contents a {
     font-size: 18px;
 }

@@ -1,0 +1,297 @@
+#+STARTUP: showall
+#+OPTIONS: toc:nil
+#+OPTIONS: ^:nil
+#+BEGIN_HTML
+---
+layout: post
+title: "Detecting use-cases for GADTs in OCaml"
+date:   2015-01-05 21:00:00
+categories: ocaml
+---
+#+END_HTML
+
+I've been interested in GADTs[fn:1] for quite some time now but I've
+had a hard time finding proper use-cases for them in my day-to-day
+programming tasks; this is not because GADTs aren't useful, they are,
+but rather that my understanding of them has been limited. I often
+experience this when I'm learning more advanced features of
+programming languages and I've found that I personally find it easier
+to grasp language features when I have a clear understanding of what
+kinds of problems they're meant to solve. One way to achieve this is
+start out by solving a specific problem *without* the language feature
+and then show how, when you add the feature, the solution becomes more
+elegant. I haven't found any posts that do this with GADTs thus I set
+out to write this post. As I work through the example I will also try
+to point out symptoms in your code that might mean you're better of
+modeling your problem using a GADT; this will hopefully help you find
+use-cases for GADTs in your own code-base.
+
+In case you haven't stumbled upon GADTs before reading this here is a
+very brief description of what they do; this is the most succinct
+description I've found and it was written by [[http://www.reddit.com/user/Ptival][Ptival]] on [[http://www.reddit.com/r/ocaml/comments/1jmjwf/explain_me_gadts_like_im_5_or_like_im_an/][reddit]]. I've
+modified it slightly, but it goes as follows:
+
+#+BEGIN_HTML
+<em>In essence GADTs makes it possible to describe a richer relation
+between your data constructors and the types they inhabit. By doing so
+you give the compiler more information about your program and thus
+it's able to type your programs more precisely.</em>
+#+END_HTML
+
+Let that description dwell in the back of your mind as you read
+through the rest of the post.
+
+The example that we're going to use is similar to the canonical
+example that you can also find in the OCaml Users Guide [[http://caml.inria.fr/pub/docs/manual-ocaml/extn.html#sec238][section]] on
+GADTs. I later hope to write a blog post with lots of examples of
+GADTs to help solidify the concept - but that's for another time.
+
+* The canonical example
+The task is to write a small evaluator for a simple programming
+language. Now I know this might be quite different from the problems
+you would normally deal with at work but this is the canonical for a
+good reason so bear with me.
+
+The language is simple and only contains ~if~-expressions, two
+operators (~=~, ~<~) and two primitive types, ~int~ and ~boolean~.
+
+As I alluded to in the introduction we'll first try to model this
+using a regular ADT[fn:2]; Once we've seen the ADT implementation it's
+easier to understand the benefits of using a GADT.
+
+** Using ADTs
+#+BEGIN_SRC ocaml :exports code :session
+  type value =
+    | VBool of bool
+    | VInt of int
+
+  type expr =
+    | EValue of value
+    | If of expr * expr * expr
+    | Eq of expr * expr
+    | Lt of expr * expr
+#+END_SRC
+#+RESULTS:
+: type value = VBool of bool | VInt of int
+: type expr =
+:     EValue of value
+:   | If of expr * expr * expr
+:   | Eq of expr * expr
+:   | Lt of expr * expr
+
+I've chosen to represent the [[http://en.wikipedia.org/wiki/Abstract_syntax_tree][abstract syntax tree]] using two variants:
+~value~ which models the primitive values and ~expr~ that model the
+expressions.
+
+Lets try and write a function that evaluates an ~expr~ into a ~value~;
+this can be achieved with a straightforward recursive implementation.
+
+#+BEGIN_SRC ocaml :exports code :session
+  let rec eval: expr -> value = function
+    | EValue v -> v
+    | Lt (x, y) -> begin match eval x, eval y with
+        | VInt x, VInt y -> VBool (x < y)
+        | VInt _, VBool _
+        | VBool _, VInt _
+        | VBool _, VBool _ -> failwith "Invalid AST"
+      end
+    | If (b, l, r) -> begin match eval b with
+        | VBool true -> eval l
+        | VBool false -> eval r
+        | VInt _ -> failwith "Invalid AST"
+      end
+    | Eq (a, b) -> begin match eval a, eval b with
+        | VInt  x, VInt  y -> VBool (x = y)
+        | VBool _, VBool _
+        | VBool _, VInt  _
+        | VInt  _, VBool _ -> failwith "Invalid AST"
+      end
+#+END_SRC
+#+RESULTS:
+: val eval : expr -> value = <fun>
+
+An example of how to invoke this function is shown below.
+
+#+BEGIN_SRC ocaml :exports both :session
+  eval (If ((Lt ((EValue (VInt 2)), (EValue (VInt 4)))),
+            (EValue (VInt 42)),
+            (EValue (VInt 0))))
+#+END_SRC
+#+RESULTS:
+: - : value = VInt 42
+
+An here's what happens if we try to ~eval~ an invalid ~expr~
+#+BEGIN_SRC ocaml :exports both :session
+  eval (Eq ((EValue (VInt 42)), (EValue (VBool false))))
+#+END_SRC
+#+RESULTS:
+: Exception: Failure "Invalid AST".
+
+Even though this implementation is correct (at least I hope it is) it
+leaves a lot to be desired. The first thing that springs to mind is
+that it's possible to construct ~expr~ values that we can't
+evaluate. This means we still need to cover these cases in our pattern
+matches in order for them to be exhaustive; we could use wildcard
+matches but then the compiler won't be able to warn us about missing
+cases if we decide to add new data constructs later. Exhaustiveness
+checking is extremely helpful when working with larger code-bases so
+it shouldn't be thrown away lightly. This gives us the first symptom
+you can look for when you're considering use-cases for GADTs
+
+#+BEGIN_HTML
+<em>symptom #1: When you need to to add extra cases for invalid states
+to make your pattern matches exhaustive</em>
+#+END_HTML
+
+Now lets say we wanted to write an ~eval~ function that returned a
+proper OCaml ~int~ or ~bool~ rather than the wrapped ~value~ values.
+
+To do this we would need to create a function for each primitive type,
+like so
+
+#+BEGIN_SRC ocaml :exports code :session
+  let eval_int: value -> int = function
+    | VInt x -> x
+    | VBool _ -> failwith "Got VBool, expected VInt"
+
+  let eval_bool: value -> bool = function
+    | VBool b -> b
+    | VInt _ -> failwith "Got VInt, expected VBool"
+#+END_SRC
+#+RESULTS:
+: val eval_int : value -> int = <fun>
+: val eval_bool : value -> bool = <fun>
+
+Again, this solution works but it is rather unsatisfying to have
+boilerplate like that. It would be preferable if we could have a
+single function where its return type would depend on the input. This
+leads us to symptom #2:
+
+#+BEGIN_HTML
+<em>symptom #2: You want the result of a function to depend on
+the data constructor used to create the data</em>
+#+END_HTML
+
+With these two symptoms in mind lets see what the GADT implementation
+would look like.
+
+** Using GADT
+Before we dive into the GADT implementation lets do a quick review of
+how to define GADTs in OCaml. Remember that we previously defined
+the ~value~ type like this
+
+#+BEGIN_SRC ocaml :exports code :session
+  type value =
+    | VBool of bool
+    | VInt of int
+#+END_SRC
+
+To define a GADT we need to use a slightly different syntax. The
+following syntax definition is taken from the OCaml Users Guide.
+
+#+BEGIN_SRC :exports code
+constr-decl ::= ...
+              ∣ constr-name :  [ typexpr  { * typexpr } -> ]  typexpr
+#+END_SRC
+
+For the ~value~ type the GADT definition would look like this
+
+#+BEGIN_SRC ocaml :exports code :session
+  type value' =
+    | VBool' : bool -> value'
+    | VInt' : int -> value'
+#+END_SRC
+#+RESULTS:
+: type value' = VBool' : bool -> value' | VInt' : int -> value'
+
+Notice that we explicitly type the constructors. On its own this isn't
+that exciting but it comes in handy when we introduce type parameters
+to the GADT as you will see shortly. Now lets give the GADT
+implementation a go.
+
+#+BEGIN_SRC ocaml :exports code :session
+  type _ expr' =
+    | GBool : bool -> bool expr'
+    | GInt : int -> int expr'
+    | GIf : bool expr' * int expr' * int expr' -> int expr'
+    | GEq : int expr' * int expr' -> bool expr'
+    | GLt : int expr' * int expr' -> bool expr'
+#+END_SRC
+#+RESULTS:
+: type _ expr' =
+:     GBool : bool -> bool expr'
+:   | GInt : int -> int expr'
+:   | GIf : bool expr' * int expr' * int expr' -> int expr'
+:   | GEq : int expr' * int expr' -> bool expr'
+:   | GLt : int expr' * int expr' -> bool expr'
+
+We define an ~expr~' GADT which is parameterized with an anonymous
+type (notice the ~_~) and each data constructor is explicitly typed
+with a type for this parameter, e.g. the ~GBool~ constructor takes a
+~bool~ and gives you a ~bool~ typed ~expr~'.
+
+The type parameter allows us to do two things:
+
+- We can associate a specific type with each data constructor,
+  e.g. ~GBool~ is of type ~bool expr~'.
+- We can restrict the input to functions using the type parameter of
+  ~expr~', e.g. ~GIf~ requires that the first argument needs to be of
+  type ~bool expr~'.
+
+Now that we've told the compiler about these restrictions lets see how
+the ~eval~' function turns out.
+
+#+BEGIN_SRC ocaml :exports code :session
+  let rec eval' : type a. a expr' -> a = function
+    | GBool b -> b
+    | GInt i -> i
+    | GIf (b, l, r) -> if eval' b then eval' l else eval' r
+    | GEq (a, b) -> a = b
+    | GLt (a,b) -> a < b
+#+END_SRC
+#+RESULTS:
+: val eval' : 'a expr' -> 'a = <fun>
+
+This is so wonderfully concise that the previously solution now looks
+horrific. Notice that this match is exhaustive /and/ the return type
+is an actual ocaml primitive type. This is possible as OCaml now
+associates a specific type for the type parameter of each data
+constructor.
+
+Lets give the ~eval~' function as go with an example
+
+#+BEGIN_SRC ocaml :exports both :session
+eval' (GIf ((GEq ((GInt 2), (GInt 2))),
+      (GInt 42),
+      (GInt 0)))
+#+END_SRC
+#+RESULTS:
+: 42
+
+Now if we give an invalid example as try, let's see what happens
+
+#+BEGIN_SRC ocaml :exports both :session
+eval' (GIf (GInt 42, GInt 42, GInt 42));;
+#+END_SRC
+#+RESULTS:
+: Characters 12-19:
+:   eval' (GIf (GInt 42, GInt 42, GInt 42));;;;
+:               ^^^^^^^
+: Error: This expression has type int expr
+:        but an expression was expected of type bool expr
+:        Type int is not compatible with type bool
+
+Though it isn't obvious from the output this is actually a
+compile-time error rather than the runtime error we got in the ADT
+example, that is, it is no longer possible to construct an invalid
+AST.
+
+That's it for this time. If you have any feedback catch me on twitter
+at [[http:twitter.com/mads_hartmann][@mads_hartmann]] or send an email my way a [[mailto:mads379@gmail.com][mads379@gmail.com]].
+
+# * resources
+# - http://lambda-the-ultimate.org/node/1293
+# - http://www.reddit.com/r/ocaml/comments/1jmjwf/explain_me_gadts_like_im_5_or_like_im_an/
+
+[fn:1] Generalized Algebraic Datatypes
+[fn:2] Algebraic Datatypes
