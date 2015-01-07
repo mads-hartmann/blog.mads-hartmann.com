@@ -287,7 +287,7 @@ example, that is, it is no longer possible to construct an invalid
 AST.
 
 That's it for this time. If you have any feedback catch me on twitter
-at [[http:twitter.com/mads_hartmann][@mads_hartmann]] or send an email my way a [[mailto:mads379@gmail.com][mads379@gmail.com]].
+at [[http://twitter.com/mads_hartmann][@mads_hartmann]] or send an email my way a [[mailto:mads379@gmail.com][mads379@gmail.com]].
 
 # * resources
 # - http://lambda-the-ultimate.org/node/1293
