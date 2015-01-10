@@ -206,29 +206,32 @@ For the ~value~ type the GADT definition would look like this
 
 Notice that we explicitly type the constructors. On its own this isn't
 that exciting but it comes in handy when we introduce type parameters
-to the GADT as you will see shortly. Now lets give the GADT
+to the GADT as you will see shortly. Now lets give the full GADT
 implementation a go.
 
 #+BEGIN_SRC ocaml :exports code :session
+  type _ value' =
+    | GBool : bool -> bool value'
+    | GInt : int -> int value'
+
   type _ expr' =
-    | GBool : bool -> bool expr'
-    | GInt : int -> int expr'
-    | GIf : bool expr' * int expr' * int expr' -> int expr'
-    | GEq : int expr' * int expr' -> bool expr'
+    | GValue : 'a value' -> 'a expr'
+    | GIf : bool expr' * 'a expr' * 'a expr' -> 'a expr'
+    | GEq : 'a expr' * 'a expr' -> bool expr'
     | GLt : int expr' * int expr' -> bool expr'
 #+END_SRC
 #+RESULTS:
+: type _ value' = GBool : bool -> bool value' | GInt : int -> int value'
 : type _ expr' =
-:     GBool : bool -> bool expr'
-:   | GInt : int -> int expr'
-:   | GIf : bool expr' * int expr' * int expr' -> int expr'
-:   | GEq : int expr' * int expr' -> bool expr'
+:     GValue : 'a value' -> 'a expr'
+:   | GIf : bool expr' * 'a expr' * 'a expr' -> 'a expr'
+:   | GEq : 'a expr' * 'a expr' -> bool expr'
 :   | GLt : int expr' * int expr' -> bool expr'
 
-We define an ~expr~' GADT which is parameterized with an anonymous
-type (notice the ~_~) and each data constructor is explicitly typed
-with a type for this parameter, e.g. the ~GBool~ constructor takes a
-~bool~ and gives you a ~bool~ typed ~expr~'.
+We define ~value~' and ~expr~' GADTs which are parameterized with an
+anonymous types (notice the ~_~) and each data constructor is
+explicitly typed with a type for this parameter, e.g. the ~GBool~
+constructor takes a ~bool~ and gives you a ~bool~ typed ~expr~'.
 
 The type parameter allows us to do two things:
 
@@ -243,11 +246,11 @@ the ~eval~' function turns out.
 
 #+BEGIN_SRC ocaml :exports code :session
   let rec eval' : type a. a expr' -> a = function
-    | GBool b -> b
-    | GInt i -> i
+    | GValue (GBool b) -> b
+    | GValue (GInt i) -> i
     | GIf (b, l, r) -> if eval' b then eval' l else eval' r
-    | GEq (a, b) -> a = b
-    | GLt (a,b) -> a < b
+    | GEq (a, b) -> (eval' a) = (eval' b)
+    | GLt (a,b) -> a < b ;;
 #+END_SRC
 #+RESULTS:
 : val eval' : 'a expr' -> 'a = <fun>
@@ -261,12 +264,22 @@ constructor.
 Lets give the ~eval~' function as go with an example
 
 #+BEGIN_SRC ocaml :exports both :session
-eval' (GIf ((GEq ((GInt 2), (GInt 2))),
-      (GInt 42),
-      (GInt 0)))
+  eval' (GIf ((GEq ((GValue (GInt 2)), (GValue (GInt 2)))),
+        (GValue (GInt 42)),
+        (GValue (GInt 12))));;
 #+END_SRC
 #+RESULTS:
 : 42
+
+And an example where we return a ~bool~ rather than ~int~
+
+#+BEGIN_SRC ocaml :exports both :session
+  eval' (GIf ((GEq ((GValue (GInt 2)), (GValue (GInt 2)))),
+        (GValue (GBool true)),
+        (GValue (GBool false))));;
+#+END_SRC
+#+RESULTS:
+: - : bool = true
 
 Now if we give an invalid example as try, let's see what happens
 

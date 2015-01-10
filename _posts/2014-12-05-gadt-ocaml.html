@@ -243,25 +243,28 @@ For the <code>value</code> type the GADT definition would look like this
 <p>
 Notice that we explicitly type the constructors. On its own this isn't
 that exciting but it comes in handy when we introduce type parameters
-to the GADT as you will see shortly. Now lets give the GADT
+to the GADT as you will see shortly. Now lets give the full GADT
 implementation a go.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-ocaml">type _ expr' =
-  | GBool : bool -&gt; bool expr'
-  | GInt : int -&gt; int expr'
-  | GIf : bool expr' * int expr' * int expr' -&gt; int expr'
-  | GEq : int expr' * int expr' -&gt; bool expr'
+<pre class="src src-ocaml">type _ value' =
+  | GBool : bool -&gt; bool value'
+  | GInt : int -&gt; int value'
+
+type _ expr' =
+  | GValue : 'a value' -&gt; 'a expr'
+  | GIf : bool expr' * 'a expr' * 'a expr' -&gt; 'a expr'
+  | GEq : 'a expr' * 'a expr' -&gt; bool expr'
   | GLt : int expr' * int expr' -&gt; bool expr'
 </pre>
 </div>
 <p>
-We define an <code>expr</code>' GADT which is parameterized with an anonymous
-type (notice the <code>_</code>) and each data constructor is explicitly typed
-with a type for this parameter, e.g. the <code>GBool</code> constructor takes a
-<code>bool</code> and gives you a <code>bool</code> typed <code>expr</code>'.
+We define <code>value</code>' and <code>expr</code>' GADTs which are parameterized with an
+anonymous types (notice the <code>_</code>) and each data constructor is
+explicitly typed with a type for this parameter, e.g. the <code>GBool</code>
+constructor takes a <code>bool</code> and gives you a <code>bool</code> typed <code>expr</code>'.
 </p>
 
 <p>
@@ -286,11 +289,11 @@ the <code>eval</code>' function turns out.
 <div class="org-src-container">
 
 <pre class="src src-ocaml">let rec eval' : type a. a expr' -&gt; a = function
-  | GBool b -&gt; b
-  | GInt i -&gt; i
+  | GValue (GBool b) -&gt; b
+  | GValue (GInt i) -&gt; i
   | GIf (b, l, r) -&gt; if eval' b then eval' l else eval' r
-  | GEq (a, b) -&gt; a = b
-  | GLt (a,b) -&gt; a &lt; b
+  | GEq (a, b) -&gt; (eval' a) = (eval' b)
+  | GLt (a,b) -&gt; a &lt; b ;;
 </pre>
 </div>
 <p>
@@ -307,13 +310,28 @@ Lets give the <code>eval</code>' function as go with an example
 
 <div class="org-src-container">
 
-<pre class="src src-ocaml">eval' (GIf ((GEq ((GInt 2), (GInt 2))),
-      (GInt 42),
-      (GInt 0)))
+<pre class="src src-ocaml">eval' (GIf ((GEq ((GValue (GInt 2)), (GValue (GInt 2)))),
+      (GValue (GInt 42)),
+      (GValue (GInt 12))));;
 </pre>
 </div>
 <pre class="example">
 42
+</pre>
+
+<p>
+And an example where we return a <code>bool</code> rather than <code>int</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ocaml">eval' (GIf ((GEq ((GValue (GInt 2)), (GValue (GInt 2)))),
+      (GValue (GBool true)),
+      (GValue (GBool false))));;
+</pre>
+</div>
+<pre class="example">
+- : bool = true
 </pre>
 
 <p>
@@ -326,12 +344,11 @@ Now if we give an invalid example as try, let's see what happens
 </pre>
 </div>
 <pre class="example">
-Characters 12-19:
+Characters 12-16:
   eval' (GIf (GInt 42, GInt 42, GInt 42));;;;
-              ^^^^^^^
-Error: This expression has type int expr'
-       but an expression was expected of type bool expr'
-       Type int is not compatible with type bool
+              ^^^^
+Error: This variant expression is expected to have type bool expr'
+       The constructor GInt does not belong to type expr'
 </pre>
 
 <p>
