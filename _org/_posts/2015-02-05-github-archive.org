@@ -22,7 +22,8 @@ I looked through the [[https://developer.github.com/v3/activity/events/types/#pu
 (~PullRequestEvent~) and modified the query from the SO answer
 slightly to also return the programming language of the repository and
 the date of the my latest pull request. I ended up with the following
-query:
+query. Keep in mind that this query only works for data
+before 2015. See note at the bottom for more information.
 
 #+begin_src sql
   SELECT
@@ -30,7 +31,7 @@ query:
     LAST(created_at) AS last_pr,
     LAST(repository_language) as language
   FROM [githubarchive:github.timeline]
-  WHERE payload_pull_request_user_login ='mads379'
+  WHERE payload_pull_request_user_login = 'mads379'
   GROUP BY repository_url
   ORDER BY last_pr DESC;
 #+end_src
@@ -60,3 +61,21 @@ The results of the query is shown in the table below
 The documentation for the BigQuery query language is [[https://cloud.google.com/bigquery/query-reference][here]]. I'm
 definitely going to play around with this some more. Let me know if
 you come up with any other fun queries.
+
+*(Added 2015-02-05)* [[https:www.twitter.com/felipehoffa][Felipe Hoffa (@felipehoffa)]] mentioned on Twitter
+that the database layout for the archive was changed in 2015. You can
+find more information about it in the [[http://www.reddit.com/r/bigquery/comments/2s80y3/github_archive_changes_monthly_and_daily_tables/][announcement here]]. I personally
+prefer this format as the JSON from the Github Archive documentation
+is stored directly in the tables which means I don't have to guess the column
+names for the various nested fields.
+
+#+begin_src sql
+  SELECT
+    repo_name,
+    JSON_EXTRACT(payload, '$.pull_request.base.repo.language') as language,
+    JSON_EXTRACT(payload, '$.pull_request.updated_at') as updated_at
+  FROM [githubarchive:month.201501]
+  WHERE
+    type = 'PullRequestEvent' AND
+    JSON_EXTRACT(payload, '$.pull_request.user.login') = 'mads379'
+#+end_src

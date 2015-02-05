@@ -22,7 +22,8 @@ I looked through the <a href="https://developer.github.com/v3/activity/events/ty
 (<code>PullRequestEvent</code>) and modified the query from the SO answer
 slightly to also return the programming language of the repository and
 the date of the my latest pull request. I ended up with the following
-query:
+query. Keep in mind that this query only works for data
+before 2015. See note at the bottom for more information.
 </p>
 
 <div class="org-src-container">
@@ -32,7 +33,7 @@ query:
   <span style="color: #e5786d;">LAST</span>(created_at) <span style="color: #8ac6f2; font-weight: bold;">AS</span> last_pr,
   <span style="color: #e5786d;">LAST</span>(repository_language) <span style="color: #8ac6f2; font-weight: bold;">as</span> <span style="color: #e5786d;">language</span>
 <span style="color: #8ac6f2; font-weight: bold;">FROM</span> [githubarchive:github.timeline]
-<span style="color: #8ac6f2; font-weight: bold;">WHERE</span> payload_pull_request_user_login =<span style="color: #95e454;">'mads379'</span>
+<span style="color: #8ac6f2; font-weight: bold;">WHERE</span> payload_pull_request_user_login = <span style="color: #95e454;">'mads379'</span>
 <span style="color: #8ac6f2; font-weight: bold;">GROUP</span> <span style="color: #e5786d;">BY</span> repository_url
 <span style="color: #8ac6f2; font-weight: bold;">ORDER</span> <span style="color: #e5786d;">BY</span> last_pr <span style="color: #8ac6f2; font-weight: bold;">DESC</span>;
 </pre>
@@ -163,3 +164,25 @@ The documentation for the BigQuery query language is <a href="https://cloud.goog
 definitely going to play around with this some more. Let me know if
 you come up with any other fun queries.
 </p>
+
+<p>
+<b>(Added 2015-02-05)</b> <a href="https:www.twitter.com/felipehoffa">Felipe Hoffa (@felipehoffa)</a> mentioned on Twitter
+that the database layout for the archive was changed in 2015. You can
+find more information about it in the <a href="http://www.reddit.com/r/bigquery/comments/2s80y3/github_archive_changes_monthly_and_daily_tables/">announcement here</a>. I personally
+prefer this format as the JSON from the Github Archive documentation
+is stored directly in the tables which means I don't have to guess the column
+names for the various nested fields.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sql"><span style="color: #8ac6f2; font-weight: bold;">SELECT</span>
+  repo_name,
+  JSON_EXTRACT(payload, <span style="color: #95e454;">'$.pull_request.base.repo.language'</span>) <span style="color: #8ac6f2; font-weight: bold;">as</span> <span style="color: #e5786d;">language</span>,
+  JSON_EXTRACT(payload, <span style="color: #95e454;">'$.pull_request.updated_at'</span>) <span style="color: #8ac6f2; font-weight: bold;">as</span> updated_at
+<span style="color: #8ac6f2; font-weight: bold;">FROM</span> [githubarchive:<span style="color: #e5786d;">month</span>.201501]
+<span style="color: #8ac6f2; font-weight: bold;">WHERE</span>
+  <span style="color: #e5786d;">type</span> = <span style="color: #95e454;">'PullRequestEvent'</span> <span style="color: #8ac6f2; font-weight: bold;">AND</span>
+  JSON_EXTRACT(payload, <span style="color: #95e454;">'$.pull_request.user.login'</span>) = <span style="color: #95e454;">'mads379'</span>
+</pre>
+</div>
