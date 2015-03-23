@@ -65,6 +65,7 @@ Data Types, Generalized Algebraic Datatypes, and much more.
 <li><a href="#sec-5-2">5.2. Extensible Variants</a></li>
 </ul>
 </li>
+<li><a href="#sec-6">6. Exceptions</a></li>
 </ul>
 </div>
 </div>
@@ -78,7 +79,7 @@ separated by semi-colons:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">[ 1 ; 2; 3 ];;
+<pre class="src src-ocaml"><span style="color: #f0e68c;">[</span> 1 <span style="color: #f0e68c;">;</span> 2<span style="color: #f0e68c;">;</span> 3 <span style="color: #f0e68c;">];;</span>
 </pre>
 </div>
 
@@ -92,7 +93,7 @@ elements are separated by semi-colons:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">[| 1 ; 2; 3 |];;
+<pre class="src src-ocaml"><span style="color: #f0e68c;">[|</span> 1 <span style="color: #f0e68c;">;</span> 2<span style="color: #f0e68c;">;</span> 3 <span style="color: #f0e68c;">|];;</span>
 </pre>
 </div>
 
@@ -106,7 +107,7 @@ using commas:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">( "foo", "bar", "foobar" )
+<pre class="src src-ocaml"><span style="color: #f0e68c;">(</span> <span style="color: #90a959;">"foo"</span><span style="color: #f0e68c;">,</span> <span style="color: #90a959;">"bar"</span><span style="color: #f0e68c;">,</span> <span style="color: #90a959;">"foobar"</span> <span style="color: #f0e68c;">)</span>
 </pre>
 </div>
 <pre class="example">
@@ -125,9 +126,9 @@ using the following syntax <code>let &lt;identifier&gt; = &lt;expression&gt; in
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">let hi = "hi " in
-let there = "there!" in
-hi ^ there;;
+<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #ac4142;">hi</span> <span style="color: #f0e68c;">=</span> <span style="color: #90a959;">"hi "</span> <span style="color: #f5deb3; font-weight: bold;">in</span>
+<span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #ac4142;">there</span> <span style="color: #f0e68c;">=</span> <span style="color: #90a959;">"there!"</span> <span style="color: #f5deb3; font-weight: bold;">in</span>
+hi <span style="color: #f0e68c;">^</span> there<span style="color: #f0e68c;">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -141,7 +142,7 @@ easily have been invoked in a prefix manner as shown below.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">(^) "Hi " "there";;
+<pre class="src src-ocaml"><span style="color: #f0e68c;">(^)</span> <span style="color: #90a959;">"Hi "</span> <span style="color: #90a959;">"there"</span><span style="color: #f0e68c;">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -164,7 +165,7 @@ the arguments after the function name separated by whitespace.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">min 42 10;;
+<pre class="src src-ocaml">min 42 10<span style="color: #f0e68c;">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -178,7 +179,7 @@ languages. In another language the above example might look like this:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">min(10,24);;
+<pre class="src src-ocaml">min<span style="color: #f0e68c;">(</span>10<span style="color: #f0e68c;">,</span>24<span style="color: #f0e68c;">);;</span>
 </pre>
 </div>
 <pre class="example">
@@ -194,8 +195,8 @@ return. This is possible as all functions in OCaml are <a href="http://en.wikipe
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">let at_least_42 = max 42 in
-at_least_42 22;;
+<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #ac4142;">at_least_42</span> <span style="color: #f0e68c;">=</span> max 42 <span style="color: #f5deb3; font-weight: bold;">in</span>
+at_least_42 22<span style="color: #f0e68c;">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -219,7 +220,7 @@ integer.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">let square x = x * x;;
+<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #6a9fb5;">square</span><span style="color: #ac4142;"> x</span> <span style="color: #f0e68c;">=</span> x <span style="color: #f0e68c;">*</span> x<span style="color: #f0e68c;">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -233,7 +234,7 @@ above is equivalent to this:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">let square = fun x -&gt; x * x;;
+<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #6a9fb5;">square</span> <span style="color: #f0e68c;">=</span> <span style="color: #aa759f;">fun</span> <span style="color: #ac4142;">x</span> <span style="color: #f0e68c;">-&gt;</span> x <span style="color: #f0e68c;">*</span> x<span style="color: #f0e68c;">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -254,10 +255,10 @@ inefficient implementation I'm about to show you):
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">let rec sum = function
-  | x :: xs -&gt; x + (sum xs)
-  | [] -&gt; 0
-in sum [1;2;3;4;5;1;2];;
+<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #f5deb3; font-weight: bold;">rec</span> <span style="color: #6a9fb5;">sum</span> <span style="color: #f0e68c;">=</span> <span style="color: #aa759f;">function</span>
+  <span style="color: #f0e68c;">|</span> x <span style="color: #f0e68c;">::</span> xs <span style="color: #f0e68c;">-&gt;</span> x <span style="color: #f0e68c;">+</span> <span style="color: #f0e68c;">(</span>sum xs<span style="color: #f0e68c;">)</span>
+  <span style="color: #f0e68c;">|</span> <span style="color: #f0e68c;">[]</span> <span style="color: #f0e68c;">-&gt;</span> 0
+<span style="color: #f5deb3; font-weight: bold;">in</span> sum <span style="color: #f0e68c;">[</span>1<span style="color: #f0e68c;">;</span>2<span style="color: #f0e68c;">;</span>3<span style="color: #f0e68c;">;</span>4<span style="color: #f0e68c;">;</span>5<span style="color: #f0e68c;">;</span>1<span style="color: #f0e68c;">;</span>2<span style="color: #f0e68c;">];;</span>
 </pre>
 </div>
 <pre class="example">
@@ -281,8 +282,8 @@ irrelevant.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">let welcome ~greeting ~name = Printf.printf "%s %s\n" greeting name in
-welcome ~name:"reader" ~greeting:"Hi"
+<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #6a9fb5;">welcome</span><span style="color: #ac4142;"> </span><span style="color: #f0e68c;">~</span><span style="color: #ac4142;">greeting </span><span style="color: #f0e68c;">~</span><span style="color: #ac4142;">name</span> <span style="color: #f0e68c;">=</span> <span style="color: #f4bf75;">Printf.</span>printf <span style="color: #90a959;">"%s %s\n"</span> greeting name <span style="color: #f5deb3; font-weight: bold;">in</span>
+welcome <span style="color: #90a959;">~name</span><span style="color: #f0e68c;">:</span><span style="color: #90a959;">"reader"</span> <span style="color: #90a959;">~greeting</span><span style="color: #f0e68c;">:</span><span style="color: #90a959;">"Hi"</span>
 </pre>
 </div>
 <pre class="example">
@@ -301,15 +302,15 @@ of optional arguments are represented using the <a href="https://realworldocaml.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">let welcome ?greeting_opt name =
-  let greeting = match greeting_opt with
-    | Some greeting -&gt; greeting
-    | None -&gt; "Hi"
-  in
-  Printf.printf "%s %s\n" greeting name
-in
-welcome ~greeting_opt:"Hey" "reader" ;
-welcome ?greeting_opt:None "reader"
+<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #6a9fb5;">welcome</span><span style="color: #ac4142;"> </span><span style="color: #f0e68c;">?</span><span style="color: #ac4142;">greeting_opt name</span> <span style="color: #f0e68c;">=</span>
+  <span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #ac4142;">greeting</span> <span style="color: #f0e68c;">=</span> <span style="color: #aa759f;">match</span> greeting_opt <span style="color: #aa759f;">with</span>
+    <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Some</span> greeting <span style="color: #f0e68c;">-&gt;</span> greeting
+    <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">None</span> <span style="color: #f0e68c;">-&gt;</span> <span style="color: #90a959;">"Hi"</span>
+  <span style="color: #f5deb3; font-weight: bold;">in</span>
+  <span style="color: #f4bf75;">Printf.</span>printf <span style="color: #90a959;">"%s %s\n"</span> greeting name
+<span style="color: #f5deb3; font-weight: bold;">in</span>
+welcome <span style="color: #90a959;">~greeting_opt</span><span style="color: #f0e68c;">:</span><span style="color: #90a959;">"Hey"</span> <span style="color: #90a959;">"reader"</span> <span style="color: #f0e68c;">;</span>
+welcome <span style="color: #90a959;">?greeting_opt</span><span style="color: #f0e68c;">:</span><span style="color: #e0e0e0; background-color: #202020;">None</span> <span style="color: #90a959;">"reader"</span>
 </pre>
 </div>
 <pre class="example">
@@ -329,11 +330,11 @@ previous example could also have been written as such:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">let welcome ?(greeting="Hi") name =
-  Printf.printf "%s %s\n" greeting name
-in
-welcome ~greeting:"Hey" "reader" ;
-welcome "reader"
+<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #6a9fb5;">welcome</span><span style="color: #ac4142;"> </span><span style="color: #f0e68c;">?(</span><span style="color: #ac4142;">greeting</span><span style="color: #f0e68c;">=</span><span style="color: #90a959;">"Hi"</span><span style="color: #f0e68c;">)</span><span style="color: #ac4142;"> name</span> <span style="color: #f0e68c;">=</span>
+  <span style="color: #f4bf75;">Printf.</span>printf <span style="color: #90a959;">"%s %s\n"</span> greeting name
+<span style="color: #f5deb3; font-weight: bold;">in</span>
+welcome <span style="color: #90a959;">~greeting</span><span style="color: #f0e68c;">:</span><span style="color: #90a959;">"Hey"</span> <span style="color: #90a959;">"reader"</span> <span style="color: #f0e68c;">;</span>
+welcome <span style="color: #90a959;">"reader"</span>
 </pre>
 </div>
 <pre class="example">
@@ -356,12 +357,12 @@ components.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">type person = {
-  name: string;
-  age: int;
-} ;;
-let p = { name = "Mads" ; age = 25 } in
-Printf.printf "%s is %d years old" p.name p.age
+<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">type</span> <span style="color: #f4bf75;">person</span> <span style="color: #f0e68c;">=</span> <span style="color: #f0e68c;">{</span>
+  name<span style="color: #f0e68c;">:</span> string<span style="color: #f0e68c;">;</span>
+  age<span style="color: #f0e68c;">:</span> int<span style="color: #f0e68c;">;</span>
+<span style="color: #f0e68c;">}</span> <span style="color: #f0e68c;">;;</span>
+<span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #ac4142;">p</span> <span style="color: #f0e68c;">=</span> <span style="color: #f0e68c;">{</span> name <span style="color: #f0e68c;">=</span> <span style="color: #90a959;">"Mads"</span> <span style="color: #f0e68c;">;</span> age <span style="color: #f0e68c;">=</span> 25 <span style="color: #f0e68c;">}</span> <span style="color: #f5deb3; font-weight: bold;">in</span>
+<span style="color: #f4bf75;">Printf.</span>printf <span style="color: #90a959;">"%s is %d years old"</span> p.name p.age
 </pre>
 </div>
 <pre class="example">
@@ -373,11 +374,11 @@ Records can be parameterized using a polymorphic type.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">type 'a ranked = {
-  item: 'a;
-  rank: int;
-};;
-let item = { item = Some 42 ; rank = 1 }
+<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">type</span> <span style="color: #f4bf75;">'a ranked</span> <span style="color: #f0e68c;">=</span> <span style="color: #f0e68c;">{</span>
+  item<span style="color: #f0e68c;">:</span> 'a<span style="color: #f0e68c;">;</span>
+  rank<span style="color: #f0e68c;">:</span> int<span style="color: #f0e68c;">;</span>
+<span style="color: #f0e68c;">};;</span>
+<span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #ac4142;">item</span> <span style="color: #f0e68c;">=</span> <span style="color: #f0e68c;">{</span> item <span style="color: #f0e68c;">=</span> <span style="color: #e0e0e0; background-color: #202020;">Some</span> 42 <span style="color: #f0e68c;">;</span> rank <span style="color: #f0e68c;">=</span> 1 <span style="color: #f0e68c;">}</span>
 </pre>
 </div>
 <pre class="example">
@@ -402,10 +403,10 @@ where a variant is used to represent a binary tree.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">type 'a tree =
-  | Leaf of 'a
-  | Node of 'a tree * 'a * 'a tree;;
-Node ((Leaf "foo"), "bar", (Leaf "foobar"));;
+<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">type</span> <span style="color: #f4bf75;">'a tree</span> <span style="color: #f0e68c;">=</span>
+  <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Leaf</span> <span style="color: #aa759f;">of</span> 'a
+  <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Node</span> <span style="color: #aa759f;">of</span> 'a tree <span style="color: #f0e68c;">*</span> 'a <span style="color: #f0e68c;">*</span> 'a tree<span style="color: #f0e68c;">;;</span>
+<span style="color: #e0e0e0; background-color: #202020;">Node</span> <span style="color: #f0e68c;">((</span><span style="color: #e0e0e0; background-color: #202020;">Leaf</span> <span style="color: #90a959;">"foo"</span><span style="color: #f0e68c;">),</span> <span style="color: #90a959;">"bar"</span><span style="color: #f0e68c;">,</span> <span style="color: #f0e68c;">(</span><span style="color: #e0e0e0; background-color: #202020;">Leaf</span> <span style="color: #90a959;">"foobar"</span><span style="color: #f0e68c;">));;</span>
 </pre>
 </div>
 <pre class="example">
@@ -418,14 +419,14 @@ below shows one way to compute the height of such a tree:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">let rec depth = function
-  | Leaf _ -&gt; 1
-  | Node (left, _ ,right) -&gt; 1 + max (depth left) (depth right)
-in
-let tree =
-  Node ((Leaf 1), 2, (Node ((Leaf 3), 4, (Node ((Leaf 5), 6, (Leaf 6))))))
-in
-depth tree;;
+<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #f5deb3; font-weight: bold;">rec</span> <span style="color: #6a9fb5;">depth</span> <span style="color: #f0e68c;">=</span> <span style="color: #aa759f;">function</span>
+  <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Leaf</span> _ <span style="color: #f0e68c;">-&gt;</span> 1
+  <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Node</span> <span style="color: #f0e68c;">(</span>left<span style="color: #f0e68c;">,</span> _ <span style="color: #f0e68c;">,</span>right<span style="color: #f0e68c;">)</span> <span style="color: #f0e68c;">-&gt;</span> 1 <span style="color: #f0e68c;">+</span> max <span style="color: #f0e68c;">(</span>depth left<span style="color: #f0e68c;">)</span> <span style="color: #f0e68c;">(</span>depth right<span style="color: #f0e68c;">)</span>
+<span style="color: #f5deb3; font-weight: bold;">in</span>
+<span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #ac4142;">tree</span> <span style="color: #f0e68c;">=</span>
+  <span style="color: #e0e0e0; background-color: #202020;">Node</span> <span style="color: #f0e68c;">((</span><span style="color: #e0e0e0; background-color: #202020;">Leaf</span> 1<span style="color: #f0e68c;">),</span> 2<span style="color: #f0e68c;">,</span> <span style="color: #f0e68c;">(</span><span style="color: #e0e0e0; background-color: #202020;">Node</span> <span style="color: #f0e68c;">((</span><span style="color: #e0e0e0; background-color: #202020;">Leaf</span> 3<span style="color: #f0e68c;">),</span> 4<span style="color: #f0e68c;">,</span> <span style="color: #f0e68c;">(</span><span style="color: #e0e0e0; background-color: #202020;">Node</span> <span style="color: #f0e68c;">((</span><span style="color: #e0e0e0; background-color: #202020;">Leaf</span> 5<span style="color: #f0e68c;">),</span> 6<span style="color: #f0e68c;">,</span> <span style="color: #f0e68c;">(</span><span style="color: #e0e0e0; background-color: #202020;">Leaf</span> 6<span style="color: #f0e68c;">))))))</span>
+<span style="color: #f5deb3; font-weight: bold;">in</span>
+depth tree<span style="color: #f0e68c;">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -455,13 +456,13 @@ ad-hoc version of the regular variants.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">let length_of_title book_title =
-  match String.length book_title with
-  | length when length &lt;= 5  -&gt; `Short
-  | length when length &lt;= 10 -&gt; `Medium
-  | _  -&gt; `Long
-in
-length_of_title "The Hitchhiker's Guide to the Galaxy"
+<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #6a9fb5;">length_of_title</span><span style="color: #ac4142;"> book_title</span> <span style="color: #f0e68c;">=</span>
+  <span style="color: #aa759f;">match</span> <span style="color: #f4bf75;">String.</span>length book_title <span style="color: #aa759f;">with</span>
+  <span style="color: #f0e68c;">|</span> length <span style="color: #aa759f;">when</span> length <span style="color: #f0e68c;">&lt;=</span> 5  <span style="color: #f0e68c;">-&gt;</span> <span style="color: #e0e0e0; background-color: #202020;">`Short</span>
+  <span style="color: #f0e68c;">|</span> length <span style="color: #aa759f;">when</span> length <span style="color: #f0e68c;">&lt;=</span> 10 <span style="color: #f0e68c;">-&gt;</span> <span style="color: #e0e0e0; background-color: #202020;">`Medium</span>
+  <span style="color: #f0e68c;">|</span> _  <span style="color: #f0e68c;">-&gt;</span> <span style="color: #e0e0e0; background-color: #202020;">`Long</span>
+<span style="color: #f5deb3; font-weight: bold;">in</span>
+length_of_title <span style="color: #90a959;">"The Hitchhiker's Guide to the Galaxy"</span>
 </pre>
 </div>
 <pre class="example">
@@ -491,11 +492,11 @@ shown in the OCaml Users Manual.
 
 <div class="org-src-container">
 
-<pre class="src src-ocaml">type attr = .. ;;
-type attr += Str of string ;;
-type attr +=
-  | Int of int
-  | Float of float ;;
+<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">type</span> <span style="color: #f4bf75;">attr</span> <span style="color: #f0e68c;">=</span> <span style="color: #f0e68c;">..</span> <span style="color: #f0e68c;">;;</span>
+<span style="color: #f5deb3; font-weight: bold;">type</span> <span style="color: #f4bf75;">attr</span> <span style="color: #f0e68c;">+=</span> <span style="color: #e0e0e0; background-color: #202020;">Str</span> <span style="color: #aa759f;">of</span> string <span style="color: #f0e68c;">;;</span>
+<span style="color: #f5deb3; font-weight: bold;">type</span> <span style="color: #f4bf75;">attr</span> <span style="color: #f0e68c;">+=</span>
+  <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Int</span> <span style="color: #aa759f;">of</span> int
+  <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Float</span> <span style="color: #aa759f;">of</span> float <span style="color: #f0e68c;">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -509,5 +510,76 @@ covered in the book unfortunately. I look forward to then next
 revision.
 </p>
 </div>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Exceptions</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+OCaml gives you the posibility of using exceptions for signaling and
+handling exceptional conditions in your programs.
+</p>
+
+<p>
+Exceptions are not checked, meaning that the OCaml compiler does not
+enforce that you catch exceptions.
+</p>
+
+<p>
+You can define your own exceptions in a way similar to variants.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ocaml"><span style="color: #aa759f;">exception</span> <span style="color: #ac4142;">BadRequest</span> <span style="color: #aa759f;">of</span> int <span style="color: #f0e68c;">*</span> string
+</pre>
+</div>
+<pre class="example">
+exception BadRequest of int * string
+</pre>
+
+<p>
+You signal an exception using the <code>raise</code> keyword.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ocaml"><span style="color: #b0c4de;">raise</span> <span style="color: #f0e68c;">(</span><span style="color: #e0e0e0; background-color: #202020;">BadRequest</span> <span style="color: #f0e68c;">(</span>500<span style="color: #f0e68c;">,</span> <span style="color: #90a959;">"Oh noes, the service broke"</span><span style="color: #f0e68c;">))</span>
+</pre>
+</div>
+<pre class="example">
+Exception: BadRequest (500, "Oh noes, the service broke").
+</pre>
+
+<p>
+You catch exceptions using the following syntax
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ocaml"><span style="color: #aa759f;">try</span> int_of_string <span style="color: #90a959;">"foo"</span> <span style="color: #aa759f;">with</span>
+<span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Failure</span> msg <span style="color: #f0e68c;">-&gt;</span> <span style="color: #f0e68c;">-</span>1
+</pre>
+</div>
+<pre class="example">
+-1
+</pre>
+
+<p>
+Since OCaml 4.02 you can <a href="http://caml.inria.fr/pub/docs/manual-ocaml/extn.html#sec245">catch exceptions in pattern matches</a>.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ocaml"><span style="color: #aa759f;">match</span> int_of_string <span style="color: #90a959;">"foo"</span> <span style="color: #aa759f;">with</span>
+<span style="color: #f0e68c;">|</span> n <span style="color: #f0e68c;">-&gt;</span> <span style="color: #f4bf75;">Printf.</span>printf <span style="color: #90a959;">"Got an integer %d"</span> n
+<span style="color: #f0e68c;">|</span> <span style="color: #aa759f;">exception</span> <span style="color: #ac4142;">Failure</span> msg <span style="color: #f0e68c;">-&gt;</span> <span style="color: #f4bf75;">Printf.</span>printf <span style="color: #90a959;">"Caught exception with message %s"</span> msg
+</pre>
+</div>
+<pre class="example">
+Caught exception with message int_of_string- : unit = ()
+</pre>
+
+<p>
+As always, for more information read the <a href="http://caml.inria.fr/pub/docs/manual-ocaml/coreexamples.html#sec13">section</a> in the OCaml Users
+Manual.
+</p>
 </div>
 </div>

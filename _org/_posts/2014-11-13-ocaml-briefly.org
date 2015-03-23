@@ -310,3 +310,44 @@ For more information read this [[http://caml.inria.fr/pub/docs/manual-ocaml/extn
 features was released after Real World Ocaml and as such it isn't
 covered in the book unfortunately. I look forward to then next
 revision.
+
+* Exceptions
+OCaml gives you the posibility of using exceptions for signaling and
+handling exceptional conditions in your programs.
+
+Exceptions are not checked, meaning that the OCaml compiler does not
+enforce that you catch exceptions.
+
+You can define your own exceptions in a way similar to variants.
+#+begin_src ocaml :exports both
+  exception BadRequest of int * string
+#+end_src
+#+RESULTS:
+: exception BadRequest of int * string
+
+You signal an exception using the ~raise~ keyword.
+#+begin_src ocaml :exports both
+  raise (BadRequest (500, "Oh noes, the service broke"))
+#+end_src
+#+RESULTS:
+: Exception: BadRequest (500, "Oh noes, the service broke").
+
+You catch exceptions using the following syntax
+#+begin_src ocaml :exports both
+  try int_of_string "foo" with
+  | Failure msg -> -1
+#+end_src
+#+RESULTS:
+: -1
+
+Since OCaml 4.02 you can [[http://caml.inria.fr/pub/docs/manual-ocaml/extn.html#sec245][catch exceptions in pattern matches]].
+#+begin_src ocaml :exports both
+  match int_of_string "foo" with
+  | n -> Printf.printf "Got an integer %d" n
+  | exception Failure msg -> Printf.printf "Caught exception with message %s" msg
+#+end_src
+#+RESULTS:
+: Caught exception with message int_of_string- : unit = ()
+
+As always, for more information read the [[http://caml.inria.fr/pub/docs/manual-ocaml/coreexamples.html#sec13][section]] in the OCaml Users
+Manual.
