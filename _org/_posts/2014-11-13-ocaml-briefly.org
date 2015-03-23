@@ -33,7 +33,7 @@ If you want to play around with the code I recommend using [[http://ocsigen.org/
 REPL.
 
 *Note*: This is still a work in progress. I haven't yet covered the
-following: pattern matching, modules, functors, exceptions, Abstract
+following: pattern matching, modules, functors, Abstract
 Data Types, Generalized Algebraic Datatypes, and much more.
 
 #+TOC: headlines 3
