@@ -534,10 +534,6 @@ You can define your own exceptions in a way similar to variants.
 <pre class="src src-ocaml"><span class="org-keyword">exception</span> <span class="org-variable-name">BadRequest</span> <span class="org-keyword">of</span> int <span class="org-tuareg-font-lock-operator">*</span> string
 </pre>
 </div>
-<pre class="example">
-exception BadRequest of int * string
-</pre>
-
 <p>
 You signal an exception using the <code>raise</code> keyword.
 </p>
@@ -546,10 +542,6 @@ You signal an exception using the <code>raise</code> keyword.
 <pre class="src src-ocaml"><span class="org-builtin">raise</span> <span class="org-tuareg-font-lock-operator">(</span><span class="org-tuareg-font-lock-constructor">BadRequest</span> <span class="org-tuareg-font-lock-operator">(</span>500<span class="org-tuareg-font-lock-operator">,</span> <span class="org-string">"Oh noes, the service broke"</span><span class="org-tuareg-font-lock-operator">))</span>
 </pre>
 </div>
-<pre class="example">
-Exception: BadRequest (500, "Oh noes, the service broke").
-</pre>
-
 <p>
 You catch exceptions using the following syntax
 </p>

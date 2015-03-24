@@ -319,14 +319,14 @@ Exceptions are not checked, meaning that the OCaml compiler does not
 enforce that you catch exceptions.
 
 You can define your own exceptions in a way similar to variants.
-#+begin_src ocaml :exports both
+#+begin_src ocaml :exports code
   exception BadRequest of int * string
 #+end_src
 #+RESULTS:
 : exception BadRequest of int * string
 
 You signal an exception using the ~raise~ keyword.
-#+begin_src ocaml :exports both
+#+begin_src ocaml :exports code
   raise (BadRequest (500, "Oh noes, the service broke"))
 #+end_src
 #+RESULTS:
