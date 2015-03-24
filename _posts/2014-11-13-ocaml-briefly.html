@@ -79,7 +79,7 @@ separated by semi-colons:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f0e68c;">[</span> 1 <span style="color: #f0e68c;">;</span> 2<span style="color: #f0e68c;">;</span> 3 <span style="color: #f0e68c;">];;</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-operator">[</span> 1 <span class="org-tuareg-font-lock-operator">;</span> 2<span class="org-tuareg-font-lock-operator">;</span> 3 <span class="org-tuareg-font-lock-operator">];;</span>
 </pre>
 </div>
 
@@ -93,7 +93,7 @@ elements are separated by semi-colons:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f0e68c;">[|</span> 1 <span style="color: #f0e68c;">;</span> 2<span style="color: #f0e68c;">;</span> 3 <span style="color: #f0e68c;">|];;</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-operator">[|</span> 1 <span class="org-tuareg-font-lock-operator">;</span> 2<span class="org-tuareg-font-lock-operator">;</span> 3 <span class="org-tuareg-font-lock-operator">|];;</span>
 </pre>
 </div>
 
@@ -107,7 +107,7 @@ using commas:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f0e68c;">(</span> <span style="color: #90a959;">"foo"</span><span style="color: #f0e68c;">,</span> <span style="color: #90a959;">"bar"</span><span style="color: #f0e68c;">,</span> <span style="color: #90a959;">"foobar"</span> <span style="color: #f0e68c;">)</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-operator">(</span> <span class="org-string">"foo"</span><span class="org-tuareg-font-lock-operator">,</span> <span class="org-string">"bar"</span><span class="org-tuareg-font-lock-operator">,</span> <span class="org-string">"foobar"</span> <span class="org-tuareg-font-lock-operator">)</span>
 </pre>
 </div>
 <pre class="example">
@@ -126,9 +126,9 @@ using the following syntax <code>let &lt;identifier&gt; = &lt;expression&gt; in
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #ac4142;">hi</span> <span style="color: #f0e68c;">=</span> <span style="color: #90a959;">"hi "</span> <span style="color: #f5deb3; font-weight: bold;">in</span>
-<span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #ac4142;">there</span> <span style="color: #f0e68c;">=</span> <span style="color: #90a959;">"there!"</span> <span style="color: #f5deb3; font-weight: bold;">in</span>
-hi <span style="color: #f0e68c;">^</span> there<span style="color: #f0e68c;">;;</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">let</span> <span class="org-variable-name">hi</span> <span class="org-tuareg-font-lock-operator">=</span> <span class="org-string">"hi "</span> <span class="org-tuareg-font-lock-governing">in</span>
+<span class="org-tuareg-font-lock-governing">let</span> <span class="org-variable-name">there</span> <span class="org-tuareg-font-lock-operator">=</span> <span class="org-string">"there!"</span> <span class="org-tuareg-font-lock-governing">in</span>
+hi <span class="org-tuareg-font-lock-operator">^</span> there<span class="org-tuareg-font-lock-operator">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -142,7 +142,7 @@ easily have been invoked in a prefix manner as shown below.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f0e68c;">(^)</span> <span style="color: #90a959;">"Hi "</span> <span style="color: #90a959;">"there"</span><span style="color: #f0e68c;">;;</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-operator">(^)</span> <span class="org-string">"Hi "</span> <span class="org-string">"there"</span><span class="org-tuareg-font-lock-operator">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -165,7 +165,7 @@ the arguments after the function name separated by whitespace.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">min 42 10<span style="color: #f0e68c;">;;</span>
+<pre class="src src-ocaml">min 42 10<span class="org-tuareg-font-lock-operator">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -179,7 +179,7 @@ languages. In another language the above example might look like this:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml">min<span style="color: #f0e68c;">(</span>10<span style="color: #f0e68c;">,</span>24<span style="color: #f0e68c;">);;</span>
+<pre class="src src-ocaml">min<span class="org-tuareg-font-lock-operator">(</span>10<span class="org-tuareg-font-lock-operator">,</span>24<span class="org-tuareg-font-lock-operator">);;</span>
 </pre>
 </div>
 <pre class="example">
@@ -195,8 +195,8 @@ return. This is possible as all functions in OCaml are <a href="http://en.wikipe
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #ac4142;">at_least_42</span> <span style="color: #f0e68c;">=</span> max 42 <span style="color: #f5deb3; font-weight: bold;">in</span>
-at_least_42 22<span style="color: #f0e68c;">;;</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">let</span> <span class="org-variable-name">at_least_42</span> <span class="org-tuareg-font-lock-operator">=</span> max 42 <span class="org-tuareg-font-lock-governing">in</span>
+at_least_42 22<span class="org-tuareg-font-lock-operator">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -220,7 +220,7 @@ integer.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #6a9fb5;">square</span><span style="color: #ac4142;"> x</span> <span style="color: #f0e68c;">=</span> x <span style="color: #f0e68c;">*</span> x<span style="color: #f0e68c;">;;</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">let</span> <span class="org-function-name">square</span><span class="org-variable-name"> x</span> <span class="org-tuareg-font-lock-operator">=</span> x <span class="org-tuareg-font-lock-operator">*</span> x<span class="org-tuareg-font-lock-operator">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -234,7 +234,7 @@ above is equivalent to this:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #6a9fb5;">square</span> <span style="color: #f0e68c;">=</span> <span style="color: #aa759f;">fun</span> <span style="color: #ac4142;">x</span> <span style="color: #f0e68c;">-&gt;</span> x <span style="color: #f0e68c;">*</span> x<span style="color: #f0e68c;">;;</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">let</span> <span class="org-function-name">square</span> <span class="org-tuareg-font-lock-operator">=</span> <span class="org-keyword">fun</span> <span class="org-variable-name">x</span> <span class="org-tuareg-font-lock-operator">-&gt;</span> x <span class="org-tuareg-font-lock-operator">*</span> x<span class="org-tuareg-font-lock-operator">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -255,10 +255,10 @@ inefficient implementation I'm about to show you):
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #f5deb3; font-weight: bold;">rec</span> <span style="color: #6a9fb5;">sum</span> <span style="color: #f0e68c;">=</span> <span style="color: #aa759f;">function</span>
-  <span style="color: #f0e68c;">|</span> x <span style="color: #f0e68c;">::</span> xs <span style="color: #f0e68c;">-&gt;</span> x <span style="color: #f0e68c;">+</span> <span style="color: #f0e68c;">(</span>sum xs<span style="color: #f0e68c;">)</span>
-  <span style="color: #f0e68c;">|</span> <span style="color: #f0e68c;">[]</span> <span style="color: #f0e68c;">-&gt;</span> 0
-<span style="color: #f5deb3; font-weight: bold;">in</span> sum <span style="color: #f0e68c;">[</span>1<span style="color: #f0e68c;">;</span>2<span style="color: #f0e68c;">;</span>3<span style="color: #f0e68c;">;</span>4<span style="color: #f0e68c;">;</span>5<span style="color: #f0e68c;">;</span>1<span style="color: #f0e68c;">;</span>2<span style="color: #f0e68c;">];;</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">let</span> <span class="org-tuareg-font-lock-governing">rec</span> <span class="org-function-name">sum</span> <span class="org-tuareg-font-lock-operator">=</span> <span class="org-keyword">function</span>
+  <span class="org-tuareg-font-lock-operator">|</span> x <span class="org-tuareg-font-lock-operator">::</span> xs <span class="org-tuareg-font-lock-operator">-&gt;</span> x <span class="org-tuareg-font-lock-operator">+</span> <span class="org-tuareg-font-lock-operator">(</span>sum xs<span class="org-tuareg-font-lock-operator">)</span>
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-operator">[]</span> <span class="org-tuareg-font-lock-operator">-&gt;</span> 0
+<span class="org-tuareg-font-lock-governing">in</span> sum <span class="org-tuareg-font-lock-operator">[</span>1<span class="org-tuareg-font-lock-operator">;</span>2<span class="org-tuareg-font-lock-operator">;</span>3<span class="org-tuareg-font-lock-operator">;</span>4<span class="org-tuareg-font-lock-operator">;</span>5<span class="org-tuareg-font-lock-operator">;</span>1<span class="org-tuareg-font-lock-operator">;</span>2<span class="org-tuareg-font-lock-operator">];;</span>
 </pre>
 </div>
 <pre class="example">
@@ -282,8 +282,8 @@ irrelevant.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #6a9fb5;">welcome</span><span style="color: #ac4142;"> </span><span style="color: #f0e68c;">~</span><span style="color: #ac4142;">greeting </span><span style="color: #f0e68c;">~</span><span style="color: #ac4142;">name</span> <span style="color: #f0e68c;">=</span> <span style="color: #f4bf75;">Printf.</span>printf <span style="color: #90a959;">"%s %s\n"</span> greeting name <span style="color: #f5deb3; font-weight: bold;">in</span>
-welcome <span style="color: #90a959;">~name</span><span style="color: #f0e68c;">:</span><span style="color: #90a959;">"reader"</span> <span style="color: #90a959;">~greeting</span><span style="color: #f0e68c;">:</span><span style="color: #90a959;">"Hi"</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">let</span> <span class="org-function-name">welcome</span><span class="org-variable-name"> </span><span class="org-tuareg-font-lock-operator">~</span><span class="org-variable-name">greeting </span><span class="org-tuareg-font-lock-operator">~</span><span class="org-variable-name">name</span> <span class="org-tuareg-font-lock-operator">=</span> <span class="org-tuareg-font-lock-module">Printf.</span>printf <span class="org-string">"%s %s\n"</span> greeting name <span class="org-tuareg-font-lock-governing">in</span>
+welcome <span class="org-constant">~name</span><span class="org-tuareg-font-lock-operator">:</span><span class="org-string">"reader"</span> <span class="org-constant">~greeting</span><span class="org-tuareg-font-lock-operator">:</span><span class="org-string">"Hi"</span>
 </pre>
 </div>
 <pre class="example">
@@ -302,15 +302,15 @@ of optional arguments are represented using the <a href="https://realworldocaml.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #6a9fb5;">welcome</span><span style="color: #ac4142;"> </span><span style="color: #f0e68c;">?</span><span style="color: #ac4142;">greeting_opt name</span> <span style="color: #f0e68c;">=</span>
-  <span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #ac4142;">greeting</span> <span style="color: #f0e68c;">=</span> <span style="color: #aa759f;">match</span> greeting_opt <span style="color: #aa759f;">with</span>
-    <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Some</span> greeting <span style="color: #f0e68c;">-&gt;</span> greeting
-    <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">None</span> <span style="color: #f0e68c;">-&gt;</span> <span style="color: #90a959;">"Hi"</span>
-  <span style="color: #f5deb3; font-weight: bold;">in</span>
-  <span style="color: #f4bf75;">Printf.</span>printf <span style="color: #90a959;">"%s %s\n"</span> greeting name
-<span style="color: #f5deb3; font-weight: bold;">in</span>
-welcome <span style="color: #90a959;">~greeting_opt</span><span style="color: #f0e68c;">:</span><span style="color: #90a959;">"Hey"</span> <span style="color: #90a959;">"reader"</span> <span style="color: #f0e68c;">;</span>
-welcome <span style="color: #90a959;">?greeting_opt</span><span style="color: #f0e68c;">:</span><span style="color: #e0e0e0; background-color: #202020;">None</span> <span style="color: #90a959;">"reader"</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">let</span> <span class="org-function-name">welcome</span><span class="org-variable-name"> </span><span class="org-tuareg-font-lock-operator">?</span><span class="org-variable-name">greeting_opt name</span> <span class="org-tuareg-font-lock-operator">=</span>
+  <span class="org-tuareg-font-lock-governing">let</span> <span class="org-variable-name">greeting</span> <span class="org-tuareg-font-lock-operator">=</span> <span class="org-keyword">match</span> greeting_opt <span class="org-keyword">with</span>
+    <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">Some</span> greeting <span class="org-tuareg-font-lock-operator">-&gt;</span> greeting
+    <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">None</span> <span class="org-tuareg-font-lock-operator">-&gt;</span> <span class="org-string">"Hi"</span>
+  <span class="org-tuareg-font-lock-governing">in</span>
+  <span class="org-tuareg-font-lock-module">Printf.</span>printf <span class="org-string">"%s %s\n"</span> greeting name
+<span class="org-tuareg-font-lock-governing">in</span>
+welcome <span class="org-constant">~greeting_opt</span><span class="org-tuareg-font-lock-operator">:</span><span class="org-string">"Hey"</span> <span class="org-string">"reader"</span> <span class="org-tuareg-font-lock-operator">;</span>
+welcome <span class="org-constant">?greeting_opt</span><span class="org-tuareg-font-lock-operator">:</span><span class="org-tuareg-font-lock-constructor">None</span> <span class="org-string">"reader"</span>
 </pre>
 </div>
 <pre class="example">
@@ -330,11 +330,11 @@ previous example could also have been written as such:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #6a9fb5;">welcome</span><span style="color: #ac4142;"> </span><span style="color: #f0e68c;">?(</span><span style="color: #ac4142;">greeting</span><span style="color: #f0e68c;">=</span><span style="color: #90a959;">"Hi"</span><span style="color: #f0e68c;">)</span><span style="color: #ac4142;"> name</span> <span style="color: #f0e68c;">=</span>
-  <span style="color: #f4bf75;">Printf.</span>printf <span style="color: #90a959;">"%s %s\n"</span> greeting name
-<span style="color: #f5deb3; font-weight: bold;">in</span>
-welcome <span style="color: #90a959;">~greeting</span><span style="color: #f0e68c;">:</span><span style="color: #90a959;">"Hey"</span> <span style="color: #90a959;">"reader"</span> <span style="color: #f0e68c;">;</span>
-welcome <span style="color: #90a959;">"reader"</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">let</span> <span class="org-function-name">welcome</span><span class="org-variable-name"> </span><span class="org-tuareg-font-lock-operator">?(</span><span class="org-variable-name">greeting</span><span class="org-tuareg-font-lock-operator">=</span><span class="org-string">"Hi"</span><span class="org-tuareg-font-lock-operator">)</span><span class="org-variable-name"> name</span> <span class="org-tuareg-font-lock-operator">=</span>
+  <span class="org-tuareg-font-lock-module">Printf.</span>printf <span class="org-string">"%s %s\n"</span> greeting name
+<span class="org-tuareg-font-lock-governing">in</span>
+welcome <span class="org-constant">~greeting</span><span class="org-tuareg-font-lock-operator">:</span><span class="org-string">"Hey"</span> <span class="org-string">"reader"</span> <span class="org-tuareg-font-lock-operator">;</span>
+welcome <span class="org-string">"reader"</span>
 </pre>
 </div>
 <pre class="example">
@@ -357,12 +357,12 @@ components.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">type</span> <span style="color: #f4bf75;">person</span> <span style="color: #f0e68c;">=</span> <span style="color: #f0e68c;">{</span>
-  name<span style="color: #f0e68c;">:</span> string<span style="color: #f0e68c;">;</span>
-  age<span style="color: #f0e68c;">:</span> int<span style="color: #f0e68c;">;</span>
-<span style="color: #f0e68c;">}</span> <span style="color: #f0e68c;">;;</span>
-<span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #ac4142;">p</span> <span style="color: #f0e68c;">=</span> <span style="color: #f0e68c;">{</span> name <span style="color: #f0e68c;">=</span> <span style="color: #90a959;">"Mads"</span> <span style="color: #f0e68c;">;</span> age <span style="color: #f0e68c;">=</span> 25 <span style="color: #f0e68c;">}</span> <span style="color: #f5deb3; font-weight: bold;">in</span>
-<span style="color: #f4bf75;">Printf.</span>printf <span style="color: #90a959;">"%s is %d years old"</span> p.name p.age
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">type</span> <span class="org-type">person</span> <span class="org-tuareg-font-lock-operator">=</span> <span class="org-tuareg-font-lock-operator">{</span>
+  name<span class="org-tuareg-font-lock-operator">:</span> string<span class="org-tuareg-font-lock-operator">;</span>
+  age<span class="org-tuareg-font-lock-operator">:</span> int<span class="org-tuareg-font-lock-operator">;</span>
+<span class="org-tuareg-font-lock-operator">}</span> <span class="org-tuareg-font-lock-operator">;;</span>
+<span class="org-tuareg-font-lock-governing">let</span> <span class="org-variable-name">p</span> <span class="org-tuareg-font-lock-operator">=</span> <span class="org-tuareg-font-lock-operator">{</span> name <span class="org-tuareg-font-lock-operator">=</span> <span class="org-string">"Mads"</span> <span class="org-tuareg-font-lock-operator">;</span> age <span class="org-tuareg-font-lock-operator">=</span> 25 <span class="org-tuareg-font-lock-operator">}</span> <span class="org-tuareg-font-lock-governing">in</span>
+<span class="org-tuareg-font-lock-module">Printf.</span>printf <span class="org-string">"%s is %d years old"</span> p.name p.age
 </pre>
 </div>
 <pre class="example">
@@ -374,11 +374,11 @@ Records can be parameterized using a polymorphic type.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">type</span> <span style="color: #f4bf75;">'a ranked</span> <span style="color: #f0e68c;">=</span> <span style="color: #f0e68c;">{</span>
-  item<span style="color: #f0e68c;">:</span> 'a<span style="color: #f0e68c;">;</span>
-  rank<span style="color: #f0e68c;">:</span> int<span style="color: #f0e68c;">;</span>
-<span style="color: #f0e68c;">};;</span>
-<span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #ac4142;">item</span> <span style="color: #f0e68c;">=</span> <span style="color: #f0e68c;">{</span> item <span style="color: #f0e68c;">=</span> <span style="color: #e0e0e0; background-color: #202020;">Some</span> 42 <span style="color: #f0e68c;">;</span> rank <span style="color: #f0e68c;">=</span> 1 <span style="color: #f0e68c;">}</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">type</span> <span class="org-type">'a ranked</span> <span class="org-tuareg-font-lock-operator">=</span> <span class="org-tuareg-font-lock-operator">{</span>
+  item<span class="org-tuareg-font-lock-operator">:</span> 'a<span class="org-tuareg-font-lock-operator">;</span>
+  rank<span class="org-tuareg-font-lock-operator">:</span> int<span class="org-tuareg-font-lock-operator">;</span>
+<span class="org-tuareg-font-lock-operator">};;</span>
+<span class="org-tuareg-font-lock-governing">let</span> <span class="org-variable-name">item</span> <span class="org-tuareg-font-lock-operator">=</span> <span class="org-tuareg-font-lock-operator">{</span> item <span class="org-tuareg-font-lock-operator">=</span> <span class="org-tuareg-font-lock-constructor">Some</span> 42 <span class="org-tuareg-font-lock-operator">;</span> rank <span class="org-tuareg-font-lock-operator">=</span> 1 <span class="org-tuareg-font-lock-operator">}</span>
 </pre>
 </div>
 <pre class="example">
@@ -403,10 +403,10 @@ where a variant is used to represent a binary tree.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">type</span> <span style="color: #f4bf75;">'a tree</span> <span style="color: #f0e68c;">=</span>
-  <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Leaf</span> <span style="color: #aa759f;">of</span> 'a
-  <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Node</span> <span style="color: #aa759f;">of</span> 'a tree <span style="color: #f0e68c;">*</span> 'a <span style="color: #f0e68c;">*</span> 'a tree<span style="color: #f0e68c;">;;</span>
-<span style="color: #e0e0e0; background-color: #202020;">Node</span> <span style="color: #f0e68c;">((</span><span style="color: #e0e0e0; background-color: #202020;">Leaf</span> <span style="color: #90a959;">"foo"</span><span style="color: #f0e68c;">),</span> <span style="color: #90a959;">"bar"</span><span style="color: #f0e68c;">,</span> <span style="color: #f0e68c;">(</span><span style="color: #e0e0e0; background-color: #202020;">Leaf</span> <span style="color: #90a959;">"foobar"</span><span style="color: #f0e68c;">));;</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">type</span> <span class="org-type">'a tree</span> <span class="org-tuareg-font-lock-operator">=</span>
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">Leaf</span> <span class="org-keyword">of</span> 'a
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">Node</span> <span class="org-keyword">of</span> 'a tree <span class="org-tuareg-font-lock-operator">*</span> 'a <span class="org-tuareg-font-lock-operator">*</span> 'a tree<span class="org-tuareg-font-lock-operator">;;</span>
+<span class="org-tuareg-font-lock-constructor">Node</span> <span class="org-tuareg-font-lock-operator">((</span><span class="org-tuareg-font-lock-constructor">Leaf</span> <span class="org-string">"foo"</span><span class="org-tuareg-font-lock-operator">),</span> <span class="org-string">"bar"</span><span class="org-tuareg-font-lock-operator">,</span> <span class="org-tuareg-font-lock-operator">(</span><span class="org-tuareg-font-lock-constructor">Leaf</span> <span class="org-string">"foobar"</span><span class="org-tuareg-font-lock-operator">));;</span>
 </pre>
 </div>
 <pre class="example">
@@ -419,14 +419,14 @@ below shows one way to compute the height of such a tree:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #f5deb3; font-weight: bold;">rec</span> <span style="color: #6a9fb5;">depth</span> <span style="color: #f0e68c;">=</span> <span style="color: #aa759f;">function</span>
-  <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Leaf</span> _ <span style="color: #f0e68c;">-&gt;</span> 1
-  <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Node</span> <span style="color: #f0e68c;">(</span>left<span style="color: #f0e68c;">,</span> _ <span style="color: #f0e68c;">,</span>right<span style="color: #f0e68c;">)</span> <span style="color: #f0e68c;">-&gt;</span> 1 <span style="color: #f0e68c;">+</span> max <span style="color: #f0e68c;">(</span>depth left<span style="color: #f0e68c;">)</span> <span style="color: #f0e68c;">(</span>depth right<span style="color: #f0e68c;">)</span>
-<span style="color: #f5deb3; font-weight: bold;">in</span>
-<span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #ac4142;">tree</span> <span style="color: #f0e68c;">=</span>
-  <span style="color: #e0e0e0; background-color: #202020;">Node</span> <span style="color: #f0e68c;">((</span><span style="color: #e0e0e0; background-color: #202020;">Leaf</span> 1<span style="color: #f0e68c;">),</span> 2<span style="color: #f0e68c;">,</span> <span style="color: #f0e68c;">(</span><span style="color: #e0e0e0; background-color: #202020;">Node</span> <span style="color: #f0e68c;">((</span><span style="color: #e0e0e0; background-color: #202020;">Leaf</span> 3<span style="color: #f0e68c;">),</span> 4<span style="color: #f0e68c;">,</span> <span style="color: #f0e68c;">(</span><span style="color: #e0e0e0; background-color: #202020;">Node</span> <span style="color: #f0e68c;">((</span><span style="color: #e0e0e0; background-color: #202020;">Leaf</span> 5<span style="color: #f0e68c;">),</span> 6<span style="color: #f0e68c;">,</span> <span style="color: #f0e68c;">(</span><span style="color: #e0e0e0; background-color: #202020;">Leaf</span> 6<span style="color: #f0e68c;">))))))</span>
-<span style="color: #f5deb3; font-weight: bold;">in</span>
-depth tree<span style="color: #f0e68c;">;;</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">let</span> <span class="org-tuareg-font-lock-governing">rec</span> <span class="org-function-name">depth</span> <span class="org-tuareg-font-lock-operator">=</span> <span class="org-keyword">function</span>
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">Leaf</span> _ <span class="org-tuareg-font-lock-operator">-&gt;</span> 1
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">Node</span> <span class="org-tuareg-font-lock-operator">(</span>left<span class="org-tuareg-font-lock-operator">,</span> _ <span class="org-tuareg-font-lock-operator">,</span>right<span class="org-tuareg-font-lock-operator">)</span> <span class="org-tuareg-font-lock-operator">-&gt;</span> 1 <span class="org-tuareg-font-lock-operator">+</span> max <span class="org-tuareg-font-lock-operator">(</span>depth left<span class="org-tuareg-font-lock-operator">)</span> <span class="org-tuareg-font-lock-operator">(</span>depth right<span class="org-tuareg-font-lock-operator">)</span>
+<span class="org-tuareg-font-lock-governing">in</span>
+<span class="org-tuareg-font-lock-governing">let</span> <span class="org-variable-name">tree</span> <span class="org-tuareg-font-lock-operator">=</span>
+  <span class="org-tuareg-font-lock-constructor">Node</span> <span class="org-tuareg-font-lock-operator">((</span><span class="org-tuareg-font-lock-constructor">Leaf</span> 1<span class="org-tuareg-font-lock-operator">),</span> 2<span class="org-tuareg-font-lock-operator">,</span> <span class="org-tuareg-font-lock-operator">(</span><span class="org-tuareg-font-lock-constructor">Node</span> <span class="org-tuareg-font-lock-operator">((</span><span class="org-tuareg-font-lock-constructor">Leaf</span> 3<span class="org-tuareg-font-lock-operator">),</span> 4<span class="org-tuareg-font-lock-operator">,</span> <span class="org-tuareg-font-lock-operator">(</span><span class="org-tuareg-font-lock-constructor">Node</span> <span class="org-tuareg-font-lock-operator">((</span><span class="org-tuareg-font-lock-constructor">Leaf</span> 5<span class="org-tuareg-font-lock-operator">),</span> 6<span class="org-tuareg-font-lock-operator">,</span> <span class="org-tuareg-font-lock-operator">(</span><span class="org-tuareg-font-lock-constructor">Leaf</span> 6<span class="org-tuareg-font-lock-operator">))))))</span>
+<span class="org-tuareg-font-lock-governing">in</span>
+depth tree<span class="org-tuareg-font-lock-operator">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -456,13 +456,13 @@ ad-hoc version of the regular variants.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">let</span> <span style="color: #6a9fb5;">length_of_title</span><span style="color: #ac4142;"> book_title</span> <span style="color: #f0e68c;">=</span>
-  <span style="color: #aa759f;">match</span> <span style="color: #f4bf75;">String.</span>length book_title <span style="color: #aa759f;">with</span>
-  <span style="color: #f0e68c;">|</span> length <span style="color: #aa759f;">when</span> length <span style="color: #f0e68c;">&lt;=</span> 5  <span style="color: #f0e68c;">-&gt;</span> <span style="color: #e0e0e0; background-color: #202020;">`Short</span>
-  <span style="color: #f0e68c;">|</span> length <span style="color: #aa759f;">when</span> length <span style="color: #f0e68c;">&lt;=</span> 10 <span style="color: #f0e68c;">-&gt;</span> <span style="color: #e0e0e0; background-color: #202020;">`Medium</span>
-  <span style="color: #f0e68c;">|</span> _  <span style="color: #f0e68c;">-&gt;</span> <span style="color: #e0e0e0; background-color: #202020;">`Long</span>
-<span style="color: #f5deb3; font-weight: bold;">in</span>
-length_of_title <span style="color: #90a959;">"The Hitchhiker's Guide to the Galaxy"</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">let</span> <span class="org-function-name">length_of_title</span><span class="org-variable-name"> book_title</span> <span class="org-tuareg-font-lock-operator">=</span>
+  <span class="org-keyword">match</span> <span class="org-tuareg-font-lock-module">String.</span>length book_title <span class="org-keyword">with</span>
+  <span class="org-tuareg-font-lock-operator">|</span> length <span class="org-keyword">when</span> length <span class="org-tuareg-font-lock-operator">&lt;=</span> 5  <span class="org-tuareg-font-lock-operator">-&gt;</span> <span class="org-tuareg-font-lock-constructor">`Short</span>
+  <span class="org-tuareg-font-lock-operator">|</span> length <span class="org-keyword">when</span> length <span class="org-tuareg-font-lock-operator">&lt;=</span> 10 <span class="org-tuareg-font-lock-operator">-&gt;</span> <span class="org-tuareg-font-lock-constructor">`Medium</span>
+  <span class="org-tuareg-font-lock-operator">|</span> _  <span class="org-tuareg-font-lock-operator">-&gt;</span> <span class="org-tuareg-font-lock-constructor">`Long</span>
+<span class="org-tuareg-font-lock-governing">in</span>
+length_of_title <span class="org-string">"The Hitchhiker's Guide to the Galaxy"</span>
 </pre>
 </div>
 <pre class="example">
@@ -492,11 +492,11 @@ shown in the OCaml Users Manual.
 
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #f5deb3; font-weight: bold;">type</span> <span style="color: #f4bf75;">attr</span> <span style="color: #f0e68c;">=</span> <span style="color: #f0e68c;">..</span> <span style="color: #f0e68c;">;;</span>
-<span style="color: #f5deb3; font-weight: bold;">type</span> <span style="color: #f4bf75;">attr</span> <span style="color: #f0e68c;">+=</span> <span style="color: #e0e0e0; background-color: #202020;">Str</span> <span style="color: #aa759f;">of</span> string <span style="color: #f0e68c;">;;</span>
-<span style="color: #f5deb3; font-weight: bold;">type</span> <span style="color: #f4bf75;">attr</span> <span style="color: #f0e68c;">+=</span>
-  <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Int</span> <span style="color: #aa759f;">of</span> int
-  <span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Float</span> <span style="color: #aa759f;">of</span> float <span style="color: #f0e68c;">;;</span>
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">type</span> <span class="org-type">attr</span> <span class="org-tuareg-font-lock-operator">=</span> <span class="org-tuareg-font-lock-operator">..</span> <span class="org-tuareg-font-lock-operator">;;</span>
+<span class="org-tuareg-font-lock-governing">type</span> <span class="org-type">attr</span> <span class="org-tuareg-font-lock-operator">+=</span> <span class="org-tuareg-font-lock-constructor">Str</span> <span class="org-keyword">of</span> string <span class="org-tuareg-font-lock-operator">;;</span>
+<span class="org-tuareg-font-lock-governing">type</span> <span class="org-type">attr</span> <span class="org-tuareg-font-lock-operator">+=</span>
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">Int</span> <span class="org-keyword">of</span> int
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">Float</span> <span class="org-keyword">of</span> float <span class="org-tuareg-font-lock-operator">;;</span>
 </pre>
 </div>
 <pre class="example">
@@ -531,7 +531,7 @@ You can define your own exceptions in a way similar to variants.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #aa759f;">exception</span> <span style="color: #ac4142;">BadRequest</span> <span style="color: #aa759f;">of</span> int <span style="color: #f0e68c;">*</span> string
+<pre class="src src-ocaml"><span class="org-keyword">exception</span> <span class="org-variable-name">BadRequest</span> <span class="org-keyword">of</span> int <span class="org-tuareg-font-lock-operator">*</span> string
 </pre>
 </div>
 <pre class="example">
@@ -543,7 +543,7 @@ You signal an exception using the <code>raise</code> keyword.
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #b0c4de;">raise</span> <span style="color: #f0e68c;">(</span><span style="color: #e0e0e0; background-color: #202020;">BadRequest</span> <span style="color: #f0e68c;">(</span>500<span style="color: #f0e68c;">,</span> <span style="color: #90a959;">"Oh noes, the service broke"</span><span style="color: #f0e68c;">))</span>
+<pre class="src src-ocaml"><span class="org-builtin">raise</span> <span class="org-tuareg-font-lock-operator">(</span><span class="org-tuareg-font-lock-constructor">BadRequest</span> <span class="org-tuareg-font-lock-operator">(</span>500<span class="org-tuareg-font-lock-operator">,</span> <span class="org-string">"Oh noes, the service broke"</span><span class="org-tuareg-font-lock-operator">))</span>
 </pre>
 </div>
 <pre class="example">
@@ -555,8 +555,8 @@ You catch exceptions using the following syntax
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #aa759f;">try</span> int_of_string <span style="color: #90a959;">"foo"</span> <span style="color: #aa759f;">with</span>
-<span style="color: #f0e68c;">|</span> <span style="color: #e0e0e0; background-color: #202020;">Failure</span> msg <span style="color: #f0e68c;">-&gt;</span> <span style="color: #f0e68c;">-</span>1
+<pre class="src src-ocaml"><span class="org-keyword">try</span> int_of_string <span class="org-string">"foo"</span> <span class="org-keyword">with</span>
+<span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">Failure</span> msg <span class="org-tuareg-font-lock-operator">-&gt;</span> <span class="org-tuareg-font-lock-operator">-</span>1
 </pre>
 </div>
 <pre class="example">
@@ -568,9 +568,9 @@ Since OCaml 4.02 you can <a href="http://caml.inria.fr/pub/docs/manual-ocaml/ext
 </p>
 <div class="org-src-container">
 
-<pre class="src src-ocaml"><span style="color: #aa759f;">match</span> int_of_string <span style="color: #90a959;">"foo"</span> <span style="color: #aa759f;">with</span>
-<span style="color: #f0e68c;">|</span> n <span style="color: #f0e68c;">-&gt;</span> <span style="color: #f4bf75;">Printf.</span>printf <span style="color: #90a959;">"Got an integer %d"</span> n
-<span style="color: #f0e68c;">|</span> <span style="color: #aa759f;">exception</span> <span style="color: #ac4142;">Failure</span> msg <span style="color: #f0e68c;">-&gt;</span> <span style="color: #f4bf75;">Printf.</span>printf <span style="color: #90a959;">"Caught exception with message %s"</span> msg
+<pre class="src src-ocaml"><span class="org-keyword">match</span> int_of_string <span class="org-string">"foo"</span> <span class="org-keyword">with</span>
+<span class="org-tuareg-font-lock-operator">|</span> n <span class="org-tuareg-font-lock-operator">-&gt;</span> <span class="org-tuareg-font-lock-module">Printf.</span>printf <span class="org-string">"Got an integer %d"</span> n
+<span class="org-tuareg-font-lock-operator">|</span> <span class="org-keyword">exception</span> <span class="org-variable-name">Failure</span> msg <span class="org-tuareg-font-lock-operator">-&gt;</span> <span class="org-tuareg-font-lock-module">Printf.</span>printf <span class="org-string">"Caught exception with message %s"</span> msg
 </pre>
 </div>
 <pre class="example">
