@@ -169,6 +169,9 @@ irrelevant.
 : Hi reader
 : - : unit = ()
 
+Shayne Fletcher has written [[http://blog.shaynefletcher.org/2015/03/labeled-and-optional-arguments.html][an excellent blog post]] that goes into both
+labeled and optional arguments (described below) in more detail.
+
 *** Optional arguments
 By prefixing an argument with ~?~ you can make it optional. The value
 of optional arguments are represented using the [[https://realworldocaml.org/v1/en/html/a-guided-tour.html#options][~Option~ type]].
