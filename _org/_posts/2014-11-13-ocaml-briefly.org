@@ -10,8 +10,6 @@ categories: ocaml
 ---
 #+END_HTML
 
-# (setq tuareg-interactive-buffer-name "*ocaml-toplevel*")
-
 This document gives you a brief tour of [[https://ocaml.org/][OCaml]]. It covers a rather
 small selection of features; the selection has been based on what
 features I personally think represent OCaml the best.
@@ -34,7 +32,7 @@ REPL.
 
 *Note*: This is still a work in progress. I haven't yet covered the
 following: pattern matching, modules, functors, Abstract
-Data Types, Generalized Algebraic Datatypes, and much more.
+Data Types, and much more.
 
 #+TOC: headlines 3
 
@@ -354,3 +352,28 @@ Since OCaml 4.02 you can [[http://caml.inria.fr/pub/docs/manual-ocaml/extn.html#
 
 As always, for more information read the [[http://caml.inria.fr/pub/docs/manual-ocaml/coreexamples.html#sec13][section]] in the OCaml Users
 Manual.
+
+* Generalized Algebraic Datatypes
+Generalized Algebraic Datatypes (GADTs) are an extension of the normal
+variants (algebraic datatypes). They can be used to allow the OCaml
+compiler to perform more sophisticated type checking or to control the
+memory representation of your data. I wrote a [[http://mads-hartmann.com/ocaml/2015/01/05/gadt-ocaml.html][blog post]] about the
+former and Janestreet has written a great [[https://blogs.janestreet.com/why-gadts-matter-for-performance/?utm_source%3Drss&utm_medium%3Drss&utm_campaign%3Dwhy-gadts-matter-for-performance][blog post]] on the latter.
+
+The following is an example from my [[http://mads-hartmann.com/ocaml/2015/01/05/gadt-ocaml.html][blog post]]. I include it here as an
+example of the syntax you use to define GADTs.
+
+#+begin_src ocaml :exports code
+  type _ value' =
+    | GBool : bool -> bool value'
+    | GInt : int -> int value'
+
+  type _ expr' =
+    | GValue : 'a value' -> 'a expr'
+    | GIf : bool expr' * 'a expr' * 'a expr' -> 'a expr'
+    | GEq : 'a expr' * 'a expr' -> bool expr'
+    | GLt : int expr' * int expr' -> bool expr'
+#+end_src
+
+GADTs were introduced in OCaml 4.00. The following [[http://caml.inria.fr/pub/docs/manual-ocaml/extn.html#sec238][section]] in the
+OCaml Users Manual describe the syntax and contains a few examples.

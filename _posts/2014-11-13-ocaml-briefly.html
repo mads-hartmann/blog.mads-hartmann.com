@@ -38,7 +38,7 @@ REPL.
 <p>
 <b>Note</b>: This is still a work in progress. I haven't yet covered the
 following: pattern matching, modules, functors, Abstract
-Data Types, Generalized Algebraic Datatypes, and much more.
+Data Types, and much more.
 </p>
 
 <div id="table-of-contents">
@@ -66,6 +66,7 @@ Data Types, Generalized Algebraic Datatypes, and much more.
 </ul>
 </li>
 <li><a href="#sec-6">6. Exceptions</a></li>
+<li><a href="#sec-7">7. Generalized Algebraic Datatypes</a></li>
 </ul>
 </div>
 </div>
@@ -577,6 +578,43 @@ Caught exception with message int_of_string- : unit = ()
 <p>
 As always, for more information read the <a href="http://caml.inria.fr/pub/docs/manual-ocaml/coreexamples.html#sec13">section</a> in the OCaml Users
 Manual.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Generalized Algebraic Datatypes</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Generalized Algebraic Datatypes (GADTs) are an extension of the normal
+variants (algebraic datatypes). They can be used to allow the OCaml
+compiler to perform more sophisticated type checking or to control the
+memory representation of your data. I wrote a <a href="http://mads-hartmann.com/ocaml/2015/01/05/gadt-ocaml.html">blog post</a> about the
+former and Janestreet has written a great <a href="https://blogs.janestreet.com/why-gadts-matter-for-performance/?utm_source=rss&utm_medium=rss&utm_campaign=why-gadts-matter-for-performance">blog post</a> on the latter.
+</p>
+
+<p>
+The following is an example from my <a href="http://mads-hartmann.com/ocaml/2015/01/05/gadt-ocaml.html">blog post</a>. I include it here as an
+example of the syntax you use to define GADTs.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">type</span> <span class="org-type">_</span> value' <span class="org-tuareg-font-lock-operator">=</span>
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">GBool</span> <span class="org-tuareg-font-lock-operator">:</span> bool <span class="org-tuareg-font-lock-operator">-&gt;</span> bool value'
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">GInt</span> <span class="org-tuareg-font-lock-operator">:</span> int <span class="org-tuareg-font-lock-operator">-&gt;</span> int value'
+
+<span class="org-tuareg-font-lock-governing">type</span> <span class="org-type">_</span> expr' <span class="org-tuareg-font-lock-operator">=</span>
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">GValue</span> <span class="org-tuareg-font-lock-operator">:</span> 'a value' <span class="org-tuareg-font-lock-operator">-&gt;</span> 'a expr'
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">GIf</span> <span class="org-tuareg-font-lock-operator">:</span> bool expr' <span class="org-tuareg-font-lock-operator">*</span> 'a expr' <span class="org-tuareg-font-lock-operator">*</span> 'a expr' <span class="org-tuareg-font-lock-operator">-&gt;</span> 'a expr'
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">GEq</span> <span class="org-tuareg-font-lock-operator">:</span> 'a expr' <span class="org-tuareg-font-lock-operator">*</span> 'a expr' <span class="org-tuareg-font-lock-operator">-&gt;</span> bool expr'
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">GLt</span> <span class="org-tuareg-font-lock-operator">:</span> int expr' <span class="org-tuareg-font-lock-operator">*</span> int expr' <span class="org-tuareg-font-lock-operator">-&gt;</span> bool expr'
+</pre>
+</div>
+
+<p>
+GADTs were introduced in OCaml 4.00. The following <a href="http://caml.inria.fr/pub/docs/manual-ocaml/extn.html#sec238">section</a> in the
+OCaml Users Manual describe the syntax and contains a few examples.
 </p>
 </div>
 </div>
