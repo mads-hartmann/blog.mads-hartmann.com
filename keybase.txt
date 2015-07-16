@@ -1,0 +1,74 @@
+==================================================================
+https://keybase.io/mads_hartmann
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://mads-hartmann.com
+  * I am mads_hartmann (https://keybase.io/mads_hartmann) on keybase.
+  * I have a public key with fingerprint BF71 A0F9 6C4C B0DF F30D  73D5 99E6 8045 0B61 2B11
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "client": {
+            "name": "keybase.io node.js client",
+            "version": "0.7.9"
+        },
+        "key": {
+            "fingerprint": "bf71a0f96c4cb0dff30d73d599e680450b612b11",
+            "host": "keybase.io",
+            "key_id": "99E680450B612B11",
+            "uid": "7eea919225ab1f9f371424919d81af19",
+            "username": "mads_hartmann"
+        },
+        "merkle_root": {
+            "ctime": 1437065660,
+            "hash": "434769aa3362b65d4626a6146f05dc4ecd9813c5d80c1d676be6605a839ebe53c44da087a78f2a6c36db7eb9b7c0b92a102da041351e47b564d78c48c962172b",
+            "seqno": 262736
+        },
+        "service": {
+            "hostname": "mads-hartmann.com",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1437065845,
+    "expire_in": 157680000,
+    "prev": "9dc7170986465c8026a4631cba7505a6b5f10407e12c8b6d10e78afcdfc9c76f",
+    "seqno": 3,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1
+
+owFVkltoXEUYx3dTe4VE8yLtKjacuBXrusycM5czyyo1rSDUp9gavG7mdnaPmz1n
+PWeTNC6JPliCDRXxUuiLQbEYEF9CiZRUpWkfIjFNfJBIQesFpa1FYqE0IG2dE1Ns
+52lmvt/3n+//ffNO67pUS7rwz95yf3d8JD13UaT2f/prf9MSoRqyCk1L9vk6aCS7
+gNe0VbCqekjwWOf9sCMIlc6/EnesMTlrQEexHwaGAnmaZ9ZwLsGTZM8PyjqqR36i
+ZQmPQg48RiSSAijPc4CijsKMaeIChIEg0BYQGslKGDfueNVa1Sz5ytwy9uR/fJfh
+u1b5/tUA1ZozyGwbcwE95jkUIhuZG+VC7kGWgLGO1izVuIpLFR41ajwIkqJrOqr2
+6VIUhqvOZcNPOIgcCggmBJiyeFwxmchBlDDOHYfYgmCFiE04gYh4ACuJtFTMhY7E
+ygUSKkKJ0CYdc9dhWmjsSIQUBy7l1PVsTqRDlKBaMEElEMzmENgmjqCDoUZUYIIU
+dSVyJSM2pLYwPmL9ahBaBZvY1CHDyTka8KVO6k56d5vFR29ZzMuwZjLrUdgIZdhn
+wpVGo15InDe+GKon/KAWpTWlkvADZcZ3+3yhQe/siotwztIH6n6kS35CYGpGY1by
+jh5IhqUkhRQwlyCCpQtMpxBxoBScYtMSIrAHAQJUQ1u6gigINHW5J5UnmaTE+9+r
+Y+rkZSMZ++WAN/ojbQ2/lb7/rlS6JbVhfUvygVNbNt9z61df2LHx5l7ijb2dG+4s
+T7870Kvcmfafnr5vfLp7bOr04s9ncuN/q11z188Uf3jsxkrv1NVtz6+MP/PG7sEH
+qiMjlzL7djYr+85fGimklxa271j6rvWw8+aJqc9nDtVf2LyxeBR2Vp86h5a++fH7
+5ZfbzrZ9eepE83Dlg2O/4WezExvmrj5yfM9L5zO97y8O/rH8+6GVC109u7++/OdC
+W3FiS0e28+B7lyu/rLtyZLLZk108cDT78fX9fVXmjW49d2ry4KZPmpnH/dHjZ3dd
+cfGe+LPn7p499tdrH13LPDH/Vc+Dy4Oj869Pj7V+2/7Q/Onqw9vbZ+uZTSfT1268
+2D1ZnJhxthaD9R8uzG4b1dl7b178Fw==
+=HL/D
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/mads_hartmann
