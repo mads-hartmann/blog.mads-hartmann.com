@@ -264,7 +264,7 @@ type _ expr' =
 We define <code>value</code>' and <code>expr</code>' GADTs which are parameterized with an
 anonymous types (notice the <code>_</code>) and each data constructor is
 explicitly typed with a type for this parameter, e.g. the <code>GBool</code>
-constructor takes a <code>bool</code> and gives you a <code>bool</code> typed <code>expr</code>'.
+constructor takes a <code>bool</code> and gives you a <code>bool</code> typed <code>value</code>'.
 </p>
 
 <p>
@@ -344,11 +344,12 @@ Now if we give an invalid example as try, let's see what happens
 </pre>
 </div>
 <pre class="example">
-Characters 12-16:
+Characters 12-19:
   eval' (GIf (GInt 42, GInt 42, GInt 42));;;;
-              ^^^^
-Error: This variant expression is expected to have type bool expr'
-       The constructor GInt does not belong to type expr'
+              ^^^^^^^
+Error: This expression has type int expr
+       but an expression was expected of type bool expr
+       Type int is not compatible with type bool
 </pre>
 
 <p>

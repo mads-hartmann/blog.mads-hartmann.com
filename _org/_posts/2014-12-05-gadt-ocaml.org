@@ -231,7 +231,7 @@ implementation a go.
 We define ~value~' and ~expr~' GADTs which are parameterized with an
 anonymous types (notice the ~_~) and each data constructor is
 explicitly typed with a type for this parameter, e.g. the ~GBool~
-constructor takes a ~bool~ and gives you a ~bool~ typed ~expr~'.
+constructor takes a ~bool~ and gives you a ~bool~ typed ~value~'.
 
 The type parameter allows us to do two things:
 
