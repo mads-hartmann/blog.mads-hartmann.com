@@ -147,4 +147,6 @@ The interesting functions here are ~display-buffer-in-side-window~ and
 ~set-window-dedicated-p~.
 
 That's all it takes. I've been using it for a couple of weeks and so
-far I've very happy with the solution.
+far I've very happy with the solution. It's pretty convenient that it's
+using ~dired~ as it gives you a lot of features for free and it plays
+well with other dired packages like [[http://melpa.org/#/dired-narrow][dired-narrow]].
