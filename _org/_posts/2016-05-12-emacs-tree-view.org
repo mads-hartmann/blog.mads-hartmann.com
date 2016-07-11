@@ -96,15 +96,14 @@ So now we have a ~dired~ buffer that works as a tree-view.  To have
 files I don't care about I use the following configuration
 
 #+begin_src elisp
-(use-package dired+
-  :demand
-  :init
+(use-package dired
+  :ensure nil
+  :config
   (progn
-    ;; Folders on top.
     (setq insert-directory-program "/usr/local/opt/coreutils/libexec/gnubin/ls")
     (setq dired-listing-switches "-lXGh --group-directories-first")
-    ;; Hide a bunch of file types I don't care about.
-    (add-hook 'dired-mode-hook 'dired-omit-mode)))
+    (add-hook 'dired-mode-hook 'dired-omit-mode)
+    (add-hook 'dired-mode-hook 'dired-hide-details-mode)))
 #+end_src
 
 This configuration is for OS X. Notice that I use GNU ~ls~ rather than

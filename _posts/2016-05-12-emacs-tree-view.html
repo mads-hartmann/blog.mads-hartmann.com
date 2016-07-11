@@ -65,10 +65,10 @@ tree-like dired buffer.
   :demand
   :bind
   (:map dired-mode-map
-        ("&lt;enter&gt;" . mhj/dwim-toggle-or-open)
-        ("&lt;return&gt;" . mhj/dwim-toggle-or-open)
-        ("&lt;tab&gt;" . mhj/dwim-toggle-or-open)
-        ("&lt;down-mouse-1&gt;" . mhj/mouse-dwim-to-toggle-or-open))
+	("&lt;enter&gt;" . mhj/dwim-toggle-or-open)
+	("&lt;return&gt;" . mhj/dwim-toggle-or-open)
+	("&lt;tab&gt;" . mhj/dwim-toggle-or-open)
+	("&lt;down-mouse-1&gt;" . mhj/mouse-dwim-to-toggle-or-open))
   :config
   (progn
     ;; Function to customize the line prefixes (I simply indent the lines a bit)
@@ -91,20 +91,20 @@ the point when you execute it. Here's the implementation.
   (interactive)
   (if (file-directory-p (dired-get-file-for-visit))
       (progn
-        (dired-subtree-toggle)
-        (revert-buffer))
+	(dired-subtree-toggle)
+	(revert-buffer))
     (dired-find-file)))
 
 (defun mhj/mouse-dwim-to-toggle-or-open (event)
   "Toggle subtree or the open file on mouse-click in dired."
   (interactive "e")
   (let* ((window (posn-window (event-end event)))
-         (buffer (window-buffer window))
-         (pos (posn-point (event-end event))))
+	 (buffer (window-buffer window))
+	 (pos (posn-point (event-end event))))
     (progn
       (with-current-buffer buffer
-        (goto-char pos)
-        (mhj/dwim-toggle-or-open)))))
+	(goto-char pos)
+	(mhj/dwim-toggle-or-open)))))
 </pre>
 </div>
 
@@ -116,15 +116,14 @@ files I don't care about I use the following configuration
 
 <div class="org-src-container">
 
-<pre class="src src-elisp">(use-package dired+
-  :demand
-  :init
+<pre class="src src-elisp">(use-package dired
+  :ensure nil
+  :config
   (progn
-    ;; Folders on top.
     (setq insert-directory-program "/usr/local/opt/coreutils/libexec/gnubin/ls")
     (setq dired-listing-switches "-lXGh --group-directories-first")
-    ;; Hide a bunch of file types I don't care about.
-    (add-hook 'dired-mode-hook 'dired-omit-mode)))
+    (add-hook 'dired-mode-hook 'dired-omit-mode)
+    (add-hook 'dired-mode-hook 'dired-hide-details-mode)))
 </pre>
 </div>
 
@@ -147,9 +146,9 @@ the last two requirements we use two very handy Emacs features:
   "Toggle the project explorer window."
   (interactive)
   (let* ((buffer (dired-noselect (projectile-project-root)))
-        (window (get-buffer-window buffer)))
+	(window (get-buffer-window buffer)))
     (if window
-        (mhj/hide-project-explorer)
+	(mhj/hide-project-explorer)
       (mhj/show-project-explorer))))
 
 (defun mhj/show-project-explorer ()
