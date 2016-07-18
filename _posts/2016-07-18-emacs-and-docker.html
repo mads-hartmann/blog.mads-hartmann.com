@@ -1,0 +1,47 @@
+---
+layout: post
+title: "Emacs & Docker - What's your setup?"
+date:   2016-07-18 10:00:00
+---
+<p>
+I'm having a lot of fun exploring what kinds of development
+environments and work-flows that Docker can enable. There's one thing
+that's been on my mind lately and I haven't been able to find a proper
+solution to it. I'm sharing my thoughts here in the hopes that perhaps
+some of you have come up with a creative solution.
+</p>
+
+<p>
+Here's the scenario. Let's say you've grown very enthusiastic about
+using Docker in your development environment. Everything runs inside
+of your containers, be that linting, compiling your Scala code,
+running your Python code, etc. Everything from your programming
+language runtimes, your tools, and your libraries are inside of
+containers. All you need on your host system is Docker. This is
+wonderful in the sense that your whole setup is now documented and can
+be replicated easily.
+</p>
+
+<p>
+But there is one downside. All the work you put into making Emacs
+clever is now no longer useful. In order to provide code-completion,
+navigation, type-checking, etc. Emacs needs to have access to the
+tools, libraries, and runtimes, which are no longer on your host
+system. How do you work around that?
+</p>
+
+<p>
+I was hoping to be able to run Emacs in a separate container and use
+<code>volumes-from</code> to edit other containers. I've temporarily stopped this
+as what I wanted was to run an <code>emacs --daemon</code> in TCP mode inside of
+the container and then use the OSX Emacs application as the
+<code>emacsclient</code> but it turns that, to my understanding, the
+client/server implementation in Emacs can't handle this case.
+</p>
+
+<p>
+So my question is, how do you overcome this? Do you install
+everything on your host system as well and live with the redundancy?
+Do you simply use TRAMP over SSH and do your editing "remotely" (I
+imagine not all packages can deal with this)?
+</p>
