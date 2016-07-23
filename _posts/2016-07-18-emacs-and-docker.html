@@ -33,15 +33,28 @@ system. How do you work around that?
 <p>
 I was hoping to be able to run Emacs in a separate container and use
 <code>volumes-from</code> to edit other containers. I've temporarily stopped this
-as what I wanted was to run an <code>emacs --daemon</code> in TCP mode inside of
+as what I wanted to run was <code>emacs --daemon</code> in TCP mode inside of
 the container and then use the OSX Emacs application as the
 <code>emacsclient</code> but it turns that, to my understanding, the
 client/server implementation in Emacs can't handle this case.
 </p>
 
 <p>
-So my question is, how do you overcome this? Do you install
-everything on your host system as well and live with the redundancy?
-Do you simply use TRAMP over SSH and do your editing "remotely" (I
-imagine not all packages can deal with this)?
+So my question is, how do you overcome this? Here's are various approaches:
 </p>
+
+<ul class="org-ul">
+<li>Install everything on the host system and live with the
+redundancy. So basically give up and don't use containers for your
+development environment (this is my current setup).
+</li>
+<li>Use TRAMP and SSH to the container and do you development
+"remotely". I haven't tried this yet but I image that not all of the
+Emacs packages I use deal with this in a nice way.
+</li>
+<li>Create a development container with all the tools you need.
+Use <code>--volumes-from</code> to get access to the data volumes of the
+application you're working on. SSH to the development container with
+X-forwarding and use Quarts to render Emacs on your host.
+</li>
+</ul>
