@@ -1,0 +1,474 @@
+#+STARTUP: showall
+#+OPTIONS: toc:nil
+
+#+BEGIN_HTML
+---
+layout: post
+title: "Make"
+date:   2016-08-20 13:00:00
+---
+#+END_HTML
+
+#+BEGIN_HTML
+<style>
+pre {
+  line-height: 1.5em;
+}
+
+pre.src-sh:before {
+  content: "> ";
+  font-weight: bold;
+}
+
+pre.example {
+  margin-top: -10px;
+  background-color: #e7ecf1;
+  border: 15px solid #f3f3f3;
+  border-top: 2px;
+}
+
+pre.example:before {
+  content: "Output ";
+  font-weight: bold;
+}
+
+.tip {
+  padding: 10px 40px;
+}
+
+.tip:bfore {
+  content: "Tip ";
+  font-weight: bold;
+}
+
+</style>
+#+END_HTML
+
+I've used [[https://www.gnu.org/software/make/][Make]] in a range of projects -- some large, some tiny -- and
+I've been happy with the results. Over time, through colleagues and
+books, I've picked up a few tricks and found a nice way to think about
+your Makefile(s). However, it's only about a year ago that I really
+got Make under my skin and felt I understood the power of Make and
+what problems it solves nicely. I'm putting down my thoughts here in a
+way that I believe past-Mads would've found helpful; it might have
+helped him appreciate Make a little faster.
+
+If you want to get into some deeper aspects of Make after reading this
+I highly recommend the book [[http://shop.oreilly.com/product/9780596006105.do][Managing Projcts with GNU Make 3rd
+edition]]. Furthermore you can always dig into a specific topic by
+consulting the [[https://www.gnu.org/software/make/manual/html_node/index.html][Make documentation]] -- I will link to the specific
+sections where relevant but I won't cover all of the features that
+Make has to offer so feel free to go explore.
+
+#+TOC: headlines 2
+
+** Why Make is Still Useful Today
+Make is a programming language agnostic tool that provides a simple
+set of abstractions for describing the relationships between the
+source files in your project and the artifacts you wish to
+produce. This makes it a very useful tool for automating the
+development work-flow as well as the deployment pipeline of a given
+project. Ideally getting started on a project should be a simple
+matter of executing a single shell command which installs the required
+tools, configure the project and build the required artifacts; nobody
+likes having to go through a 14 steps ~README~ in order to get a
+project up and running -- the same goes for deploying your code to
+production.
+
+However, having been created in 1977, Make can at times feel extremely
+archaic. It's fair to assume that it must have been surpassed by more
+modern tools. You are probably using a more recent programming
+language specific build tool such as [[http://www.scala-sbt.org/][SBT]] for Scala, [[http://leiningen.org/][Leinigen]] for
+Clojure, [[https://www.rebar3.org/][Rebar3]] for Erlang, [[https://webpack.github.io/][Webpack]] for web assets, etc. These tools
+solve the task of turning your source files into an artifact that you
+can run and deploy. For this specific task I don't recommend that you
+use Make, but rather that you should use Make to automate the use of
+these tools.
+
+In the next section I'll introduce Make in the way that I like to
+think of it -- as a programming language.
+
+** Make as a Programming Language
+I like to think of Make as a declarative string-oriented functional
+programming language with very good support for executing shell
+commands. It's a programming language that happens to be very good at
+creating build systems 😉
+
+You write your Make program in a file called a ~Makefile~. The purpose
+of your ~Makefile~ is to describe a [[https://en.wikipedia.org/wiki/Dependency_graph][dependency graph]] of your build
+artifacts and source files such that Make knows how and when to build
+a specific artifact. The dependency graph is specified using rules --
+this is what I think of as the declarative part of Make. In order to
+specify these rules concisely Make has a string-oriented functional
+programming language that is mostly used to compute the value of
+variables that can then be used when defining rules.
+
+Once you have your ~Makefile~ you invoke Make like so
+
+#+begin_src sh
+make my_file
+#+end_src
+
+where ~my_file~ is the name of the file you want Make to
+produce. Based on your Makefile Make computes and traverses the
+dependency graph of ~my_file~ in order to figure how and if it should
+produce ~my_file~.
+
+Let's start by having a look at the language used to specify the
+rules.
+
+*** The Rule Language
+In your ~Makefile~ you declare your [[https://www.gnu.org/software/make/manual/html_node/Rules.html#Rules][rules]] using the following syntax.
+
+#+begin_src makefile
+target: prerequisite1 ... prerequisiteN
+	command1
+	...
+	commandN
+#+end_src
+
+The ~target~ is the name of the file you want to produce. The
+~prerequisites~ are the files that are required to produce the
+~taget~. The ~commands~ (also known as the recipe) are the shell
+commands Make should run in order to produce the target.
+
+Image you have a project where you need to convert a [[Https://daringfireball.net/projects/markdown/][Markdown]] file to
+HTML. The following rule would achieve this (assuming you have a
+program called ~marked~ on your system).
+
+#+begin_src makefile
+index.html: index.md
+	marked --input index.md --output index.html
+#+end_src
+
+This tells Make that it can produce a file named ~index.html~ if a
+file named ~index.md~ exists and that it can produce it using the
+shell command ~marked --input index.md --output
+index.html~. Additionally Make knows that if ~index.md~ changes it
+should re-produce the ~index.html~ file. An important note is that
+each command in the recipe (is this case there's just one) should be
+prefixed with a tab -- it's one of the many archaic aspects of Make.
+
+A rule doesn't necessarily have to contain a recipe, the following is
+a perfectly valid rule.
+
+#+begin_src makefile
+build: index.html about-me/index.html posts/hello-world/index.html
+#+end_src
+
+This simply tells Make that there's a target called ~build~ and that
+it should consider it satisfied if all the prerequisites are
+satisfied. Targets like these makes it possible to provide a nice
+interface to your ~Makefile~ -- you can now invoke ~make build~ instead
+of ~make index.html about-me/index.html posts/hello-world/index.html~.
+
+**** Implicit Rules
+With the rules you've seen so far you can imagine that your ~Makefile~
+gets a bit long as the number of Markdown files increase as you have
+to explicitly describe the relationship between each Markdown and HTML
+file.
+
+#+begin_src makefile
+build: index.html about-me/index.html posts/hello-world/index.html
+
+index.html: index.md
+	marked --input index.md --output index.html
+
+about-me/index.html: about-me/index.md
+	marked --input about-me/index.md --output about-me/index.html
+
+posts/hello-world/index.html: posts/hello-world/index.md
+	marked --input posts/hello-world/index.md --output posts/hello-world/index.html
+#+end_src
+
+For cases like these you can define a [[https://www.gnu.org/software/make/manual/html_node/Pattern-Rules.html#Pattern-Rules][pattern rule]] (one of many types
+of [[https://www.gnu.org/software/make/manual/html_node/Implicit-Rules.html#Implicit-Rules][implicit rule]] that Make has) instead and get a nice and succinct
+~Makefile~.
+
+#+begin_src makefile
+build: index.html about-me/index.html posts/hello-world/index.html
+
+%.html: %.md
+	marked --input $< --output $@
+#+end_src
+
+The [[https://www.gnu.org/software/make/manual/html_node/Pattern-Rules.html#Pattern-Rules][pattern rule]] ~%.html: %.md~ tells Make that it can generate an
+~.html~ file from a ~.md~ file of the same name using the body of the
+rule. The symbols ~$<~ and ~$@~ are [[https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html][automatic variables]] that expand to
+the name of the left-most prerequisite and the name of the target
+respectively. More on variables later.
+
+**** Auto-generating prerequisites
+
+There are cases where managing the lists of prerequisites of a target
+can become cumbersome and error-prone. A solution to this problem is
+to generate prerequisites automatically for some targets. This can be
+achieved using the [[https://www.gnu.org/software/make/manual/html_node/Include.html#Include][~include~]] directive.
+
+The ~include~ directive tells Make to read another ~Makefile~ -- an
+example would be ~include foobar.mk~. Before reading the ~Makefile~
+~foobar.mk~ it checks if there exists a rule that can produce
+~foobar.mk~. If such a rule exists it will reproduce ~foobar.mk~
+before including.
+
+This makes it possible to automatically generate a ~Makefile~ that
+declares prerequisites and then import it. A tool that produces such a
+~Makefile~ has historically been called ~make-depend~.
+
+This is a little out of scope for this blog post so head over to
+[[https://www.gnu.org/software/make/manual/html_node/Automatic-Prerequisites.html#Automatic-Prerequisites][Generating Prerequisites Automatically]] to read more about this; I only
+mention it here as it's something you are likely to need in a more
+complex build systems.
+
+*** String-oriented functional programming
+So the dependency graph is specified through rules. Let's have a look
+at the language features that Make has that enables you to write nice
+concise ~Makefiles~.
+
+**** Variables
+There are two kinds of variables in Make -- [[https://www.gnu.org/software/make/manual/html_node/Flavors.html#Flavors][simple and recursive]] --
+they differ in the way they're expanded when referenced. There are
+four different operators that can be used when assigning values to
+variables.
+
+*~:=~ assignment operator* In the example ~python :=
+python$(PYTHON_VERSION)~ the ~:=~ assignment operator will set the
+value of ~python~ to ~python2.7~ given the value of ~PYTHON_VERSION~
+is set to ~2.7~. That is, the right-hand side is evaluated during the
+assignment of the variable.
+
+*= assignment operator* In the example ~python =
+python$(PYTHON_VERSION)~ the ~=~ assignment operator won't evaluate
+the right-hand side but rather set the value of ~python~ to
+~python$(PYTHON_VERSION)~ and the final expansion of ~python~ depends
+on the value of the variable ~PYTHON_VERSION~ when the variable
+~python~ is referenced. You can think of this as lazy evaluation as
+you might be used to from using the ~lazy~ keyword in [[http://www.scala-lang.org/][Scala]] (or if
+you've used [[https://www.haskell.org/][Haskell]]). Some good advice is to only use ~=~ if you
+really have to. Otherwise stick to the other operators.
+
+*~?=~ conditional variable assignment operator* In the example
+~PYTHON_VERSION ?= 2.7~ the conditional assignment operator will set
+the value of ~PYTHON_VERSION~ to ~2.7~ unless ~PYTHON_VERSION~ is
+already defined as an environment variable.
+
+*~+=~ append operator* In the example ~foo += bar baz~ Make will
+append ~bar baz~ to the current value of ~foo~. For simple variables
+this is simply a shorthand for ~foo := $(foo) bar baz~ but for
+recursive variables the operator will still do the right thing without
+crashing in an infinite evaluation of ~foo~.
+
+There's a convention that words in variables should be
+~separated_by_underscores~ and that variables that a user might want
+to customize should be written using ~UPPERCASE~ letters.
+
+When you reference a variable it is expanded in-place -- In that sense
+a Make variable is similar to variables as you know them from
+templating languages such as [[http://jinja.pocoo.org/docs/dev/][jinja2]] or [[http://www.embeddedjs.com/][ejs]]. The syntax for referencing a
+variable is ~$(variable_name)~.
+
+In adittion to the variables you define Make has a set of variables
+that are called [[https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html][automatic variables]]. These are variables that change
+value based on the rule that is currently being executed.
+
+**** Functions
+Make contains a bunch of [[https://www.gnu.org/software/make/manual/html_node/Functions.html#Functions][built-in functions]] and it's worth reading
+through them as it will make your ~Makefile~ much more concise,
+especially the [[https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html#File-Name-Functions][File Name Functions]].
+
+The syntax for calling a functions is ~$(function-name arg1, ...,
+argN)~.
+
+It is possbile to define your own functions. A user-defined function
+is really just a variable that is defined in such a way that it's
+intended to be used with the built-in [[https://www.gnu.org/software/make/manual/html_node/Call-Function.html#Call-Function][~call~]] function. So when you're
+calling a user-defined functions the pattern is ~$(call variable-name,
+param1, ..., paramN)~
+
+The following shows how to define a function. The arguments to the function
+are available through the variables ~$1~, ~$2~, etc.
+
+#+begin_src makefile
+# $(call print-rule, variable, extra)
+#   Used to decorate the output before printing it to stdout.
+define print-rule
+	@echo "[$(shell date +%H:%M:%S)] $(strip $1): $(strip $2)"
+endef
+#+end_src
+
+There's a convention that user-defined functions use lowercase-words
+separated-by-dashes.
+
+** Example -- A Static Website
+Let's see how all of this fits together. Let's create a Makefile for a
+simple statically generated web-site based on [[https://daringfireball.net/projects/markdown/][Markdown]] files. You can find
+this little example on [[https://github.com/mads379/mads379.github.com/tree/master/examples/markdown-site][Github]]. The project has the following structure.
+
+#+begin_src :exports code
+├── Makefile
+└── site
+    ├── make.md
+    └── tools
+        ├── osx
+        │   └── homebrew.md
+        └── xargs.md
+#+end_src
+
+For each Markdown file we want to generate a HTML file with an
+appropriate path and put it in a folder named ~_build~.  For the
+example above the result of building the site should be the following.
+
+#+begin_src :exports code
+_build
+├── make
+│   └── index.html
+└── tools
+    ├── osx
+    │   └── homebrew
+    │       └── index.html
+    └── xargs
+        └── index.html
+#+end_src
+
+This can be achieved with the following Makefile.
+
+#+INCLUDE: "../../examples/markdown-site/Makefile" src makefile
+
+Let's go through the Makefile step by step. First we define a single
+variable that the user might be interested in changing (hence the
+capitalized letters).
+
+#+INCLUDE: "../../examples/markdown-site/Makefile" src makefile :lines "1-4"
+
+We then go on to define a variable that contains the path of all of
+the Markdown files in ~site~ and the sub-folders of ~site~. This is
+achieved by using the very handy [[https://www.gnu.org/software/make/manual/html_node/Shell-Function.html][shell function]] which allows you to execute
+a shell command and use the result in your Makefile. An alternative way to
+find all Markdown files could've been to use the [[https://www.gnu.org/software/make/manual/html_node/Wildcard-Function.html#Wildcard-Function][wildcard built-in function]].
+
+#+INCLUDE: "../../examples/markdown-site/Makefile" src makefile :lines "6-10"
+
+Before we move on let's make sure we got the use of ~shell~ right
+by inspecting the variable using the ~print-%~ target -- the ~print-%~ target
+is something I copy-paste into all of my ~Makefiles~ as it's extremely useful
+for debugging ~Makefiles~.
+
+#+begin_src sh :exports both :prologue cd ../../examples/markdown-site
+make print-markdown_sources
+#+end_src
+#+RESULTS:
+: markdown_sources is site/make.md site/tools/osx/homebrew.md site/tools/xargs.md
+
+Great, so we've successfully managed to capture the the filenames of
+the Markdown files we want to process. Next up we use the
+~markdown_sources~ variable to create a new variable that contains the
+filenames of the HTML pages we want to generate.
+
+#+INCLUDE: "../../examples/markdown-site/Makefile" src makefile :lines "10-15"
+
+Here we're using some of the most commonly used built-in in
+functions. We're using the [[https://www.gnu.org/software/make/manual/html_node/Text-Functions.html#Text-Functions][text-function]] ~subst~ to replace ~site/~
+with ~_build/~. We're using the [[https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html#File-Name-Functions][file name functions]] ~dir~, ~notdir~
+and ~basename~ to get the directory part of a path, the filename part
+of a path and finally the filename part of a path without the
+extension. We're using the the [[https://www.gnu.org/software/make/manual/html_node/Foreach-Function.html#Foreach-Function][foreach function]] to perform the
+transformation on each path separately.
+
+There's another very useful [[https://www.gnu.org/software/make/manual/html_node/Text-Functions.html#Text-Functions][text-function]] named ~patsubst~ which takes
+a pattern instead of a string to perform substitution. Here's how to
+use it to provide an alternative implementation of the variable
+~html_pages~.
+
+#+INCLUDE: "../../examples/markdown-site/Makefile" src makefile :lines "16-19"
+
+In this case I think the use of ~patsubst~ yields the clearest result
+but it depends on the situation so it's nice to keep both approaches
+in your toolbox. Let's have a look at the value of both variables.
+
+#+begin_src sh :results output verbatim :exports both :prologue cd ../../examples/markdown-site
+make print-html_pages ; make print-html_pages_alternative
+#+end_src
+#+RESULTS:
+: html_pages is _build/make/index.html _build/tools/osx/homebrew/index.html _build/tools/xargs/index.html
+: html_pages_alternative is _build/make/index.html _build/tools/osx/homebrew/index.html _build/tools/xargs/index.html
+
+With the variables in order we go on to define the targets that we
+intend the user to call; this is the interface of the Makefile.
+
+#+INCLUDE: "../../examples/markdown-site/Makefile" src makefile :lines "21-26"
+
+The ~clean~, ~distclean~ and ~print-%~ are using a convenient syntax for
+defining the recipe of a rule on the same line as the rule itself.
+
+Notice that ~build~ depends on ~setup~ as well as ~$(html_pages)~
+-- this means that if you were to run ~make build~ before having run
+~make setup~ Make will ensure the the ~setup~ target is satisfied
+before attempting to satisfy the targets in the ~html_pages~
+variable; it's a small convenience this that means you have to
+remember fewer targets as a developer.
+
+Finally let's have a look at the rules.
+
+#+INCLUDE: "../../examples/markdown-site/Makefile" src makefile :lines "29-36"
+
+The first rule ~$(BUILD_DIR)/%/index.html: site/%.md~ describes how to
+generate a HTML file from a Markdown file using a [[https://www.gnu.org/software/make/manual/html_node/Pattern-Rules.html#Pattern-Rules][pattern rule]]. The
+recipe of the rule makes sure that the directory exists using ~mkdir -p~
+before generating the HTML files using the NPM package [[https://github.com/chjj/marked][marked]]. The
+prefix ~@~ of ~@mkdir~ tells Make not to output the command when
+executing it. Notice we're using two automatic variables ~$@~ and
+~$<~: The first is the name of the target, the second is the name of
+the left-most prerequisite -- in our case there is only one and it's
+the name of the Markdown file that should be used to generate the HTML
+file.
+
+The last rule ~node_modules/.installed: requirements.txt~ describe how
+to install the NPM package(s) that we're using. The packages are
+enumerated in a file named ~requirements.txt~. First we remove the the
+previously installed ~node_modules~, then we install the packages and
+finally touch the ~node_modules/.installed~ file. The rule is using a
+common pattern where we introduce an empty file (in this case
+~node_modules/.installed~) which represents the successful execution
+of the rules recipe. Here's the Makefile [[https://www.gnu.org/software/make/manual/html_node/Empty-Targets.html#Empty-Targets][manual section]] that describes
+this pattern.
+
+Here's a quick demonstration. We're running ~make distclean build~ to first
+get a completely clean workspace and then build to show how Make installs
+the NPM package before attempting to generate the output.
+
+#+begin_src sh :results output verbatim :exports both :prologue cd ../../examples/markdown-site
+make distclean build
+#+end_src
+#+RESULTS:
+#+begin_example
+rm -rf _build node_modules
+rm -rf node_modules
+npm install marked
+/Users/hartmann/dev/mads379.github.com/examples/markdown-site
+└── marked@0.3.6 
+
+touch node_modules/.installed
+node_modules/.bin/marked --input site/make.md --output _build/make/index.html
+node_modules/.bin/marked --input site/tools/osx/homebrew.md --output _build/tools/osx/homebrew/index.html
+node_modules/.bin/marked --input site/tools/xargs.md --output _build/tools/xargs/index.html
+#+end_example
+
+If we were to run ~make build~ again without changing any files then
+Make is smart enough to know that nothing needs to be re-built.
+
+#+begin_src sh :results output verbatim :exports both :prologue cd ../../examples/markdown-site
+make build
+#+end_src
+#+RESULTS:
+: make: Nothing to be done for `build'.
+
+If we change a file Make is smart enough to only re-build that single
+file.
+
+#+begin_src sh :results output verbatim :exports both :prologue cd ../../examples/markdown-site
+touch site/make.md ; make build
+#+end_src
+#+RESULTS:
+: node_modules/.bin/marked --input site/make.md --output _build/make/index.html
+
+And that's it.

@@ -1,0 +1,741 @@
+---
+layout: post
+title: "Make"
+date:   2016-08-20 13:00:00
+---
+
+<style>
+pre {
+  line-height: 1.5em;
+}
+
+pre.src-sh:before {
+  content: "> ";
+  font-weight: bold;
+}
+
+pre.example {
+  margin-top: -10px;
+  background-color: #e7ecf1;
+  border: 15px solid #f3f3f3;
+  border-top: 2px;
+}
+
+pre.example:before {
+  content: "Output ";
+  font-weight: bold;
+}
+
+.tip {
+  padding: 10px 40px;
+}
+
+.tip:bfore {
+  content: "Tip ";
+  font-weight: bold;
+}
+
+</style>
+
+<p>
+I've used <a href="https://www.gnu.org/software/make/">Make</a> in a range of projects &#x2013; some large, some tiny &#x2013; and
+I've been happy with the results. Over time, through colleagues and
+books, I've picked up a few tricks and found a nice way to think about
+your Makefile(s). However, it's only about a year ago that I really
+got Make under my skin and felt I understood the power of Make and
+what problems it solves nicely. I'm putting down my thoughts here in a
+way that I believe past-Mads would've found helpful; it might have
+helped him appreciate Make a little faster.
+</p>
+
+<p>
+If you want to get into some deeper aspects of Make after reading this
+I highly recommend the book <a href="http://shop.oreilly.com/product/9780596006105.do">Managing Projcts with GNU Make 3rd
+edition</a>. Furthermore you can always dig into a specific topic by
+consulting the <a href="https://www.gnu.org/software/make/manual/html_node/index.html">Make documentation</a> &#x2013; I will link to the specific
+sections where relevant but I won't cover all of the features that
+Make has to offer so feel free to go explore.
+</p>
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Why Make is Still Useful Today</a></li>
+<li><a href="#sec-2">2. Make as a Programming Language</a>
+<ul>
+<li><a href="#sec-2-1">2.1. The Rule Language</a></li>
+<li><a href="#sec-2-2">2.2. String-oriented functional programming</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Example &#x2013; A Static Website</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Why Make is Still Useful Today</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Make is a programming language agnostic tool that provides a simple
+set of abstractions for describing the relationships between the
+source files in your project and the artifacts you wish to
+produce. This makes it a very useful tool for automating the
+development work-flow as well as the deployment pipeline of a given
+project. Ideally getting started on a project should be a simple
+matter of executing a single shell command which installs the required
+tools, configure the project and build the required artifacts; nobody
+likes having to go through a 14 steps <code>README</code> in order to get a
+project up and running &#x2013; the same goes for deploying your code to
+production.
+</p>
+
+<p>
+However, having been created in 1977, Make can at times feel extremely
+archaic. It's fair to assume that it must have been surpassed by more
+modern tools. You are probably using a more recent programming
+language specific build tool such as <a href="http://www.scala-sbt.org/">SBT</a> for Scala, <a href="http://leiningen.org/">Leinigen</a> for
+Clojure, <a href="https://www.rebar3.org/">Rebar3</a> for Erlang, <a href="https://webpack.github.io/">Webpack</a> for web assets, etc. These tools
+solve the task of turning your source files into an artifact that you
+can run and deploy. For this specific task I don't recommend that you
+use Make, but rather that you should use Make to automate the use of
+these tools.
+</p>
+
+<p>
+In the next section I'll introduce Make in the way that I like to
+think of it &#x2013; as a programming language.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Make as a Programming Language</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+I like to think of Make as a declarative string-oriented functional
+programming language with very good support for executing shell
+commands. It's a programming language that happens to be very good at
+creating build systems 😉
+</p>
+
+<p>
+You write your Make program in a file called a <code>Makefile</code>. The purpose
+of your <code>Makefile</code> is to describe a <a href="https://en.wikipedia.org/wiki/Dependency_graph">dependency graph</a> of your build
+artifacts and source files such that Make knows how and when to build
+a specific artifact. The dependency graph is specified using rules &#x2013;
+this is what I think of as the declarative part of Make. In order to
+specify these rules concisely Make has a string-oriented functional
+programming language that is mostly used to compute the value of
+variables that can then be used when defining rules.
+</p>
+
+<p>
+Once you have your <code>Makefile</code> you invoke Make like so
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">make my_file
+</pre>
+</div>
+
+<p>
+where <code>my_file</code> is the name of the file you want Make to
+produce. Based on your Makefile Make computes and traverses the
+dependency graph of <code>my_file</code> in order to figure how and if it should
+produce <code>my_file</code>.
+</p>
+
+<p>
+Let's start by having a look at the language used to specify the
+rules.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> The Rule Language</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+In your <code>Makefile</code> you declare your <a href="https://www.gnu.org/software/make/manual/html_node/Rules.html#Rules">rules</a> using the following syntax.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-makefile">target: prerequisite1 ... prerequisiteN
+	command1
+	...
+	commandN
+</pre>
+</div>
+
+<p>
+The <code>target</code> is the name of the file you want to produce. The
+<code>prerequisites</code> are the files that are required to produce the
+<code>taget</code>. The <code>commands</code> (also known as the recipe) are the shell
+commands Make should run in order to produce the target.
+</p>
+
+<p>
+Image you have a project where you need to convert a <a href="//daringfireball.net/projects/markdown/">Markdown</a> file to
+HTML. The following rule would achieve this (assuming you have a
+program called <code>marked</code> on your system).
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-makefile">index.html: index.md
+	marked --input index.md --output index.html
+</pre>
+</div>
+
+<p>
+This tells Make that it can produce a file named <code>index.html</code> if a
+file named <code>index.md</code> exists and that it can produce it using the
+shell command <code>marked --input index.md --output
+index.html</code>. Additionally Make knows that if <code>index.md</code> changes it
+should re-produce the <code>index.html</code> file. An important note is that
+each command in the recipe (is this case there's just one) should be
+prefixed with a tab &#x2013; it's one of the many archaic aspects of Make.
+</p>
+
+<p>
+A rule doesn't necessarily have to contain a recipe, the following is
+a perfectly valid rule.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-makefile">build: index.html about-me/index.html posts/hello-world/index.html
+</pre>
+</div>
+
+<p>
+This simply tells Make that there's a target called <code>build</code> and that
+it should consider it satisfied if all the prerequisites are
+satisfied. Targets like these makes it possible to provide a nice
+interface to your <code>Makefile</code> &#x2013; you can now invoke <code>make build</code> instead
+of <code>make index.html about-me/index.html posts/hello-world/index.html</code>.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Implicit Rules</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+With the rules you've seen so far you can imagine that your <code>Makefile</code>
+gets a bit long as the number of Markdown files increase as you have
+to explicitly describe the relationship between each Markdown and HTML
+file.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-makefile">build: index.html about-me/index.html posts/hello-world/index.html
+
+index.html: index.md
+	marked --input index.md --output index.html
+
+about-me/index.html: about-me/index.md
+	marked --input about-me/index.md --output about-me/index.html
+
+posts/hello-world/index.html: posts/hello-world/index.md
+	marked --input posts/hello-world/index.md --output posts/hello-world/index.html
+</pre>
+</div>
+
+<p>
+For cases like these you can define a <a href="https://www.gnu.org/software/make/manual/html_node/Pattern-Rules.html#Pattern-Rules">pattern rule</a> (one of many types
+of <a href="https://www.gnu.org/software/make/manual/html_node/Implicit-Rules.html#Implicit-Rules">implicit rule</a> that Make has) instead and get a nice and succinct
+<code>Makefile</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-makefile">build: index.html about-me/index.html posts/hello-world/index.html
+
+%.html: %.md
+	marked --input $&lt; --output $@
+</pre>
+</div>
+
+<p>
+The <a href="https://www.gnu.org/software/make/manual/html_node/Pattern-Rules.html#Pattern-Rules">pattern rule</a> <code>%.html: %.md</code> tells Make that it can generate an
+<code>.html</code> file from a <code>.md</code> file of the same name using the body of the
+rule. The symbols <code>$&lt;</code> and <code>$@</code> are <a href="https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html">automatic variables</a> that expand to
+the name of the left-most prerequisite and the name of the target
+respectively. More on variables later.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> Auto-generating prerequisites</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+There are cases where managing the lists of prerequisites of a target
+can become cumbersome and error-prone. A solution to this problem is
+to generate prerequisites automatically for some targets. This can be
+achieved using the <a href="https://www.gnu.org/software/make/manual/html_node/Include.html#Include"><code>include</code></a> directive.
+</p>
+
+<p>
+The <code>include</code> directive tells Make to read another <code>Makefile</code> &#x2013; an
+example would be <code>include foobar.mk</code>. Before reading the <code>Makefile</code>
+<code>foobar.mk</code> it checks if there exists a rule that can produce
+<code>foobar.mk</code>. If such a rule exists it will reproduce <code>foobar.mk</code>
+before including.
+</p>
+
+<p>
+This makes it possible to automatically generate a <code>Makefile</code> that
+declares prerequisites and then import it. A tool that produces such a
+<code>Makefile</code> has historically been called <code>make-depend</code>.
+</p>
+
+<p>
+This is a little out of scope for this blog post so head over to
+<a href="https://www.gnu.org/software/make/manual/html_node/Automatic-Prerequisites.html#Automatic-Prerequisites">Generating Prerequisites Automatically</a> to read more about this; I only
+mention it here as it's something you are likely to need in a more
+complex build systems.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> String-oriented functional programming</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+So the dependency graph is specified through rules. Let's have a look
+at the language features that Make has that enables you to write nice
+concise <code>Makefiles</code>.
+</p>
+</div>
+
+<div id="outline-container-sec-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> Variables</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+There are two kinds of variables in Make &#x2013; <a href="https://www.gnu.org/software/make/manual/html_node/Flavors.html#Flavors">simple and recursive</a> &#x2013;
+they differ in the way they're expanded when referenced. There are
+four different operators that can be used when assigning values to
+variables.
+</p>
+
+<p>
+<b><code>:=</code> assignment operator</b> In the example <code>python :=
+python$(PYTHON_VERSION)</code> the <code>:=</code> assignment operator will set the
+value of <code>python</code> to <code>python2.7</code> given the value of <code>PYTHON_VERSION</code>
+is set to <code>2.7</code>. That is, the right-hand side is evaluated during the
+assignment of the variable.
+</p>
+
+<p>
+<b>= assignment operator</b> In the example <code>python =
+python$(PYTHON_VERSION)</code> the <code>=</code> assignment operator won't evaluate
+the right-hand side but rather set the value of <code>python</code> to
+<code>python$(PYTHON_VERSION)</code> and the final expansion of <code>python</code> depends
+on the value of the variable <code>PYTHON_VERSION</code> when the variable
+<code>python</code> is referenced. You can think of this as lazy evaluation as
+you might be used to from using the <code>lazy</code> keyword in <a href="http://www.scala-lang.org/">Scala</a> (or if
+you've used <a href="https://www.haskell.org/">Haskell</a>). Some good advice is to only use <code>=</code> if you
+really have to. Otherwise stick to the other operators.
+</p>
+
+<p>
+<b><code>?=</code> conditional variable assignment operator</b> In the example
+<code>PYTHON_VERSION ?= 2.7</code> the conditional assignment operator will set
+the value of <code>PYTHON_VERSION</code> to <code>2.7</code> unless <code>PYTHON_VERSION</code> is
+already defined as an environment variable.
+</p>
+
+<p>
+<b><code>+=</code> append operator</b> In the example <code>foo += bar baz</code> Make will
+append <code>bar baz</code> to the current value of <code>foo</code>. For simple variables
+this is simply a shorthand for <code>foo := $(foo) bar baz</code> but for
+recursive variables the operator will still do the right thing without
+crashing in an infinite evaluation of <code>foo</code>.
+</p>
+
+<p>
+There's a convention that words in variables should be
+<code>separated_by_underscores</code> and that variables that a user might want
+to customize should be written using <code>UPPERCASE</code> letters.
+</p>
+
+<p>
+When you reference a variable it is expanded in-place &#x2013; In that sense
+a Make variable is similar to variables as you know them from
+templating languages such as <a href="http://jinja.pocoo.org/docs/dev/">jinja2</a> or <a href="http://www.embeddedjs.com/">ejs</a>. The syntax for referencing a
+variable is <code>$(variable_name)</code>.
+</p>
+
+<p>
+In adittion to the variables you define Make has a set of variables
+that are called <a href="https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html">automatic variables</a>. These are variables that change
+value based on the rule that is currently being executed.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2-2" class="outline-4">
+<h4 id="sec-2-2-2"><span class="section-number-4">2.2.2</span> Functions</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+Make contains a bunch of <a href="https://www.gnu.org/software/make/manual/html_node/Functions.html#Functions">built-in functions</a> and it's worth reading
+through them as it will make your <code>Makefile</code> much more concise,
+especially the <a href="https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html#File-Name-Functions">File Name Functions</a>.
+</p>
+
+<p>
+The syntax for calling a functions is <code>$(function-name arg1, ...,
+argN)</code>.
+</p>
+
+<p>
+It is possbile to define your own functions. A user-defined function
+is really just a variable that is defined in such a way that it's
+intended to be used with the built-in <a href="https://www.gnu.org/software/make/manual/html_node/Call-Function.html#Call-Function"><code>call</code></a> function. So when you're
+calling a user-defined functions the pattern is <code>$(call variable-name,
+param1, ..., paramN)</code>
+</p>
+
+<p>
+The following shows how to define a function. The arguments to the function
+are available through the variables <code>$1</code>, <code>$2</code>, etc.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-makefile"># $(call print-rule, variable, extra)
+#   Used to decorate the output before printing it to stdout.
+define print-rule
+	@echo "[$(shell date +%H:%M:%S)] $(strip $1): $(strip $2)"
+endef
+</pre>
+</div>
+
+<p>
+There's a convention that user-defined functions use lowercase-words
+separated-by-dashes.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Example &#x2013; A Static Website</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Let's see how all of this fits together. Let's create a Makefile for a
+simple statically generated web-site based on <a href="https://daringfireball.net/projects/markdown/">Markdown</a> files. You can find
+this little example on <a href="https://github.com/mads379/mads379.github.com/tree/master/examples/markdown-site">Github</a>. The project has the following structure.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-:exports">├── Makefile
+└── site
+    ├── make.md
+    └── tools
+        ├── osx
+        │   └── homebrew.md
+        └── xargs.md
+</pre>
+</div>
+
+<p>
+For each Markdown file we want to generate a HTML file with an
+appropriate path and put it in a folder named <code>_build</code>.  For the
+example above the result of building the site should be the following.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-:exports">_build
+├── make
+│   └── index.html
+└── tools
+    ├── osx
+    │   └── homebrew
+    │       └── index.html
+    └── xargs
+        └── index.html
+</pre>
+</div>
+
+<p>
+This can be achieved with the following Makefile.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-makefile">### User-changable variables.
+
+BUILD_DIR := _build
+
+### Variables
+
+markdown_sources := \
+	$(shell find site -name "*.md")
+
+html_pages := \
+	$(foreach f, $(markdown_sources), \
+		$(subst site/,$(BUILD_DIR)/, \
+			$(dir $(f)))$(basename $(notdir $(f)))/index.html)
+
+# Alternative way to achieve the same thing as html_pages
+html_pages_alternative := \
+	$(patsubst site/%.md,$(BUILD_DIR)/%/index.html,$(markdown_sources))
+
+### Targets
+
+build: setup $(html_pages)
+setup: node_modules/.installed
+clean: ; rm -rf $(BUILD_DIR)
+distclean: ; rm -rf $(BUILD_DIR) node_modules
+print-%: ; @echo $* is $($*)
+
+### Rules
+
+$(BUILD_DIR)/%/index.html: site/%.md
+	@mkdir -p $(dir $@)
+	node_modules/.bin/marked --input $&lt; --output $@
+
+node_modules/.installed: requirements.txt
+	rm -rf node_modules
+	npm install $(shell cat $&lt;)
+	touch $@
+</pre>
+</div>
+
+<p>
+Let's go through the Makefile step by step. First we define a single
+variable that the user might be interested in changing (hence the
+capitalized letters).
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-makefile">### User-changable variables.
+
+BUILD_DIR := _build
+</pre>
+</div>
+
+<p>
+We then go on to define a variable that contains the path of all of
+the Markdown files in <code>site</code> and the sub-folders of <code>site</code>. This is
+achieved by using the very handy <a href="https://www.gnu.org/software/make/manual/html_node/Shell-Function.html">shell function</a> which allows you to execute
+a shell command and use the result in your Makefile. An alternative way to
+find all Markdown files could've been to use the <a href="https://www.gnu.org/software/make/manual/html_node/Wildcard-Function.html#Wildcard-Function">wildcard built-in function</a>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-makefile">markdown_sources := \
+	$(shell find site -name "*.md")
+</pre>
+</div>
+
+<p>
+Before we move on let's make sure we got the use of <code>shell</code> right
+by inspecting the variable using the <code>print-%</code> target &#x2013; the <code>print-%</code> target
+is something I copy-paste into all of my <code>Makefiles</code> as it's extremely useful
+for debugging <code>Makefiles</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">make print-markdown_sources
+</pre>
+</div>
+<pre class="example">
+markdown_sources is site/make.md site/tools/osx/homebrew.md site/tools/xargs.md
+</pre>
+
+<p>
+Great, so we've successfully managed to capture the the filenames of
+the Markdown files we want to process. Next up we use the
+<code>markdown_sources</code> variable to create a new variable that contains the
+filenames of the HTML pages we want to generate.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-makefile">html_pages := \
+	$(foreach f, $(markdown_sources), \
+		$(subst site/,$(BUILD_DIR)/, \
+			$(dir $(f)))$(basename $(notdir $(f)))/index.html)
+</pre>
+</div>
+
+<p>
+Here we're using some of the most commonly used built-in in
+functions. We're using the <a href="https://www.gnu.org/software/make/manual/html_node/Text-Functions.html#Text-Functions">text-function</a> <code>subst</code> to replace <code>site/</code>
+with <code>_build/</code>. We're using the <a href="https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html#File-Name-Functions">file name functions</a> <code>dir</code>, <code>notdir</code>
+and <code>basename</code> to get the directory part of a path, the filename part
+of a path and finally the filename part of a path without the
+extension. We're using the the <a href="https://www.gnu.org/software/make/manual/html_node/Foreach-Function.html#Foreach-Function">foreach function</a> to perform the
+transformation on each path separately.
+</p>
+
+<p>
+There's another very useful <a href="https://www.gnu.org/software/make/manual/html_node/Text-Functions.html#Text-Functions">text-function</a> named <code>patsubst</code> which takes
+a pattern instead of a string to perform substitution. Here's how to
+use it to provide an alternative implementation of the variable
+<code>html_pages</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-makefile">html_pages_alternative := \
+	$(patsubst site/%.md,$(BUILD_DIR)/%/index.html,$(markdown_sources))
+</pre>
+</div>
+
+<p>
+In this case I think the use of <code>patsubst</code> yields the clearest result
+but it depends on the situation so it's nice to keep both approaches
+in your toolbox. Let's have a look at the value of both variables.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">make print-html_pages ; make print-html_pages_alternative
+</pre>
+</div>
+<pre class="example">
+html_pages is _build/make/index.html _build/tools/osx/homebrew/index.html _build/tools/xargs/index.html
+html_pages_alternative is _build/make/index.html _build/tools/osx/homebrew/index.html _build/tools/xargs/index.html
+</pre>
+
+<p>
+With the variables in order we go on to define the targets that we
+intend the user to call; this is the interface of the Makefile.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-makefile">build: setup $(html_pages)
+setup: node_modules/.installed
+clean: ; rm -rf $(BUILD_DIR)
+distclean: ; rm -rf $(BUILD_DIR) node_modules
+print-%: ; @echo $* is $($*)
+</pre>
+</div>
+
+<p>
+The <code>clean</code>, <code>distclean</code> and <code>print-%</code> are using a convenient syntax for
+defining the recipe of a rule on the same line as the rule itself.
+</p>
+
+<p>
+Notice that <code>build</code> depends on <code>setup</code> as well as <code>$(html_pages)</code>
+&#x2013; this means that if you were to run <code>make build</code> before having run
+<code>make setup</code> Make will ensure the the <code>setup</code> target is satisfied
+before attempting to satisfy the targets in the <code>html_pages</code>
+variable; it's a small convenience this that means you have to
+remember fewer targets as a developer.
+</p>
+
+<p>
+Finally let's have a look at the rules.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-makefile">$(BUILD_DIR)/%/index.html: site/%.md
+	@mkdir -p $(dir $@)
+	node_modules/.bin/marked --input $&lt; --output $@
+
+node_modules/.installed: requirements.txt
+	rm -rf node_modules
+	npm install $(shell cat $&lt;)
+</pre>
+</div>
+
+<p>
+The first rule <code>$(BUILD_DIR)/%/index.html: site/%.md</code> describes how to
+generate a HTML file from a Markdown file using a <a href="https://www.gnu.org/software/make/manual/html_node/Pattern-Rules.html#Pattern-Rules">pattern rule</a>. The
+recipe of the rule makes sure that the directory exists using <code>mkdir -p</code>
+before generating the HTML files using the NPM package <a href="https://github.com/chjj/marked">marked</a>. The
+prefix <code>@</code> of <code>@mkdir</code> tells Make not to output the command when
+executing it. Notice we're using two automatic variables <code>$@</code> and
+<code>$&lt;</code>: The first is the name of the target, the second is the name of
+the left-most prerequisite &#x2013; in our case there is only one and it's
+the name of the Markdown file that should be used to generate the HTML
+file.
+</p>
+
+<p>
+The last rule <code>node_modules/.installed: requirements.txt</code> describe how
+to install the NPM package(s) that we're using. The packages are
+enumerated in a file named <code>requirements.txt</code>. First we remove the the
+previously installed <code>node_modules</code>, then we install the packages and
+finally touch the <code>node_modules/.installed</code> file. The rule is using a
+common pattern where we introduce an empty file (in this case
+<code>node_modules/.installed</code>) which represents the successful execution
+of the rules recipe. Here's the Makefile <a href="https://www.gnu.org/software/make/manual/html_node/Empty-Targets.html#Empty-Targets">manual section</a> that describes
+this pattern.
+</p>
+
+<p>
+Here's a quick demonstration. We're running <code>make distclean build</code> to first
+get a completely clean workspace and then build to show how Make installs
+the NPM package before attempting to generate the output.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">make distclean build
+</pre>
+</div>
+<pre class="example">
+rm -rf _build node_modules
+rm -rf node_modules
+npm install marked
+/Users/hartmann/dev/mads379.github.com/examples/markdown-site
+└── marked@0.3.6 
+
+touch node_modules/.installed
+node_modules/.bin/marked --input site/make.md --output _build/make/index.html
+node_modules/.bin/marked --input site/tools/osx/homebrew.md --output _build/tools/osx/homebrew/index.html
+node_modules/.bin/marked --input site/tools/xargs.md --output _build/tools/xargs/index.html
+</pre>
+
+<p>
+If we were to run <code>make build</code> again without changing any files then
+Make is smart enough to know that nothing needs to be re-built.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">make build
+</pre>
+</div>
+<pre class="example">
+make: Nothing to be done for `build'.
+</pre>
+
+<p>
+If we change a file Make is smart enough to only re-build that single
+file.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">touch site/make.md ; make build
+</pre>
+</div>
+<pre class="example">
+node_modules/.bin/marked --input site/make.md --output _build/make/index.html
+</pre>
+
+<p>
+And that's it.
+</p>
+</div>
+</div>
