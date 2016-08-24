@@ -424,7 +424,7 @@ file.
 
 The last rule ~node_modules/.installed: requirements.txt~ describe how
 to install the NPM package(s) that we're using. The packages are
-enumerated in a file named ~requirements.txt~. First we remove the the
+enumerated in a file named ~requirements.txt~. First we remove the
 previously installed ~node_modules~, then we install the packages and
 finally touch the ~node_modules/.installed~ file. The rule is using a
 common pattern where we introduce an empty file (in this case
