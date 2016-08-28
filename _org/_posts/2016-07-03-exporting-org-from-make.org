@@ -25,7 +25,7 @@ rebuild.
 
 In this blog post I'll explain how I was able to export my ~org-mode~
 files from a ~Makefile~. You can find the entire solution on Github at
-[[http://github.com/mads379/mads379.github.com][mads379/mads379.github.com]].
+[[http://github.com/mads-hartmann/mads-hartmann.github.com][mads-hartmann/mads-hartmann.github.com]].
 
 ** Publishing from the shell
 The first step was to figure out how to publish a single ~org-mode~

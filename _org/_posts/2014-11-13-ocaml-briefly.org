@@ -151,7 +151,7 @@ inefficient implementation I'm about to show you):
 #+RESULTS:
 : 18
 
-More on pattern matching [[http://mads379.github.io/ocaml/2014/11/13/ocaml-briefly.html#sec-3-1][later]]. The previous example also shows that
+More on pattern matching [[http://mads-hartmann.github.io/ocaml/2014/11/13/ocaml-briefly.html#sec-3-1][later]]. The previous example also shows that
 if you want to define a [[http://en.wikipedia.org/wiki/Recursion_(computer_science)][recursive function]] in OCaml you have to use
 the ~rec~ keyword.
 

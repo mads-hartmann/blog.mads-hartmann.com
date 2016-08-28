@@ -34,10 +34,10 @@ packages and modules you've defined in your project.
 Luckily there is a way to make utop aware of the opam packages that
 you depend on and the modules you've defined in your project. This is
 a short blog post to explain how. I've also created a very small
-[[http://github.com/mads379/ocaml-utop-emacs-example][example project]] to provide concrete examples.
+[[http://github.com/mads-hartmann/ocaml-utop-emacs-example][example project]] to provide concrete examples.
 
 *Note*: This is the 2nd iteration. The setup was vastly simplified on
-November 8 2014. The previous version can be found [[https://github.com/mads379/mads379.github.com/blob/8c9e7b4c7e262d298e7e2401446ae0fa34c148cb/_posts/2014-01-05-using-utop-in-emacs.markdown][here]].
+November 8 2014. The previous version can be found [[https://github.com/mads-hartmann/mads-hartmann.github.com/blob/8c9e7b4c7e262d298e7e2401446ae0fa34c148cb/_posts/2014-01-05-using-utop-in-emacs.markdown][here]].
 
 * Loading the appropriate packages
 If you fire up utop and invoke ~#use "topfind";;~ you will have a new
@@ -56,7 +56,7 @@ file path using the ~-init~ option.
 
 So if you simply create a ~.ocamlinit~ file which contains the
 appropriate #use and ~#require~ statements then you will have
-everything loaded and ready when utop has launched. See [[https://github.com/mads379/ocaml-utop-emacs-example/blob/master/.ocamlinit][this
+everything loaded and ready when utop has launched. See [[https://github.com/mads-hartmann/ocaml-utop-emacs-example/blob/master/.ocamlinit][this
 ~.ocamlinit~]] for a concrete example.
 
 * Making utop aware of your compiled sources
@@ -64,7 +64,7 @@ The other thing to solve is figuring out how to tell utop where to
 look for your bytecode. There are two ways to achieve this. You can
 use the ~#directory~ directive in the toplevel (or your ~.ocamlinit~
 file) or you can specify it as command line argument when invoking
-utop using ~-I <dir>~. Again See [[https://github.com/mads379/ocaml-utop-emacs-example/blob/master/.ocamlinit][this ~.ocamlinit~]] for a concrete
+utop using ~-I <dir>~. Again See [[https://github.com/mads-hartmann/ocaml-utop-emacs-example/blob/master/.ocamlinit][this ~.ocamlinit~]] for a concrete
 example.
 
 * Using it from inside of Emacs
@@ -74,7 +74,7 @@ You need to tell Emacs to use the ~-init~ option when starting the
 utop buffer. You can do this through the utop-command variable so you
 won't have to type it in manually every time you invoke ~M-x utop~. I
 prefer setting it in the [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html][~.dir-locals~]] file of my ocaml
-projects[fn:1]. You can see a concrete example [[https://github.com/mads379/ocaml-utop-emacs-example/blob/master/.dir-locals.el][here]]. An example is
+projects[fn:1]. You can see a concrete example [[https://github.com/mads-hartmann/ocaml-utop-emacs-example/blob/master/.dir-locals.el][here]]. An example is
 shown below.
 
 #+BEGIN_SRC emacs-lisp

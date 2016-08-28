@@ -4,7 +4,7 @@ SHELL = /usr/bin/env bash
 QUIET ?= @
 
 org_version := 8.3.4
-emacs_daemon_name := mads379-github-com
+emacs_daemon_name := mads-hartmann-github-com
 
 src.dir := _org/_posts
 build.dir := _posts

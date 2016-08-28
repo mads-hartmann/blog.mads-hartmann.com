@@ -302,7 +302,7 @@ separated-by-dashes.
 ** Example -- A Static Website
 Let's see how all of this fits together. Let's create a Makefile for a
 simple statically generated web-site based on [[https://daringfireball.net/projects/markdown/][Markdown]] files. You can find
-this little example on [[https://github.com/mads379/mads379.github.com/tree/master/examples/markdown-site][Github]]. The project has the following structure.
+this little example on [[https://github.com/mads-hartmann/mads-hartmann.github.com/tree/master/examples/markdown-site][Github]]. The project has the following structure.
 
 #+begin_src :exports code
 ├── Makefile
@@ -444,7 +444,7 @@ make distclean build
 rm -rf _build node_modules
 rm -rf node_modules
 npm install marked
-/Users/hartmann/dev/mads379.github.com/examples/markdown-site
+/Users/hartmann/dev/mads-hartmann.github.com/examples/markdown-site
 └── marked@0.3.6 
 
 touch node_modules/.installed
