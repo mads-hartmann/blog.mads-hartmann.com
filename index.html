@@ -5,24 +5,36 @@ title: Mads Hartmann
 
 <div id="home">
 
-  <p>I'm a software engineer at <a href="https://famly.co/?skip-geo-ip=1" target="_blank">Famly</a>
-     with a masters degree in computer science from the <a href="http://www.diku.dk/english/" target="_blank">University of Copenhagen</a>.
-     I'm fascinated by programming languages, especially statically typed functional ones.
-  </p>
+  <p>I'm a software engineer with a fondness for automation and
+     programming languages, especially statically typed functional ones. I hold a masters degree in
+    computer science from the <a href="http://www.diku.dk/english/" target="_blank">University of Copenhagen</a> and
+    I'm curretnly working as a full-stack engineer at <a href="https://famly.co/?skip-geo-ip=1" target="_blank">Famly</a>.
+</p>
 
   <p>For everyday random thoughts go to my <a href="http://www.twitter.com/mads_hartmann" target="_blank">twitter feed</a>,
       for some professional information check out my <a href="http://www.linkedin.com/pub/mads-hartmann-jensen/12/857/528" target="_blank">Linked-in profile</a>,
       for my open-source activities <a href="https://github.com/mads-hartmann" target="_blank">Github</a> is the place to go.
   </p>
 
-  <p>If you're interested in any of the talks I've given at conferences then have a look at
-     <a href="/talks">/talks</a>.
-  </p>
+  <div class="posts">
+  {% for post in site.posts %}
+    {% assign currentdate = post.date | date: "%Y" %}
+    {% if currentdate != date %}
+      {% unless forloop.first %}
+      </ul>
+      {% endunless %}
+      <h2 id="y{{post.date | date: "%Y"}}">{{ currentdate }}</h2>
+      <ul>
+    {% assign date = currentdate %}
+    {% endif %}
+        <li>
+          <a href="{{ post.url }}">{{ post.title }}</a>
+          <span class="date">{{ post.date | date_to_string }}</span>
+        </li>
+    {% if forloop.last %}
+      </ul>
+    {% endif %}
+  {% endfor %}
+  </div>
 
-  <h2>Blog Posts</h2>
-  <ul class="posts">
-    {% for post in site.posts %}
-      <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
-    {% endfor %}
-  </ul>
 </div>

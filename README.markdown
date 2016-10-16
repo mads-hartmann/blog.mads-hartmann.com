@@ -1,5 +1,5 @@
 # mads-hartmann.com
-This is the blog of Mads Hartmann Jensen. Running the following
-command should be enough to get started.
 
-    make watch
+This is my blog. It's currently stitched together using a funky
+combination of Emacs org-mode and jekyll. It's not nice, but it gets
+the job done.

@@ -6,6 +6,9 @@
         <title>{{ page.title }}</title>
         <meta name="viewport" content="width=device-width">
 
+        <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
         <link rel="stylesheet" href="/css/main.css">
 
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -24,31 +27,43 @@
     </head>
     <body>
 
-      <div class="header">
-        <a href="/">
-          <img src="/images/me.jpeg" width="90" height="90" />
-        </a>
+      <div class="header-container">
+        <div class="header">
+          <div class="bar">
+            <a href="/">
+              <img src="/images/me-v2-square.jpg" width="45" height="45" />
+              <span>Mads Hartmann</span>
+            </a>
+            <ul class="menu">
+              <li><a href="/">Posts</a></li>
+              <li><a href="/talks">Talks</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
+
       <div class="site">
 
         {{ content }}
 
-        <div class="footer">
-          <div class="contact">
-            <p>
-              Mads Hartmann<br />
-              Software developer at <a href="https://famly.co/?skip-geo-ip=1" target="_blank">Famly</a><br />
-              mads379@gmail.com
-            </p>
-          </div>
-          <div class="contact">
-            <p>
-              <a href="https://github.com/mads-hartmann">github.com/mads-hartmann</a><br />
-              <a href="https://twitter.com/mads_hartmann">twitter.com/mads_hartmann</a><br />
-            </p>
-          </div>
+      </div>
+
+      <div class="footer">
+        <div class="contact">
+          <p>
+            Mads Hartmann<br />
+            Software developer at <a href="https://famly.co/?skip-geo-ip=1" target="_blank">Famly</a><br />
+            mads379@gmail.com
+          </p>
+        </div>
+        <div class="contact">
+          <p>
+            <a href="https://github.com/mads-hartmann">github.com/mads-hartmann</a><br />
+            <a href="https://twitter.com/mads_hartmann">twitter.com/mads_hartmann</a><br />
+          </p>
         </div>
       </div>
+
 
       <script type="text/javascript">
         var _gaq = _gaq || [];

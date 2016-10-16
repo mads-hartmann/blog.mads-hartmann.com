@@ -1,9 +1,10 @@
 body {
     font-size: 1.1em;
     line-height: 1.56em;
-    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     -webkit-font-smoothing: antialiased;
     color: rgba(46,48,58,0.96);
+    margin: 0px;
 }
 
 h1, h2 {
@@ -71,28 +72,79 @@ blockquote p {
   display: inline;
 }
 
-/* Structure */
+/**********/
+/* Header */
+/**********/
+
+.header-container {
+    background-image: url('/images/backdrop-sf-bikeride.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 325px;
+}
 
 .header {
-    margin-top: 80px;
-    margin-bottom: 80px;
-    border-top: 1px solid rgba(228,229,233,0.96);
+    width: 100%;
+    margin: 0px auto;
+    background: rgba(12, 12, 12, 0.28);
+    color: white;
+}
+
+.header .bar {
+    width: 70%;
+    max-width: 700px;
+    margin: 0px auto;
+    padding: 5px 0px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header span {
+    color: white;
+    font-weight: bold;
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+}
+
+.header a {
+    display: flex;
+    align-items: center;
 }
 
 .header img {
+    margin-right: 10px;
     border-radius: 45px;
-    -webkit-border-radius: 45px;
-    -moz-border-radius: 45px;
-    position: absolute;
-    top: 35px;
-    left: 50%;
-    margin-left: -45px;
-    transition: all .1s ease-in-out;
-}
-.header img:hover {
-    transform: scale(1.1);
 }
 
+.header a:hover span {
+    border-bottom: 2px solid white;
+}
+
+.header .menu {
+    display: flex;
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.header .menu a {
+    color: white;
+    font-weight: bold;
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+    margin-left: 10px;
+}
+
+.header .menu a:hover {
+    border-bottom: 2px solid white;
+}
+
+/***********/
+/* Content */
+/***********/
 
 .site {
     width: 70%;
@@ -101,25 +153,79 @@ blockquote p {
 }
 
 section.meta {
-    padding-bottom: 60px;
-    margin-bottom: 60px;
     text-align: center;
     font-style: italic;
     font-size: 0.9em;
     color: rgba(91,95,115,0.96);
-    border-bottom: 1px solid rgba(228,229,233,0.96);
+    margin-bottom: 40px;
 }
+
+/**********/
+/* Footer */
+/**********/
 
 .footer {
-    border-top: 1px solid rgba(228,229,233,0.96);
-    margin-top: 60px;
-    font-size: 0.9em;
-    overflow: hidden;
+    max-width: 700px;
+    width: 70%;
+    margin: 40px auto 20px auto;;
+    font-size: 0.8em;
+    line-height: 1.4em;
+
+    display: flex;
+    justify-content: space-between;
+
 }
 
-.footer .contact {
-  float: left;
-  margin-right: 3em;
+/**************/
+/* Front page */
+/**************/
+
+#home {
+    margin-top: 40px;
+}
+
+.posts h2 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.posts ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.posts li {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0px;
+}
+
+.posts .date {
+    font-style: italic;
+    color: rgb(162, 162, 162);
+    font-size: 14px;
+}
+
+@media only screen and (max-width: 800px) {
+    .header .bar {
+        width: 90%;
+    }
+
+    .site {
+        width: 90%;
+    }
+
+    .footer {
+        width: 90%;
+        flex-direction: column;
+    }
+
+    .header .menu {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
 }
 
 /* ORG-MODE Related classes. */
