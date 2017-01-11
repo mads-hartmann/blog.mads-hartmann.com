@@ -1,5 +1,6 @@
 _site
 _setup
 .DS_Store
+.tern-port
 examples/markdown-site/node_modules
 examples/markdown-site/_build

@@ -42,9 +42,9 @@
       '(
         ("org-mads-hartmann.github.com"
          ;; Path to your org files.
-         :base-directory "~/dev/mads-hartmann.github.com/_org/"
+         :base-directory "~/dev/personal/mads-hartmann.github.com/_org/"
          :base-extension "org"
-         :publishing-directory "~/dev/mads-hartmann.github.com"
+         :publishing-directory "~/dev/personal/mads-hartmann.github.com"
          :publishing-function org-html-publish-to-html
 
          :recursive t
