@@ -73,9 +73,9 @@ It should be trivial to change between the two.
 This is a rather tall order, but I think we've come pretty close at
 Famly. There are two parts to the solution. We've decided to rely on
 Docker to run services locally, so for each service we've defined a
-specialised Dockerfile for running the service during development.
+specialized Dockerfile for running the service during development.
 Secondly we've created a script, <code>famlydev</code>, for managing the local
-developer environemnt. First off I'll introduce <code>famlydev</code> and then
+developer environment. First off I'll introduce <code>famlydev</code> and then
 I'll show the patterns we've arrived at for creating Docker images
 that work well for development.
 </p>
@@ -178,7 +178,7 @@ between the master and staging branches and the container will perform
 the necessary steps. This means that for the most part you don't worry
 about the containers. You simply run <code>famlydev up</code> in the morning and
 <code>famlydev down</code> when you leave. You can keep switching branches,
-adding library dependenies or changing the source code as you always
+adding library dependencies or changing the source code as you always
 have.
 </p>
 </div>
