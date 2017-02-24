@@ -25,6 +25,16 @@ your deployments but I haven't seen much about automating your
 developer environment. In this post I'll go through what we're trying
 to achieve at Famly and give some details about the implementation.
 
+#+BEGIN_HTML
+<div style="border: 2px solid red; padding: 10px;">
+We've open-sourced a version of our internal tool for automating
+our developer enviornment a Famly 🎉 Check out
+<a href="https://github.com/famly/plan" taget="_blank">famly/plan</a>.
+<small style="text-align: right; display: block;">24. February 2017</small>
+</div>
+#+END_HTML
+
+
 ** Goal
 To me the ultimate developer environment is one that takes zero effort
 to setup and once it's running gets out of your way. The developer
