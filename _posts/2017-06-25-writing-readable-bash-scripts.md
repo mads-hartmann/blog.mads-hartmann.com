@@ -99,7 +99,7 @@ always be executed by Bash.
 {% highlight bash %}
 function my-function {
     local message=$1
-    echo "Hello ${1}"
+    echo "Hello ${message}"
 }
 
 my-function "World"
@@ -166,6 +166,16 @@ opinion. The only thing to keep in mind is that `0` means `true` and 1 and
 above means `false`. This is because an exit code of `0` means a program exited
 successfully and anything else means the program failed and the error code is
 used to give some context as to why the program failed.
+
+<div style="border: 2px solid red; padding: 10px;">
+<strong>Note</strong>: After writing this blog post I discovered that there are
+two built-in convenience commands that you can use to avoid the confusion.
+They're called, as you might have guessed, <code>true</code> and
+<code>false</code>. <code>true</code> has an exit code of 0 whereas
+<code>false</code> has an exit code of one (try <code>false ; echo $?</code>).
+So you can replace <code>return 0</code> with <code>true</code> and
+<code>return 1</code> with <code>false</code> to make the code more readable
+</div>
 
 Another thing that can be a bit confusing is the difference between `[` and `[[`.
 `[` is an alias for `test` (see `man test` for more information) whereas `[[` is part
