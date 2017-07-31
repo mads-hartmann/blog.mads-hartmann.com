@@ -66,6 +66,7 @@ blockquote {
   padding: 1em 20px;
   quotes: "\201C""\201D""\2018""\2019";
 }
+
 blockquote:before {
   color: #ccc;
   content: open-quote;
@@ -73,8 +74,14 @@ blockquote:before {
   line-height: 0.1em;
   vertical-align: -0.4em;
 }
+
 blockquote p {
   display: inline;
+}
+
+.notice {
+    border: 2px solid red;
+    padding: 0px 10px 10px 10px;
 }
 
 /**********/
