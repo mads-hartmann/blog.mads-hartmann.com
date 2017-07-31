@@ -1,0 +1,8 @@
+Inspired by this essay https://www.offscreenmag.com/blog/the-grip-of-now
+
+- Why I love fiddling with my configuraiton
+- Why I love fiddling with my .dotfiels
+- Why I’m an excessive README writer and ntoe taker
+- Why I write this blog
+
+It’s all part of storing your experience and improving your tools and workflows. Even if your product is killed, your jobs is cahnged. You still get to take with you your experience; make sure you’re getting the experience you want.
