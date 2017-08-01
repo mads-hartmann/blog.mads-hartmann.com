@@ -65,6 +65,8 @@ couple of chapters [Managing Projects with GNU
 Make](http://www.oreilly.com/openbook/make3/book/index.csp), it's
 awesome.).
 
+---
+
 **Random thought** It's quite fun to play around with using `emacs` just
 for its ability to interpret Emacs Lisp. You can play around with it
 like this
@@ -72,6 +74,8 @@ like this
 ```bash
 emacs --batch --eval "(message \"hi there\")"
 ```
+
+---
 
 You could stop here and you would have a nice way to export `.org` files
 from Make. However, I got curious and explored another way to do it. In
@@ -128,7 +132,7 @@ endef
 
 I then use it like this to run three targets in parallel
 
-```
+```makefile
 watch_targets := \
 	_watch-continous-make \
 	_watch-jekyll-server \

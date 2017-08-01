@@ -36,23 +36,24 @@ ORDER BY last_pr DESC;
 
 The results of the query is shown in the table below
 
-**repository\_url**                                          |**last\_pr**  |**language**
-https://github.com/diml/utop                                 |2014-11-05    |OCaml
-https://github.com/bbatsov/projectile                        |2014-10-10    |Emacs Lisp
-https://github.com/jlouis/dht_bt                             |2014-10-07    |Erlang
-https://github.com/issuu/ocaml-redis                         |2014-08-26    |OCaml
-https://github.com/ocaml-batteries-team/batteries-included   |2014-05-08    |OCaml
-https://github.com/cabgfx/forge                              |2013-08-17    |PHP
-https://github.com/scala-ide/scala-search                    |2013-08-02    |Scala
-https://github.com/scala/scala                               |2013-01-26    |Scala
-https://github.com/scala-ide/scala-ide                       |2013-01-04    |Scala
-https://github.com/scala-ide/docs                            |2012-12-11    |JavaScript
-https://github.com/textmate/textmate                         |2012-08-11    |C
-https://github.com/avian/python-django-templates.tmbundle    |2012-08-06    |null
-https://github.com/n8han/giter8                              |2012-08-05    |Scala
-https://github.com/avian/textmate.tmbundle                   |2012-06-02    |Ruby
-https://github.com/fileability/choc-support                  |2012-05-31    |JavaScript
-https://github.com/leegould/GotoTab                          |2012-04-27    |Python
+|**repository\_url**                                          |**last\_pr**  |**language**|
+|-----------------------------------------------------------------------------------------|
+|https://github.com/diml/utop                                 |2014-11-05    |OCaml|
+|https://github.com/bbatsov/projectile                        |2014-10-10    |Emacs Lisp|
+|https://github.com/jlouis/dht_bt                             |2014-10-07    |Erlang|
+|https://github.com/issuu/ocaml-redis                         |2014-08-26    |OCaml|
+|https://github.com/ocaml-batteries-team/batteries-included   |2014-05-08    |OCaml|
+|https://github.com/cabgfx/forge                              |2013-08-17    |PHP|
+|https://github.com/scala-ide/scala-search                    |2013-08-02    |Scala|
+|https://github.com/scala/scala                               |2013-01-26    |Scala|
+|https://github.com/scala-ide/scala-ide                       |2013-01-04    |Scala|
+|https://github.com/scala-ide/docs                            |2012-12-11    |JavaScript|
+|https://github.com/textmate/textmate                         |2012-08-11    |C|
+|https://github.com/avian/python-django-templates.tmbundle    |2012-08-06    |null|
+|https://github.com/n8han/giter8                              |2012-08-05    |Scala|
+|https://github.com/avian/textmate.tmbundle                   |2012-06-02    |Ruby|
+|https://github.com/fileability/choc-support                  |2012-05-31    |JavaScript|
+|https://github.com/leegould/GotoTab                          |2012-04-27    |Python|
 
 The documentation for the BigQuery query language is
 [here](https://cloud.google.com/bigquery/query-reference). I'm definitely going

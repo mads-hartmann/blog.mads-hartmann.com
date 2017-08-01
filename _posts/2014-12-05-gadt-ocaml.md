@@ -227,7 +227,7 @@ let rec eval' : type a. a expr' -> a = function
 ```
 
 This is so wonderfully concise that the previously solution now looks
-horrific. Notice that this match is exhaustive *and* the return type is
+horrific. Notice that this match is exhaustive __and__ the return type is
 an actual ocaml primitive type. This is possible as OCaml now associates
 a specific type for the type parameter of each data constructor.
 
