@@ -21,7 +21,7 @@ a readable script. The script is pretty useless -- it gets the current time in
 [epoch][epoch] and prints whether it's odd or even. I'll go though each part of
 the script in the following sections.
 
-{% highlight bash %}
+```bash
 #!/bin/bash
 
 set -u
@@ -43,20 +43,20 @@ if is-even $(epoch)
 then echo "Even epoch"
 else echo "Odd epoch"
 fi
-{% endhighlight %}
+```
 
 ## The Header Ceremony
 
 Unless you have a good reason not to you should start your scripts with the
 following bit of code.
 
-{% highlight bash %}
+```bash
 #!/bin/bash
 
 set -u
 set -e
 set -o pipefail
-{% endhighlight %}
+```
 
 It sets a couple of Bash flags. I'll go through them briefly but you can read
 more about the various flags if you run `help set` in a Bash session.
@@ -96,23 +96,23 @@ compliant and the other is Bash specific. I prefer to use the Bash specific one
 as I usually don't care about POSIX compliance -- I'm writing scripts that will
 always be executed by Bash.
 
-{% highlight bash %}
+```bash
 function my-function {
     local message=$1
     echo "Hello ${message}"
 }
 
 my-function "World"
-{% endhighlight %}
+```
 
 Arguments are positional and are accessed through `$1, $2 ... $n`. Functions are
 invoked by name and arguments are separated by spaces. If you want to capture the
 output of a function in a variable you should execute it in a subshell like this
 
-{% highlight bash %}
+```bash
 message=$(my-function "World")
 echo ${message}
-{% endhighlight %}
+```
 
 The use of `local` means that the variable is restricted to the scope of the
 function; this helps reduce the global state of the script. One thing to keep in
@@ -121,13 +121,13 @@ If `myprogram abc` exists with an error code it wont propagate to your script as
 it's caught by the local assignment. In these cases you unfortunately have to spit
 your declaration and assignment into two separate commands.
 
-{% highlight bash %}
+```bash
 function my-function {
     local number
     number=$(command-that-might-fail)
     echo "Number is ${number}"
 }
-{% endhighlight %}
+```
 
 ## Readable if expressions
 
@@ -136,7 +136,7 @@ To mitigate this I like to separate the boolean expressions into their own
 functions that use `return` to explicitly set the exit status (`help return`
 for more info).
 
-{% highlight bash %}
+```bash
 function branch-name {
     git rev-parse --abbrev-ref HEAD
 }
@@ -159,7 +159,7 @@ if is-on-staging || is-on-master
 then echo "Deploy"
 else echo "Skipping deploy"
 fi
-{% endhighlight %}
+```
 
 This does tend generate a few more lines of code but it's worth it in my
 opinion. The only thing to keep in mind is that `0` means `true` and 1 and
