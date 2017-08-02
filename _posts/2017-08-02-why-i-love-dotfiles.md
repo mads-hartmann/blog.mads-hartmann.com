@@ -9,7 +9,7 @@ on [my dotfiles][mads-hartmann/dotfiles] and I've really been enjoying
 it so I wanted to try and put into words what's so enjoyable about
 it.
 
-I've you've haven't come across the concept of dotfiles before it's
+If you haven't come across the concept of dotfiles before it's
 simply the act of putting your personal computer's configuration into
 version control -- usually with a bit of automation to help you setup your system
 from scratch.
