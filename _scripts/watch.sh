@@ -4,7 +4,6 @@
 set -euo pipefail
 
 jekyll serve \
-    --quiet \
     --watch \
     --host localhost \
     --drafts \
