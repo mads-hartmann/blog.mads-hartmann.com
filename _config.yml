@@ -2,3 +2,5 @@ name: Mads Hartmann
 description: Blog by Mads Hartmann
 url: http://mads-hartmann.com
 highlighter: rouge
+discuss:
+  shortname: madshartmann

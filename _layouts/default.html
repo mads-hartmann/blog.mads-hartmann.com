@@ -10,23 +10,7 @@
         <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 
         <link rel="stylesheet" href="/css/index.css">
-        <link rel="stylesheet" href="/css/syntax.css">
-
         <link href="https://fonts.googleapis.com/css?family=Muli:200,200i,400,400i,700,700i" rel="stylesheet">
-
-        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-
-        <!-- highlighting -->
-        <link rel="stylesheet" href="/highlightjs/default.css">
-        <script src="/highlightjs/highlight.pack.js"></script>
-        <script>
-          $(document).ready(function() {
-            $("pre.src").each(function(i, block) {
-              hljs.configure({});
-              hljs.highlightBlock(block);
-            });
-          });
-        </script>
     </head>
     <body>
       <div class="container {{page.colors}}">
@@ -63,18 +47,6 @@
         </div>
 
       </div>
-
-      <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-46867150-1']);
-        _gaq.push(['_trackPageview']);
-
-        (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-      </script>
-
+      {% include google-analytics.html %}
     </body>
 </html>

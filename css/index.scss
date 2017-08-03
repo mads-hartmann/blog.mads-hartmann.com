@@ -6,8 +6,11 @@
 @import "typography";
 @import "header";
 @import "footer";
+@import "syntax-highlighting";
 
 .container.purple { @include color-theme(#54226d, #eac0e7)}
+.container.brownish { @include color-theme(#964729, #5f0303)}
+.container.blueish { @include color-theme(#151d84, #d671ec)}
 
 .notice {
     border: 2px solid red;
@@ -115,11 +118,10 @@
     }
 }
 
-pre.highlight, code.language-output {
+pre.highlight {
     margin-bottom: 0.7em;
     font-family: Monaco,'Courier New','Courier',monospace;
     font-size: 1em;
-    background: rgba(0, 0, 0, 0.05);
     padding: 1em;
     white-space: pre-wrap;
     margin-left: 0px;
@@ -131,8 +133,4 @@ pre.highlight, code.language-output {
     margin-top: -0.5em;
     background: rgba(191, 239, 206, 0.5);
     margin-bottom: 20px;
-}
-
-p.footpara {
-    display: inline;
 }

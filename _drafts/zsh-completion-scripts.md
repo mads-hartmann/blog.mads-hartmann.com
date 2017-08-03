@@ -2,21 +2,22 @@
 layout: post
 title: "Writing ZSH completion scripts"
 date:   2017-07-20 12:30:00
+colors: blueish
 ---
 
 I've had to write a couple of completion scripts for [ZSH][zsh] over the last couple
-of months. I write them rarely enough that I seem to have forgotten how to do
+of months. I such scripts rarely enough that I seem to have forgotten how to do
 it every time I set out to write a new one. So this time I decided to write
 down a few notes so I don't have to look through the documentation too much
 next time.
 
 Imagine you have a program with an interface like the following
 
-{% highlight zsh %}
+```sh
 hello -h | --help
 hello quietly [--silent] <message>
 hello loudly [--repeat=<number>] <message>
-{% endhighlight %}
+```
 
 This imaginary program has two command `quietly` and `loudly` that each have
 distinct arguments you can pass to them -- ideally we'd like the completion
@@ -27,7 +28,7 @@ context specific completions for those.
 I found it useful to follow the following outline. 
 
 
-{% highlight zsh %}
+```zsh
 #compdef hello
 #description Modifies the input and echo it.
 
@@ -68,7 +69,7 @@ function _hello_loudly {
 }
 
 _hello
-{% endhighlight %}
+```
 
 There are three things worth going into here. The `_arguments` function, the
 use of `typeset` and the local variables.
