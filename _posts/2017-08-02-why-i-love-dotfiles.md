@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "Why I ❤ dotfiles"
-date:   2017-08-02 13:00:00
+date: 2017-08-02 13:00:00
+colors: purple
 ---
 
 Recently I've been spending a bit more time

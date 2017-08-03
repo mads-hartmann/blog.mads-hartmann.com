@@ -35,7 +35,7 @@ implementation in Emacs can't handle this case.
 So my question is, how do you overcome this? Here's are various
 approaches:
 
--   Install everything on the host system and live with the redundancy.
+p-   Install everything on the host system and live with the redundancy.
     So basically give up and don't use containers for your development
     environment (this is my current setup).
 

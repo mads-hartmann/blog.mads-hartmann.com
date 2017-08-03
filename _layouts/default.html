@@ -9,8 +9,10 @@
         <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
         <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 
-        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/index.css">
         <link rel="stylesheet" href="/css/syntax.css">
+
+        <link href="https://fonts.googleapis.com/css?family=Muli:200,200i,400,400i,700,700i" rel="stylesheet">
 
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
@@ -27,40 +29,39 @@
         </script>
     </head>
     <body>
+      <div class="container {{page.colors}}">
 
-      <div class="header-container">
-        <div class="header">
-          <div class="bar">
-            <a href="/">
-              <img src="/images/me-v2-square.jpg" width="45" height="45" />
-              <span>Mads Hartmann</span>
-            </a>
-            <ul class="menu">
-              <li><a href="/">Posts</a></li>
-              <li><a href="/talks">Talks</a></li>
-            </ul>
+        <div class="menu">
+          <a href="/">
+            <img src="/images/me-v2-square.jpg" width="45" height="45" />
+            Mads Hartmann
+          </a>
+          <ul>
+            <li><a href="/">Posts</a></li>
+            <li><a href="/talks">Talks</a></li>
+          </ul>
+        </div>
+
+        <div class="site">
+          {{ content }}
+        </div>
+
+        <div class="footer">
+          <div class="contact">
+            <p>
+              Mads Hartmann<br />
+              Software developer at <a href="https://famly.co/?skip-geo-ip=1" target="_blank">Famly</a><br />
+              mads379@gmail.com
+            </p>
+          </div>
+          <div class="contact">
+            <p>
+              <a href="https://github.com/mads-hartmann">github.com/mads-hartmann</a><br />
+              <a href="https://twitter.com/mads_hartmann">twitter.com/mads_hartmann</a><br />
+            </p>
           </div>
         </div>
-      </div>
 
-      <div class="site">
-        {{ content }}
-      </div>
-
-      <div class="footer">
-        <div class="contact">
-          <p>
-            Mads Hartmann<br />
-            Software developer at <a href="https://famly.co/?skip-geo-ip=1" target="_blank">Famly</a><br />
-            mads379@gmail.com
-          </p>
-        </div>
-        <div class="contact">
-          <p>
-            <a href="https://github.com/mads-hartmann">github.com/mads-hartmann</a><br />
-            <a href="https://twitter.com/mads_hartmann">twitter.com/mads_hartmann</a><br />
-          </p>
-        </div>
       </div>
 
       <script type="text/javascript">

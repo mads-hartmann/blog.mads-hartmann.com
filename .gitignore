@@ -1,5 +1,6 @@
 .DS_Store
 .tern-port
+.sass-cache
 
 _site
 _setup

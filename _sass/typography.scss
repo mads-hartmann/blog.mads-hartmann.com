@@ -1,0 +1,78 @@
+body {
+  text-align: justify;
+  font-size: 1.2rem;
+  line-height: 1.7rem;
+  font-family: 'Muli', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: rgba(46, 48, 58, 0.96);
+  margin: 0px;
+}
+
+h1, h2 {
+  color: rgba(46,48,58,0.96);
+}
+
+h1 {
+  font-weight: 700;
+  font-style: normal;
+  font-size: 2.3em;
+  margin-left: -3px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-top: 40px;
+  padding-top: 0;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+h2 {
+  letter-spacing: -0.02em;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 2.0em;
+  margin-left: -1.5px;
+  line-height: 1.2;
+  margin-top: 40px;
+  margin-bottom: 2px;
+}
+
+a {
+  color: #AD141E;
+  transition: color 0.1s linear;
+}
+
+em {
+  display: block;
+  padding: 20px 90px;
+  text-align: center;
+  font-weight: bold;
+}
+
+table {
+  width: 100%;
+  font-size: 16px;
+}
+
+#text-table-of-contents a {
+  font-size: 18px;
+}
+
+blockquote {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 0px;
+  padding: 1em 20px;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+
+blockquote:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  vertical-align: -0.4em;
+}
+
+blockquote p {
+  display: inline;
+}

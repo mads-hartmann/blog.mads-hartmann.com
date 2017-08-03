@@ -2,6 +2,8 @@
 layout: post
 title: "Automating Developer Environments"
 date: 2017-01-15 13:00:00
+excerpt_separator: <!--more-->
+colors: purple
 ---
 
 Recently I've been thinking about what the ideal developer environment
@@ -15,6 +17,8 @@ various projects. If you're working on a backend that might be
 your backend. To me this is your developer environment; the developer
 environment is agnostic to what tools you use to manipulate the source
 code.
+
+<!--more-->
 
 I've seen a lot of blog posts and conference talks about automating your
 deployments but I haven't seen much about automating your developer

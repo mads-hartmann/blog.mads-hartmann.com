@@ -1,0 +1,16 @@
+@mixin color-theme($background, $foreground) {
+  a {
+    color: $background;
+  }
+
+  .title {
+    background: $background;
+    color: $foreground;
+    h1 {
+      color: $foreground;
+    }
+    a {
+      color: $foreground;
+    }
+  }
+}

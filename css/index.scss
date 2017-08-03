@@ -1,0 +1,138 @@
+---
+---
+
+@import "mixins";
+
+@import "typography";
+@import "header";
+@import "footer";
+
+.container.purple { @include color-theme(#54226d, #eac0e7)}
+
+.notice {
+    border: 2px solid red;
+    padding: 0px 10px 10px 10px;
+}
+
+.appetizer {
+  font-style: italic;
+  font-size: 1.2em;
+  line-height: 1.3em;
+  font-weight: 200;
+  color: rgba(46, 48, 58, 0.6);
+}
+
+/*************/
+/* container */
+/*************/
+
+.container {
+  width: 45%;
+  margin: 0px auto;
+}
+
+@media (max-width: 1440px) {
+  .container {
+    width: 60%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    width: 80%;
+  }
+}
+
+/***********/
+/* Content */
+/***********/
+
+.title {
+  margin: 1em 0 2em 0;
+  padding: 2em;
+
+  h1 {
+    text-align: center;
+    margin: 0px;
+    font-size: 5rem;
+    padding-bottom: 0.2em;
+    line-height: 5.5rem;
+  }
+
+  section {
+    text-align: center;
+  }
+}
+
+/**************/
+/* Front page */
+/**************/
+
+#home {
+    margin-top: 40px;
+}
+
+.posts h2 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.posts ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.posts li {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0px;
+}
+
+.posts .date {
+    font-style: italic;
+    color: rgb(162, 162, 162);
+    font-size: 14px;
+}
+
+@media only screen and (max-width: 800px) {
+    .header .bar {
+        width: 90%;
+    }
+
+    .site {
+        width: 90%;
+    }
+
+    .footer {
+        width: 90%;
+        flex-direction: column;
+    }
+
+    .header .menu {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+pre.highlight, code.language-output {
+    margin-bottom: 0.7em;
+    font-family: Monaco,'Courier New','Courier',monospace;
+    font-size: 1em;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 1em;
+    white-space: pre-wrap;
+    margin-left: 0px;
+    margin-right: 0px;
+    box-shadow: none;
+}
+
+.highlighter-rouge + .highlighter-rouge pre {
+    margin-top: -0.5em;
+    background: rgba(191, 239, 206, 0.5);
+    margin-bottom: 20px;
+}
+
+p.footpara {
+    display: inline;
+}
