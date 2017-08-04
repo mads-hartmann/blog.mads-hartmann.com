@@ -5,11 +5,22 @@ date:   2017-07-20 12:30:00
 colors: blueish
 ---
 
-I've had to write a couple of completion scripts for [ZSH][zsh] over the last couple
-of months. I such scripts rarely enough that I seem to have forgotten how to do
-it every time I set out to write a new one. So this time I decided to write
-down a few notes so I don't have to look through the documentation too much
-next time.
+I've had to write a couple of completion scripts for [ZSH][zsh] over the last
+couple of months. I write such scripts rarely enough that I seem to have
+forgotten how to do it every time I set out to write a new one. So this time I
+decided to write down a few notes so I don't have to look through the
+documentation too much next time.
+
+This post contains an example completion script you can copy-paste and use as a
+starting point for new scripts. The rest of the post describes the most
+interesting parts of the script.
+
+## Table of contents
+{: .no_toc }
+* TOC
+{:toc}
+
+## Example
 
 Imagine you have a program with an interface like the following
 
@@ -25,12 +36,13 @@ script to complete `-h`, `--help`, `quietly`, and `loudly` when no commands are
 supplied, and once either `quietly` or `loudly` has been entered it should give
 context specific completions for those.
 
-I found it useful to follow the following outline. 
-
+The following ZSH script provides completions for the program as described. In
+the rest of the post I'll give an explanation of the general outline of the
+script and dive into some of the more interesting parts.
 
 ```zsh
 #compdef hello
-#description Modifies the input and echo it.
+#description Modifies the input and echos it.
 
 function _hello {
     local curcontext="$curcontext" state line
@@ -71,18 +83,39 @@ function _hello_loudly {
 _hello
 ```
 
-There are three things worth going into here. The `_arguments` function, the
-use of `typeset` and the local variables.
+There are a few things worth going into here, especially the arguments passed
+to `_arguments` function, the use of `typeset` and the `local` variables, but
+first off let us look at the general structure of the script.
 
-`typeset` is used to define variables and 
+## General structure
 
- re-defines opt_args in the scope of the function.
+There's nothing special about a ZSH completion script. It's just a normal ZSH
+script that uses `#compdef <prorgram>` to register itself as a completion
+script for `program`, so you're free to structure your script anyhow you see fit,
+but I've found the following structure to be helpful.
+
+Define a function named `_<program>` that provides the default completions. For
+each sub-command that the program provides define a `_<program>_<sub-command>`
+function that provides completions for that sub-command. In my experience this
+makes the completion script pretty straight-forward to write.
+
+## Details
+
+### `_arguments`
 
 The part that's a bit cryptic are the XYZZ strings -- you really don't have
 much in the way of abstraction so everything that's a bit complex is encoded
 inside of strings leaving you to learn these small sub-languages. I'll give a
 bit of info into this specific one here as this is the part where I usually
 have to look up the documentation.
+
+### `typeset -A`
+
+`typeset` is used to define variables and 
+
+ re-defines opt_args in the scope of the function.
+
+### `local`
 
 ## Enabling completions in ZSH
 
