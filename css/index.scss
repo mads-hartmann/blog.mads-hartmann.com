@@ -67,6 +67,14 @@
   section {
     text-align: center;
   }
+
+  @media (max-width: 1024px) {
+    h1 {
+      font-size: 2rem;
+      line-height: 2.5rem;
+    }
+  }
+
 }
 
 /**************/
@@ -98,26 +106,6 @@
     font-style: italic;
     color: rgb(162, 162, 162);
     font-size: 14px;
-}
-
-@media only screen and (max-width: 800px) {
-    .header .bar {
-        width: 90%;
-    }
-
-    .site {
-        width: 90%;
-    }
-
-    .footer {
-        width: 90%;
-        flex-direction: column;
-    }
-
-    .header .menu {
-        flex-direction: column;
-        align-items: flex-start;
-    }
 }
 
 pre.highlight {
