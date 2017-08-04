@@ -14,7 +14,7 @@ layout: default
 </div>
 
 <div class="post">
-{{ content }}
+{{ page.content | remove: page.excerpt }}
 </div>
 
 {% include disqus_comments.html %}
