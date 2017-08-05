@@ -3,7 +3,7 @@ layout: post
 title: "Automating Developer Environments"
 date: 2017-01-15 13:00:00
 excerpt_separator: <!--more-->
-colors: yellowgreen
+colors: blueish
 ---
 
 Recently I've been thinking about what the ideal developer environment
