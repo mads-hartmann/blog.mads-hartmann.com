@@ -155,11 +155,30 @@ inside of strings leaving you to learn these small sub-languages. I'll give a
 bit of info into this specific one here as this is the part where I usually
 have to look up the documentation.
 
+The `-C` flag, together with the specification `"*::arg:->args"` is where it
+becomes interesting.
+
+> In this form, _arguments processes the arguments and options and then returns
+> control to the calling function with parameters set to indicate the state of
+> processing; the calling function then makes its own arrangements for generating
+> completions.
+
+```zsh
+local context state state_descr line
+typeset -A opt_args
+```
+
 ### `typeset -A`
 
 `typeset` is used to define variables and 
 
  re-defines opt_args in the scope of the function.
+
+You can think of this as a way to have _arguments return multiple values --
+it's modifying global variables but due to the use of `typeset -A` it's only
+modified in the current call-graph.
+
+`-A` simply specifies that the variables are associative array.
 
 ### `local`
 
