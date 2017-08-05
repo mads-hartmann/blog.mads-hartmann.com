@@ -8,8 +8,9 @@ body {
   margin: 0px;
 }
 
-h1, h2 {
-  color: rgba(46,48,58,0.96);
+h1,
+h2 {
+  color: rgba(46, 48, 58, 0.96);
 }
 
 h1 {
@@ -37,7 +38,7 @@ h2 {
 }
 
 a {
-  color: #AD141E;
+  color: #ad141e;
   transition: color 0.1s linear;
 }
 
@@ -63,16 +64,18 @@ blockquote {
   margin: 1.5em 0px;
   padding: 1em 20px;
   quotes: "\201C""\201D""\2018""\2019";
-}
 
-blockquote:before {
-  color: #ccc;
-  content: open-quote;
-  font-size: 4em;
-  line-height: 0.1em;
-  vertical-align: -0.4em;
-}
+  &:before {
+    color: #ccc;
+    content: open-quote;
+    font-size: 4em;
+    line-height: 0.1em;
+    vertical-align: -0.4em;
+  }
 
-blockquote p {
-  display: inline;
+  p {
+    font-size: 0.9em;
+    line-height: 1.3em;
+    display: inline;
+  }
 }

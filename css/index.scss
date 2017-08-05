@@ -74,6 +74,28 @@
       line-height: 2.5rem;
     }
   }
+}
+
+.sidenote {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 0px;
+  padding: 1em 20px;
+  font-size: 0.9em;
+  line-height: 1.3em;
+
+  &:before {
+    display: block;
+    margin: 0 0 1em 0;
+    color: #ccc;
+    font-weight: 700;
+    content: "sidenote   ";
+  }
+
+  .highlight {
+    background: none;
+    padding: 0;
+  }
 
 }
 
@@ -112,6 +134,7 @@ pre.highlight {
     margin-bottom: 0.7em;
     font-family: Monaco,'Courier New','Courier',monospace;
     font-size: 1em;
+    line-height: 1.1em;
     padding: 1em;
     white-space: pre-wrap;
     margin-left: 0px;
