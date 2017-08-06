@@ -47,16 +47,16 @@ function that has been registered for `foobar`. The completion function
 provides the relevant completions to zsh by invoking a set of builtin functions
 that are part of `compsys` -- We'll look at one of these functions later.
 
-Functions can be registered manually by using the `compdef` function directly
-like this `compdef <function-name> <program>`. However, more commonly you'll
-define the completion function in a separate file. By convention completion
-functions, and the files they live in, are prefixed with an underscore and
-named after the program they provide completions for. When the completion system
-is being initialized through `compinit` zsh will look through all the files
-accessible via the `fpath` and read the first line they contain, as such you
-simply register a completion function by putting it somewhere that's on your
-`fpath` and ensuring that the first line contains the `compdef` command
-like this `#compdef _foobar foobar`
+Completion functions can be registered manually by using the `compdef` function
+directly like this `compdef <function-name> <program>`. However, more commonly
+you'll define the completion function in a separate file. By convention
+completion functions, and the files they live in, are prefixed with an
+underscore and named after the program they provide completions for. When the
+completion system is being initialized through `compinit` zsh will look through
+all the files accessible via the `fpath` and read the first line they contain,
+as such you simply register a completion function by putting it somewhere
+that's on your `fpath` and ensuring that the first line contains the `compdef`
+command like this `#compdef _foobar foobar`
 
 The `fpath` is the list of directories that zsh will look at when searching for
 functions. If you're unsure what it's set to simply run `echo $fpath`. If you
@@ -87,12 +87,10 @@ the rest of the post I'll give an explanation of the general outline of the
 script and dive into some of the more interesting parts.
 
 ```zsh
-#compdef hello
-#description Modifies the input and echos it.
+#compdef _hello hello
 
 function _hello {
-    local curcontext="$curcontext" state line
-    typeset -A opt_args
+    local line
 
     _arguments -C \
         "-h[Show help information]" \
@@ -111,76 +109,81 @@ function _hello {
 }
 
 function _hello_quietly {
-    local curcontext="$curcontext" state line
-    typeset -A opt_args
-
-    _arguments -C \
+    _arguments \
         "--silent[Dont output anything]"
 }
 
 function _hello_loudly {
-    local curcontext="$curcontext" state line
-    typeset -A opt_args
-
-    _arguments -C \
+    _arguments \
         "--repeat=[Repat the <message> any number of times]"
 }
-
-_hello
 ```
 
 There are a few things worth going into here, especially the arguments passed
-to `_arguments` function, the use of `typeset` and the `local` variables, but
-first off let us look at the general structure of the script.
+to `_arguments` function and the use of `local`, but first off let us look at
+the general structure of the script.
 
-## General structure
+### General structure
 
 There's nothing special about a zsh completion script. It's just a normal zsh
-script that uses `#compdef <prorgram>` to register itself as a completion
-script for `program`, so you're free to structure your script anyhow you see fit,
-but I've found the following structure to be helpful.
+script that uses `#compdef <function> <program>` to register itself as a
+completion script for `program`, so you're free to structure your script anyhow
+you see fit, but I've found the following structure to be helpful.
 
 Define a function named `_<program>` that provides the default completions. For
 each sub-command that the program provides define a `_<program>_<sub-command>`
 function that provides completions for that sub-command. In my experience this
 makes the completion script pretty straight-forward to write.
 
-## Details
+### The use of `_arguments`
 
-### `_arguments`
+By invoking the `_arguments` function the script provides the potential
+completions to zsh. There are many other functions you can use to achieve this,
+see section [20.6 in the documentation][zsh-completion-system].
 
-The part that's a bit cryptic are the XYZZ strings -- you really don't have
-much in the way of abstraction so everything that's a bit complex is encoded
-inside of strings leaving you to learn these small sub-languages. I'll give a
-bit of info into this specific one here as this is the part where I usually
-have to look up the documentation.
+There are two interesting parts about the use of `_arguments` in this case. The
+string arguments are called `specs` and they can be a bit cryptic when you
+first encounter them -- you really don't have much in the way of abstraction in
+zsh so everything that's a bit complex is encoded inside of strings leaving you
+to learn these small domain specific languages. In this case the `specs` can
+take two forms:
 
-The `-C` flag, together with the specification `"*::arg:->args"` is where it
-becomes interesting.
+* option specs: `OPT[DESCRIPTION]:MESSAGE:ACTION`
+* command specs: `N:MESSAGE:ACTION`. N indicates that it is the Nth command argument.
+
+The `ACTION` part is again it's own lille domain specific language.
+[This][action-docs] is best description of this language I've found, but again,
+the [documentation][zsh-completion-system] has all the details if you search
+for `specs: overview`.
+
+The `-C` flag, together with the `ACTION` specification `"*::arg:->args"` is
+where it becomes interesting. Here's the description of the `-C` flag from the
+documentation:
 
 > In this form, _arguments processes the arguments and options and then returns
 > control to the calling function with parameters set to indicate the state of
 > processing; the calling function then makes its own arrangements for generating
 > completions.
 
+The parameters they mention are the following:
+
 ```zsh
 local context state state_descr line
 typeset -A opt_args
 ```
 
-### `typeset -A`
+You can think of this as a way to have `_arguments` return multiple values --
+it's modifying global variables but due to the use of `typeset -A` and `local`
+it's only modified in the current call-graph. The `-A` option to `typeset`
+tells zsh that the parameter is an associative array.
 
-`typeset` is used to define variables and 
+So the `-C` flags gives us to opportunity to inspect the completion state and
+provide context specific completions based on what the user has entered. In our
+case we're only using the `line` variable to switch on what sub-command the
+user has entered and then invoking the relevant function to provide completions
+for that command.
 
- re-defines opt_args in the scope of the function.
-
-You can think of this as a way to have _arguments return multiple values --
-it's modifying global variables but due to the use of `typeset -A` it's only
-modified in the current call-graph.
-
-`-A` simply specifies that the variables are associative array.
-
-### `local`
+I hope this clarifies some of the aspects of writing completion scripts.
 
 ## Resources
 
@@ -190,10 +193,9 @@ look at the [zsh-completions][zsh-completions] project. It has a ton of good
 examples and their [guide][zsh-guide] on how to write completion scripts is
 great.
 
-man zshcompsys
-
 [zsh]: http://www.zsh.org/
 [ohmyzsh]: http://ohmyz.sh/
+[action-docs]: https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org#user-content-actions
 [zsh-completion-system]: http://zsh.sourceforge.net/Doc/Release/Completion-System.html#Completion-System
 [zsh-completions]: https://github.com/zsh-users/zsh-completions
 [zsh-guide]: https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org
