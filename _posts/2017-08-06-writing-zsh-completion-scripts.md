@@ -103,7 +103,7 @@ function _hello {
             _hello_loudly
         ;;
         quietly)
-            _hello_loudly
+            _hello_quietly
         ;;
     esac
 }
