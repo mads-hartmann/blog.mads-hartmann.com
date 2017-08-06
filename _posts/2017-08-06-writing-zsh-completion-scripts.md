@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Writing zsh completion scripts"
-date:   2017-07-20 12:30:00
+date:   2017-08-06 10:00:00
 colors: blueish
 ---
 
