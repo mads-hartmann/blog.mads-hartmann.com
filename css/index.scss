@@ -13,6 +13,7 @@
 .container.blueish { @include color-theme(#151d84, #d671ec)}
 .container.yellowgreen { @include color-theme(#266922, #fde32b)}
 .container.pinkred { @include color-theme(#d45252, #f7d2e2)}
+.container.orangepink { @include color-theme(#FFA801, #d83fd2)}
 
 .notice {
     border: 2px solid red;
