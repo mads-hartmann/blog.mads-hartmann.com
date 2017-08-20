@@ -132,6 +132,8 @@
 }
 
 pre.highlight {
+    text-align: left;
+    overflow: auto;
     margin-bottom: 0.7em;
     font-family: Monaco,'Courier New','Courier',monospace;
     font-size: 1em;
