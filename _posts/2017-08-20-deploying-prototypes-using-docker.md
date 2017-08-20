@@ -202,15 +202,15 @@ command above to create it).
 Download the script and make it executable.
 
 ```sh
-curl https://gist.githubusercontent.com/mads-hartmann/415cba506a538f35a992598c9221432d/raw/98260522a6358feb6c4b70ad503c2e6bbe9b5ce8/prototype-deploy.sh > deploy-machine.sh
-chmod +x deploy-machine.sh
+curl https://gist.githubusercontent.com/mads-hartmann/415cba506a538f35a992598c9221432d/raw/98260522a6358feb6c4b70ad503c2e6bbe9b5ce8/prototype-deploy.sh > prototype-deploy.sh
+chmod +x prototype-deploy.sh
 ```
 
 Now you can deploy any Docker service to any Docker machine like this
 (assuming your current folder contains the script and a `Dockerfile`)
 
 ```sh
-./deploy-machine.sh <YOUR_MACHINE_NAME> <IMAGE_NAME> <CONTAINER_NAME>
+./prototype-deploy.sh <YOUR_MACHINE_NAME> <IMAGE_NAME> <CONTAINER_NAME>
 ```
 
 Where the `<IMAGE_NAME>` and `<CONTAINER_NAME>` is completely up to you.
