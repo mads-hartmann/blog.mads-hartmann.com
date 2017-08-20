@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "Deploying your prototypes"
-date:   2017-08-13 06:00:00
+title: "Deploying Prototypes using Docker"
+date:   2017-08-20 10:00:00
 colors: pinkred
 ---
 
 About a year ago my [brother][mikkel-hartmann.com] started moving from
 experimental physics into machine learning and I've been helping him out with
 some of the more practical aspects of the field (such as automation, code
-style, linting, structuring of project, etc.). Most recently I helped him
+style, linting, structuring of projects, etc.). Most recently I helped him
 deploy one of his projects to AWS -- in this post I'll go through how we took
 his locally running [flask][flask] application and put it into ''production''.
 
@@ -19,9 +19,9 @@ his locally running [flask][flask] application and put it into ''production''.
 
 ## Motivation
 
-Why would you want to go through the hassle of deploying your prototypes or
-small hobby projects in the first place? I think there are a couple of things
-that makes it worth your effort.
+Why would you want to go through the hassle of deploying your prototypes in the
+first place? I think there are a couple of things that makes it worth your
+effort.
 
 First off, I personally get way more __motivated__ when I know that the thing
 I'm working on is actually live somewhere on the web, even if it's behind an
@@ -50,43 +50,41 @@ things -- Instead our main focus was __simplicity__ and __ease of automation__.
 
 Simplicity in this case meant having as few moving parts as possible and keeping
 the number of new concepts my brother had to learn to a minimum, while ensuring
-that the ones he did have to learn would be useful for him in other contexts
-as well. I decided that the simplest solution would be to use [docker][docker]
-and [docker-machine][docker-machine]. In the rest of the post I'll outline the
-steps we had to go through in order to take his locally running flask app and
-put it into ''production''.
+that the ones he did have to learn would be useful to him in other contexts as
+well. I decided that the simplest solution would be to use [docker][docker] and
+[docker-machine][docker-machine].
 
 ## Why Docker
 
-One of the reasons I picked Docker is that I truely believe that even if docker
-died tomorrow the concept of containers, as popularlized by docker, will still
-thrive. So learning the basics around containerizing your apps won't hurt.
+From the perspective of using tools that might be useful to know in other
+contexts I believe that Docker is an obvious choice; if you know how to
+containerize your application then you'll be able to run it almost anywhere
+(contrast that to learning how to set up your application using Elastic
+Beanstalk for example). Given that you can containerize almost anything this
+means that if you're familiar with Docker you'll be able to run almost anything
+almost anywhere 😉
 
-The last nice thing is that once you have your Docker image you can run it on a
-range of cloud providers really easily, so even if you aren't using AWS you can
-still use your knowledge of Docker.
+The ability to be able to iterate quickly on the Dockerfile and run it locally
+before trying to deploy it was also a key factor; once it runs locally it you
+should be able to deploy it easily as well.
 
 ## Writing a Dockerfile
 
-The first step is to write a [Dockerfile][dockerfile] for your application. You
-can base it off a Linux distribution you know or simply go for one of the
-official [python images][python-images].
+The first step is to write a [Dockerfile][dockerfile] for your application. In
+the case of python can base it off a Linux distribution you know or simply go
+for one of the official [python images][python-images].
 
 I won't go into the details of Docker in this post -- there are plenty of good
-guides and introductions on the web already. However, I will say that the
-ability to be able to iterate quickly on the Dockerfile and run it locally
-before trying to deploy it to AWS; once it runs locally it should be able to
-run on AWS just fine as well. This was in stark contrast to one evening where
-we tried to get the service running on [Elastic Beanstalk][elastic-beanstalk]
+guides and introductions on the web already.
 
 If you don't want to write a Dockerfile for one of your own projects but still
-want to try deploying something to AWS then feel free to use the [small
-example][example] I've created.
+want to try deploying something to AWS then feel free to use the
+[small example][example] I've created.
 
 ## Deploying to AWS
 
-Now that we have a Docker image that we've seen work locally it's time to 
-deploy it 🚀
+At this point I assume you have a Docker image that you've been able to run
+locally, so now it's time to deploy it 🚀
 
 {::options parse_block_html="true" /}
 <div class="sidenote">
@@ -97,13 +95,15 @@ than a couple of minutes and you only have to do it once.
 
 ### Provisioning a machine
 
-`docker-machine` is a cool little tool that makes it possible to run `docker`
-command on your machine as you're used to, but in reality they will be running
-on a remote machine.
+`docker-machine` is a tool that makes it possible to run `docker` commands on
+your machine as you're used to, but in reality they will be running on a remote
+machine.
 
-Before we can deploy it we need to have somewhere to deploy it to; we need to
-rent a server. Normally with AWS you'd have to launch and EC2 instance,
-give it the right roles etc. Luckily d
+Before you can deploy anything you need to have somewhere to deploy it to; you
+need to rent a server. Normally with AWS you'd have to launch an [EC2][ec2]
+instance, give it the right roles etc. This is where `docker-machine` comes in
+handy. The following command will provision a machine and open port 80 so it can
+accept HTTP traffic.
 
 ```sh
 docker-machine create \
@@ -114,7 +114,11 @@ docker-machine create \
     <YOUR_MACHINE_NAME>
 ```
 
-You can read the documentation for each of the command line arguments 
+The instance type is set to `t2.micro` which is the cheapest server you can buy
+(See the [full list][aws-ec2-prices] of instance types here for the various
+regions).
+
+You can read the documentation for each of the command line arguments
 [here][docker-machine-cli].
 
 {::options parse_block_html="true" /}
@@ -133,9 +137,9 @@ export PATH="/usr/local/Cellar/docker-machine/0.12.2/bin:$PATH"
 
 ### Deploying the service
 
-To run your `docker` commands on the remote Docker machine you first have to
-tell `docker` to execute commands in that context. You do that by using the
-following command.
+Now that we have a machine we can deploy our service to it. To run your `docker`
+commands on the remote Docker machine you first have to tell `docker` to execute
+commands in that context. You do that by using the following command.
 
 ```sh
 eval $(docker-machine env <YOUR_MACHINE_NAME>)
@@ -145,16 +149,24 @@ Future `docker` commands in your shell session will be executed on the remote
 docker machine. If you close your terminal you'll have to run the command
 above again in case you want to speak with the remote docker machine.
 
-Build the Docker image on the remote machine. This will basically transfer all
-of the files in your current folder unto the machine and then build the image
-on the machine. If you're using my small [example][example] then you can build
-the image with the following command
+{::options parse_block_html="true" /}
+<div class="sidenote">
+If you're curious how this works then simply run 
+`docker-machine env <YOUR_MACHINE_NAME>` without the `eval` prefix. You'll
+see that all it does it set some environment variables that Docker reads
+in order to know what Docker machine to talk to.
+</div>
+
+Before you can run the image on the machine you first have to build the image on
+it. This will basically transfer all of the files in your current folder unto
+the machine and then build the image there. If you're using my small
+[example][example] then you can build the image with the following command
 
 ```sh
 docker build --tag deploying-prototypes:local .
 ```
 
-And finally run it.
+Finally start a Docker container based on the image.
 
 ```sh
 docker run \
@@ -163,13 +175,14 @@ docker run \
     deploying-prototypes:local
 ```
 
-See that it works
+See that it works 🎉
 
 ```sh
 echo http://$(docker-machine ip <YOUR_MACHINE_NAME>)
 ```
 
-You might want to terminate the machine again so you won't be billed.
+Once you're done experimenting you might want to stop the machine so you
+won't be billed if you're not using it.
 
 ```sh
 docker-machine stop <YOUR_MACHINE_NAME>
@@ -177,88 +190,31 @@ docker-machine stop <YOUR_MACHINE_NAME>
 
 ## A simple deploy script
 
+In the section above you deployed the service manually by writing a set of
+commands in the shell. Once you've done that a couple of times you'll get tired
+of it, so here's a deploy script that I wrote that automates it for you. It
+assumes that your Docker image listens for HTTP traffic on port 80 and that port
+80 is exposed on the machine (which it is if you used the `docker-machine`
+command above to create it).
+
+<script src="https://gist.github.com/mads-hartmann/415cba506a538f35a992598c9221432d.js"></script>
+
+Download the script and make it executable.
+
 ```sh
-#!/bin/bash
-#
-# usage: deploy <machine-name> <image-name> <container-name>
-#
-
-set -euo pipefail
-
-#
-# Functions
-#
-
-# Convenience function for logging text to stdout in pretty colors.
-function log {
-    local message="$@"
-
-    local green="\\033[1;32m"
-    local reset="\\033[0m"
-
-    if [[ $TERM == "dumb" ]]
-    then
-        echo "${message}"
-    else
-        echo -e "${green}${message}${reset}"
-    fi
-}
-
-# Check if a container with a given name already exists
-function container_exists {
-    local container_name=$1
-
-    if [[ -z "$(docker ps -q -f name=${container_name})" ]]
-    then false
-    else true
-    fi
-}
-
-# Get the image tag version based on the git SHA
-function version {
-    git rev-parse HEAD | cut -c1-8
-}
-
-# Build the Docker image and deploy it to a given Docker machine and
-# give the container a specific name.
-# Remove any containers that already exist with the given name.
-function deploy {
-    local machine_name=$1
-    local image_name=$2
-    local container_name=$3
-
-    log "Connection to machine"
-    eval $(docker-machine env ${machine_name})
-
-    log "Building image"
-    docker build --tag ${image_name}:$(version) .
-
-    if container_exists ${container_name}
-    then
-        log "Deleting exiting container"
-        docker rm -f ${container_name}
-    fi
-
-    log "Starting containter"
-    docker run \
-        --detach \
-        --publish 80:80 \
-        --name ${container_name} \
-        ${image_name}:$(version)
-
-    log "Now running on http://$(docker-machine ip ${machine_name})"
-}
-
-#
-# Main
-#
-
-machine_name=$1
-image_name=$2
-container_name=$3
-
-deploy ${machine_name} ${image_name} ${container_name}
+curl https://gist.githubusercontent.com/mads-hartmann/415cba506a538f35a992598c9221432d/raw/98260522a6358feb6c4b70ad503c2e6bbe9b5ce8/prototype-deploy.sh > deploy-machine.sh
+chmod +x deploy-machine.sh
 ```
+
+Now you can deploy any Docker service to any Docker machine like this
+(assuming your current folder contains the script and a `Dockerfile`)
+
+```sh
+./deploy-machine.sh <YOUR_MACHINE_NAME> <IMAGE_NAME> <CONTAINER_NAME>
+```
+
+Where the `<IMAGE_NAME>` and `<CONTAINER_NAME>` is completely up to you.
+
 
 [flask]: http://flask.pocoo.org/docs/0.12/
 [famly]: https://famly.co/
@@ -274,3 +230,5 @@ deploy ${machine_name} ${image_name} ${container_name}
 [create-aws-account]: https://aws.amazon.com/free
 [install-aws-cli]: http://docs.aws.amazon.com/cli/latest/userguide/installing.html
 [configure-aws]: http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
+[ec2]: aws.amazon.com/ec2
+[aws-ec2-prices]: https://aws.amazon.com/ec2/pricing/on-demand/
