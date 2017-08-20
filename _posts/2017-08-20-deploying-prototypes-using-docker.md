@@ -25,7 +25,7 @@ effort.
 
 First off, I personally get way more __motivated__ when I know that the thing
 I'm working on is actually live somewhere on the web, even if it's behind an
-obscure IP address. It's way more fun to add a feature or fix a bug when you
+obscure IP address. It's much more fun to add a feature or fix a bug when you
 know you can push it live easily.
 
 Secondly, in the best case scenario your prototype will grow into a proper
@@ -43,8 +43,8 @@ can run that gets the job done.
 
 It was a fun experience helping my brother deploy his service as the requirements
 were so different from what I usually have to deal with when automating our
-deployments at [Famly][famly]. Usually I worry about the availability of the service,
-configuring auto-scaling, ensuring the logs are persisted and querable, and 
+deployments at [Famly][famly]. I worry about the availability of the service,
+configuring auto-scaling, ensuring the logs are persisted and queryable, and
 things like that. However, in this case we didn't really care about any of these
 things -- Instead our main focus was __simplicity__ and __ease of automation__.
 
@@ -64,18 +64,19 @@ Beanstalk for example). Given that you can containerize almost anything this
 means that if you're familiar with Docker you'll be able to run almost anything
 almost anywhere 😉
 
-The ability to be able to iterate quickly on the Dockerfile and run it locally
+The ability to iterate quickly on the Dockerfile and run it locally
 before trying to deploy it was also a key factor; once it runs locally it you
 should be able to deploy it easily as well.
 
 ## Writing a Dockerfile
 
 The first step is to write a [Dockerfile][dockerfile] for your application. In
-the case of python can base it off a Linux distribution you know or simply go
+the case of python you can base it off a Linux distribution you know or simply go
 for one of the official [python images][python-images].
 
-I won't go into the details of Docker in this post -- there are plenty of good
-guides and introductions on the web already.
+I won't go into the details of writing a Dockerfile in this post -- The 
+[official documentation][dockerfile] and [best-practices guide][dockerfile-guide]
+contains all the information you need to get started.
 
 If you don't want to write a Dockerfile for one of your own projects but still
 want to try deploying something to AWS then feel free to use the
@@ -84,7 +85,7 @@ want to try deploying something to AWS then feel free to use the
 ## Deploying to AWS
 
 At this point I assume you have a Docker image that you've been able to run
-locally, so now it's time to deploy it 🚀
+locally, so now it's time to deploy it. 🚀
 
 {::options parse_block_html="true" /}
 <div class="sidenote">
@@ -114,9 +115,9 @@ docker-machine create \
     <YOUR_MACHINE_NAME>
 ```
 
-The instance type is set to `t2.micro` which is the cheapest server you can buy
-(See the [full list][aws-ec2-prices] of instance types here for the various
-regions).
+The instance type is set to `t2.micro` which is one of the cheapest server you
+can buy (See the [full list][aws-ec2-prices] of instance types here for the
+various regions).
 
 You can read the documentation for each of the command line arguments
 [here][docker-machine-cli].
@@ -215,6 +216,8 @@ Now you can deploy any Docker service to any Docker machine like this
 
 Where the `<IMAGE_NAME>` and `<CONTAINER_NAME>` is completely up to you.
 
+Have fun deploying your next prototype, and let me know in the comments below
+if you found it useful or have any questions 🙌
 
 [flask]: http://flask.pocoo.org/docs/0.12/
 [famly]: https://famly.co/
@@ -223,6 +226,7 @@ Where the `<IMAGE_NAME>` and `<CONTAINER_NAME>` is completely up to you.
 [docker-machine-cli]: https://docs.docker.com/machine/drivers/aws/#options
 [docker-mac]: https://docs.docker.com/docker-for-mac/
 [dockerfile]: https://docs.docker.com/engine/reference/builder/
+[dockerfile-guide]: https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/
 [mikkel-hartmann.com]: http://mikkelhartmann.dk/
 [python-images]: https://hub.docker.com/_/python/
 [example]: https://github.com/mads-hartmann/mads-hartmann.github.com/tree/master/_examples/deploying-your-prototypes
