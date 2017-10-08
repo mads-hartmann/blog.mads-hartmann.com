@@ -74,7 +74,7 @@ The first step is to write a [Dockerfile][dockerfile] for your application. In
 the case of python you can base it off a Linux distribution you know or simply go
 for one of the official [python images][python-images].
 
-I won't go into the details of writing a Dockerfile in this post -- The 
+I won't go into the details of writing a Dockerfile in this post -- The
 [official documentation][dockerfile] and [best-practices guide][dockerfile-guide]
 contains all the information you need to get started.
 
@@ -134,6 +134,9 @@ this
 ```sh
 export PATH="/usr/local/Cellar/docker-machine/0.12.2/bin:$PATH"
 ```
+
+**Note**: As of Docker for Mac 17.09.0-ce-mac35 (19611) it ships with version
+0.12.2 of `docker-machine` so you don't have to install it separately.
 </div>
 
 ### Deploying the service
@@ -152,7 +155,7 @@ above again in case you want to speak with the remote docker machine.
 
 {::options parse_block_html="true" /}
 <div class="sidenote">
-If you're curious how this works then simply run 
+If you're curious how this works then simply run
 `docker-machine env <YOUR_MACHINE_NAME>` without the `eval` prefix. You'll
 see that all it does it set some environment variables that Docker reads
 in order to know what Docker machine to talk to.
