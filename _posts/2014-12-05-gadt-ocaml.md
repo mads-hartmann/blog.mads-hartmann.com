@@ -3,22 +3,27 @@ layout: post
 title: "Detecting use-cases for GADTs in OCaml"
 date: 2015-01-05 21:00:00
 categories: ocaml
+colors: nudeblue
+excerpt_separator: <!--more-->
 ---
 
 I've been interested in GADTs<sup>1</sup> for quite some time now but I've had a
 hard time finding proper use-cases for them in my day-to-day programming tasks;
 this is not because GADTs aren't useful, they are, but rather that my
-understanding of them has been limited. I often experience this when I'm
-learning more advanced features of programming languages and I've found that I
-personally find it easier to grasp language features when I have a clear
-understanding of what kinds of problems they're meant to solve. One way to
-achieve this is start out by solving a specific problem **without** the
-language feature and then show how, when you add the feature, the solution
-becomes more elegant. I haven't found any posts that do this with GADTs thus I
-set out to write this post. As I work through the example I will also try to
-point out symptoms in your code that might mean you're better of modeling your
-problem using a GADT; this will hopefully help you find use-cases for GADTs in
-your own code-base.
+understanding of them has been limited.
+
+<!--more-->
+
+I often experience this when I'm learning more advanced features of programming
+languages and I've found that I personally find it easier to grasp language
+features when I have a clear understanding of what kinds of problems they're
+meant to solve. One way to achieve this is start out by solving a specific
+problem **without** the language feature and then show how, when you add the
+feature, the solution becomes more elegant. I haven't found any posts that do
+this with GADTs thus I set out to write this post. As I work through the example
+I will also try to point out symptoms in your code that might mean you're better
+of modeling your problem using a GADT; this will hopefully help you find
+use-cases for GADTs in your own code-base.
 
 In case you haven't stumbled upon GADTs before reading this here is a very
 brief description of what they do; this is the most succinct description I've
