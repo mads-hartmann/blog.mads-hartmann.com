@@ -1,6 +1,6 @@
-@mixin color-theme($background, $foreground) {
+@mixin color-theme($background, $foreground, $link-color:$background) {
   a {
-    color: $background;
+    color: $link-color;
   }
 
   hr {
@@ -17,4 +17,11 @@
       color: $foreground;
     }
   }
+
+  .notice {
+    background: $background;
+    color: $foreground;
+    padding: 5px 10px;
+  }
+
 }

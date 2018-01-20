@@ -3,7 +3,7 @@ layout: post
 title: "Detecting use-cases for GADTs in OCaml"
 date: 2015-01-05 21:00:00
 categories: ocaml
-colors: nudeblue
+colors: yellowblue
 excerpt_separator: <!--more-->
 ---
 
@@ -22,7 +22,7 @@ problem **without** the language feature and then show how, when you add the
 feature, the solution becomes more elegant. I haven't found any posts that do
 this with GADTs thus I set out to write this post. As I work through the example
 I will also try to point out symptoms in your code that might mean you're better
-of modeling your problem using a GADT; this will hopefully help you find
+off modeling your problem using a GADT; this will hopefully help you find
 use-cases for GADTs in your own code-base.
 
 In case you haven't stumbled upon GADTs before reading this here is a very
@@ -31,10 +31,10 @@ found and it was written by [Ptival](http://www.reddit.com/user/Ptival) on
 [reddit](http://www.reddit.com/r/ocaml/comments/1jmjwf/explain_me_gadts_like_im_5_or_like_im_an/).
 I've modified it slightly, but it goes as follows:
 
-*In essence GADTs makes it possible to describe a richer relation between your
-data constructors and the types they inhabit. By doing so you give the compiler
-more information about your program and thus it's able to type your programs
-more precisely.*
+> In essence GADTs makes it possible to describe a richer relation
+> between your data constructors and the types they inhabit. By doing
+> so you give the compiler more information about your program and
+> thus it's able to type your programs more precisely.
 
 Let that description dwell in the back of your mind as you read through
 the rest of the post.
@@ -48,9 +48,9 @@ GADTs to help solidify the concept - but that's for another time.
 ## The canonical example
 
 The task is to write a small evaluator for a simple programming
-language. Now I know this might be quite different from the problems you
-would normally deal with at work but this is the canonical for a good
-reason so bear with me.
+language. Now I know this might be quite different from the problems
+you would normally deal with at work but this is the canonical example
+for a good reason so bear with me.
 
 The language is simple and only contains `if`-expressions, two operators
 (`=`, `<`) and two primitive types, `int` and `boolean`.
@@ -63,11 +63,11 @@ implementation it's easier to understand the benefits of using a GADT.
 
 ```ocaml
 type value =
-  | VBool of bool
-  | VInt of int
+  | Bool of bool
+  | Int of int
 
 type expr =
-  | EValue of value
+  | Value of value
   | If of expr * expr * expr
   | Eq of expr * expr
   | Lt of expr * expr
@@ -83,32 +83,32 @@ this can be achieved with a straightforward recursive implementation.
 
 ```ocaml
 let rec eval: expr -> value = function
-  | EValue v -> v
+  | Value v -> v
   | Lt (x, y) -> begin match eval x, eval y with
-      | VInt x, VInt y -> VBool (x < y)
-      | VInt _, VBool _
-      | VBool _, VInt _
-      | VBool _, VBool _ -> failwith "Invalid AST"
+      | Int x, Int y -> Bool (x < y)
+      | Int _, Bool _
+      | Bool _, Int _
+      | Bool _, Bool _ -> failwith "Invalid AST"
     end
   | If (b, l, r) -> begin match eval b with
-      | VBool true -> eval l
-      | VBool false -> eval r
-      | VInt _ -> failwith "Invalid AST"
+      | Bool true -> eval l
+      | Bool false -> eval r
+      | Int _ -> failwith "Invalid AST"
     end
   | Eq (a, b) -> begin match eval a, eval b with
-      | VInt  x, VInt  y -> VBool (x = y)
-      | VBool _, VBool _
-      | VBool _, VInt  _
-      | VInt  _, VBool _ -> failwith "Invalid AST"
+      | Int  x, Int  y -> Bool (x = y)
+      | Bool _, Bool _
+      | Bool _, Int  _
+      | Int  _, Bool _ -> failwith "Invalid AST"
     end
 ```
 
 An example of how to invoke this function is shown below.
 
 ```ocaml
-eval (If ((Lt ((EValue (VInt 2)), (EValue (VInt 4)))),
-          (EValue (VInt 42)),
-          (EValue (VInt 0))))
+eval (If ((Lt ((Value (Int 2)), (Value (Int 4)))),
+          (Value (Int 42)),
+          (Value (Int 0))))
 ```
 ```
 - : value = VInt 42
@@ -117,7 +117,7 @@ eval (If ((Lt ((EValue (VInt 2)), (EValue (VInt 4)))),
 An here's what happens if we try to `eval` an invalid `expr`
 
 ```ocaml
-eval (Eq ((EValue (VInt 42)), (EValue (VBool false))))
+eval (Eq ((Value (Int 42)), (Value (Bool false))))
 ```
 ```
 Exception: Failure "Invalid AST".
@@ -134,21 +134,25 @@ helpful when working with larger code-bases so it shouldn't be thrown
 away lightly. This gives us the first symptom you can look for when
 you're considering use-cases for GADTs
 
-*symptom \#1: When you need to to add extra cases for invalid states to make
-your pattern matches exhaustive* Now lets say we wanted to write an `eval`
-function that returned a proper OCaml `int` or `bool` rather than the wrapped
-`value` values.
+{::options parse_block_html="true" /}
+<div class="emphasis_block">
+**symptom \#1**: When you need to to add extra cases for invalid states to make
+your pattern matches exhaustive
+</div>
+
+Now lets say we wanted to write an `eval` function that returned a
+proper OCaml `int` or `bool` rather than the wrapped `value` values.
 
 To do this we would need to create a function for each primitive type, like so
 
 ```ocaml
 let eval_int: value -> int = function
-  | VInt x -> x
-  | VBool _ -> failwith "Got VBool, expected VInt"
+  | Int x -> x
+  | Bool _ -> failwith "Got Bool, expected Int"
 
 let eval_bool: value -> bool = function
-  | VBool b -> b
-  | VInt _ -> failwith "Got VInt, expected VBool"
+  | Bool b -> b
+  | Int _ -> failwith "Got Int, expected Bool"
 ```
 
 Again, this solution works but it is rather unsatisfying to have
@@ -156,8 +160,12 @@ boilerplate like that. It would be preferable if we could have a single
 function where its return type would depend on the input. This leads us
 to symptom \#2:
 
-*symptom \#2: You want the result of a function to depend on the data
-constructor used to create the data*
+{::options parse_block_html="true" /}
+<div class="emphasis_block">
+**symptom \#2**: You want the result of a function to depend on the data
+constructor used to create the data
+</div>
+
 With these two symptoms in mind lets see what the GADT implementation
 would look like.
 
@@ -169,8 +177,8 @@ how to define GADTs in OCaml. Remember that we previously defined the
 
 ```ocaml
 type value =
-  | VBool of bool
-  | VInt of int
+  | Bool of bool
+  | Int of int
 ```
 
 To define a GADT we need to use a slightly different syntax. The following
@@ -184,9 +192,9 @@ constr-decl ::= ...
 For the `value` type the GADT definition would look like this
 
 ```ocaml
-type value' =
-  | VBool' : bool -> value'
-  | VInt' : int -> value'
+type value =
+  | Bool : bool -> value
+  | Int : int -> value
 ```
 
 Notice that we explicitly type the constructors. On its own this isn't
@@ -195,40 +203,40 @@ the GADT as you will see shortly. Now lets give the full GADT
 implementation a go.
 
 ```ocaml
-type _ value' =
-  | GBool : bool -> bool value'
-  | GInt : int -> int value'
+type _ value =
+  | Bool : bool -> bool value
+  | Int : int -> int value
 
-type _ expr' =
-  | GValue : 'a value' -> 'a expr'
-  | GIf : bool expr' * 'a expr' * 'a expr' -> 'a expr'
-  | GEq : 'a expr' * 'a expr' -> bool expr'
-  | GLt : int expr' * int expr' -> bool expr'
+type _ expr =
+  | Value : 'a value -> 'a expr
+  | If : bool expr * 'a expr * 'a expr -> 'a expr
+  | Eq : 'a expr * 'a expr -> bool expr
+  | Lt : int expr * int expr -> bool expr
 ```
 
-We define `value`' and `expr`' GADTs which are parameterized with an
-anonymous types (notice the `_`) and each data constructor is explicitly
-typed with a type for this parameter, e.g. the `GBool` constructor takes
+We define `value` and `expr` GADTs which are parameterized with an
+anonymous type (notice the `_`) and each data constructor is explicitly
+typed with a type for this parameter, e.g. the `Bool` constructor takes
 a `bool` and gives you a `bool` typed `value`'.
 
 The type parameter allows us to do two things:
 
 -   We can associate a specific type with each data constructor, e.g.
-    `GBool` is of type `bool expr`'.
+    `Bool` is of type `bool expr`'.
 -   We can restrict the input to functions using the type parameter of
-    `expr`', e.g. `GIf` requires that the first argument needs to be of
+    `expr`', e.g. `If` requires that the first argument needs to be of
     type `bool expr`'.
 
 Now that we've told the compiler about these restrictions lets see how
 the `eval`' function turns out.
 
 ```ocaml
-let rec eval' : type a. a expr' -> a = function
-  | GValue (GBool b) -> b
-  | GValue (GInt i) -> i
-  | GIf (b, l, r) -> if eval' b then eval' l else eval' r
-  | GEq (a, b) -> (eval' a) = (eval' b)
-  | GLt (a,b) -> a < b ;;
+let rec eval : type a. a expr -> a = function
+  | Value (Bool b) -> b
+  | Value (Int i) -> i
+  | If (b, l, r) -> if eval b then eval l else eval r
+  | Eq (a, b) -> (eval a) = (eval b)
+  | Lt (a,b) -> (eval a) < (eval b)
 ```
 
 This is so wonderfully concise that the previously solution now looks
@@ -236,12 +244,12 @@ horrific. Notice that this match is exhaustive __and__ the return type is
 an actual ocaml primitive type. This is possible as OCaml now associates
 a specific type for the type parameter of each data constructor.
 
-Lets give the `eval`' function as go with an example
+Lets give the `eval` function as go with an example
 
 ```ocaml
-eval' (GIf ((GEq ((GValue (GInt 2)), (GValue (GInt 2)))),
-      (GValue (GInt 42)),
-      (GValue (GInt 12))));;
+eval (If ((Eq ((Value (Int 2)), (Value (Int 2)))),
+      (Value (Int 42)),
+      (Value (Int 12))))
 ```
 ```
 42
@@ -250,9 +258,9 @@ eval' (GIf ((GEq ((GValue (GInt 2)), (GValue (GInt 2)))),
 And an example where we return a `bool` rather than `int`
 
 ```ocaml
-eval' (GIf ((GEq ((GValue (GInt 2)), (GValue (GInt 2)))),
-      (GValue (GBool true)),
-      (GValue (GBool false))));;
+eval (If ((Eq ((Value (Int 2)), (Value (Int 2)))),
+      (Value (Bool true)),
+      (Value (Bool false))))
 ```
 ```
 - : bool = true
@@ -261,15 +269,13 @@ eval' (GIf ((GEq ((GValue (GInt 2)), (GValue (GInt 2)))),
 Now if we give an invalid example as try, let's see what happens
 
 ```ocaml
-eval' (GIf (GInt 42, GInt 42, GInt 42));;
+eval (If (Int 42, Int 42, Int 42))
 ```
 ```
-Characters 12-19:
-  eval' (GIf (GInt 42, GInt 42, GInt 42));;;;
-              ^^^^^^^
-Error: This expression has type int expr
-       but an expression was expected of type bool expr
-       Type int is not compatible with type bool
+eval (If (Int 42, Int 42, Int 42));;
+          ^^^^^^
+Error: This variant expression is expected to have type bool expr
+       The constructor Int does not belong to type expr
 ```
 
 Though it isn't obvious from the output this is actually a compile-time
@@ -279,6 +285,11 @@ it is no longer possible to construct an invalid AST.
 That's it for this time. If you have any feedback catch me on twitter at
 [@mads\_hartmann](http://twitter.com/mads_hartmann) or send an email my
 way a <mads379@gmail.com>.
+
+<div class="notice"> **Sat Jan 20** Based on the feedback I've gotten
+over the years I've updated the code examples to make them more clear.
+Take that into consideration when you're reading the comments below ;)
+</div>
 
 ## Footnotes
 

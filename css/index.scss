@@ -14,11 +14,7 @@
 .container.yellowgreen { @include color-theme(#266922, #fde32b)}
 .container.pinkred { @include color-theme(#d45252, #f7d2e2)}
 .container.orangepink { @include color-theme(#FFA801, #d83fd2)}
-
-.notice {
-    border: 2px solid red;
-    padding: 0px 10px 10px 10px;
-}
+.container.yellowblue {  @include color-theme(#fde32b, #000, #000)}
 
 .appetizer {
   font-style: italic;
@@ -98,6 +94,15 @@
     padding: 0;
   }
 
+}
+
+.emphasis_block {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 0px;
+  padding: 1em 20px;
+  font-size: 0.9em;
+  line-height: 1.3em;
 }
 
 /**************/
