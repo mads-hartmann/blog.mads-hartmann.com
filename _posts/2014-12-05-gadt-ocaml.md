@@ -286,7 +286,7 @@ That's it for this time. If you have any feedback catch me on twitter at
 [@mads\_hartmann](http://twitter.com/mads_hartmann) or send an email my
 way a <mads379@gmail.com>.
 
-<div class="notice"> **Sat Jan 20** Based on the feedback I've gotten
+<div class="notice"> **Jan 20, 2018** Based on the feedback I've gotten
 over the years I've updated the code examples to make them more clear.
 Take that into consideration when you're reading the comments below ;)
 </div>
