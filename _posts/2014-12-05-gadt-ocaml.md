@@ -269,13 +269,14 @@ eval (If ((Eq ((Value (Int 2)), (Value (Int 2)))),
 Now if we give an invalid example as try, let's see what happens
 
 ```ocaml
-eval (If (Int 42, Int 42, Int 42))
+eval (If ((Value (Int 42)), (Value (Int 42)), (Value (Int 42))))
 ```
 ```
-eval (If (Int 42, Int 42, Int 42));;
-          ^^^^^^
-Error: This variant expression is expected to have type bool expr
-       The constructor Int does not belong to type expr
+eval (If ((Value (Int 42)), (Value (Int 42)), (Value (Int 42))))
+                  ^^^^^^
+Error: This expression has type int value
+       but an expression was expected of type bool value
+       Type int is not compatible with type bool
 ```
 
 Though it isn't obvious from the output this is actually a compile-time
