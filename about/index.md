@@ -21,9 +21,16 @@ more approachable is very rewarding. You can check out some of the talks I've
 given [here][talks].
 
 I love developer tooling. There's something incredibly rewarding about making
-tools for your yourself. I try to improve the developer experience at the
+tools for yourself. I try to improve the developer experience at the
 companies I work at. I gave [a talk][automating-dev-envs-talk] about some of the
 work we've done at [Famly][famly] to automate our local development environment.
+
+I try to contribute to the open source software I use whenever possible. Here's
+some of the projects I'm proud to have contributed to:
+
+- [Scala][scala]
+- [Dotty][dotty]
+- Tree sitter grammars ([scala](tree-sitter-scala), [bash](tree-sitter-bash))
 
 Reach out to me on Twitter if you want to chat.
 
@@ -34,3 +41,7 @@ Reach out to me on Twitter if you want to chat.
 [github]: https://github.com/mads-hartmann
 [talks]: https://speakerdex.co/mads-hartmann
 [automating-dev-envs-talk]: https://www.youtube.com/watch?v=ByFQRa_nLLA
+[dotty]: https://github.com/lampepfl/dotty
+[scala]: https://github.com/lampepfl/scala
+[tree-sitter-bash]: https://github.com/tree-sitter/tree-sitter-bash/
+[tree-sitter-scala]: https://github.com/tree-sitter/tree-sitter-scala/
