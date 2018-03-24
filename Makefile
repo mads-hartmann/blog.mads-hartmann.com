@@ -1,5 +1,3 @@
-$(if $(shell which jekyll),,$(error "Jekyll is required."))
-
 SHELL = /usr/bin/env bash
 QUIET ?= @
 

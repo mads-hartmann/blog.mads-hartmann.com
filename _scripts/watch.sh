@@ -1,10 +1,14 @@
 #!/bin/bash
 
-
 set -euo pipefail
 
-jekyll serve \
+docker run --rm \
+  --volume="$PWD:/srv/jekyll" \
+  -it \
+  -p 8080:8080 \
+  jekyll/jekyll:3.5 \
+  jekyll serve \
     --watch \
-    --host localhost \
+    --host 0.0.0.0 \
     --drafts \
     --port 8080
