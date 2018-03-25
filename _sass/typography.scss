@@ -78,6 +78,14 @@ blockquote {
     vertical-align: -0.4em;
   }
 
+  // Hack to only display the opening quote
+  &:after {
+    visibility: hidden;
+    content: close-quote;
+    font-size: 0em;
+    line-height: 0;
+  }
+
   p {
     font-size: 0.9em;
     line-height: 1.3em;
