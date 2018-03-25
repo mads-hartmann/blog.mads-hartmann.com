@@ -5,20 +5,24 @@ date: 2018-03-24 12:00:00
 colors: pinkred
 ---
 
-Famlydev has evolved quite a lot since I have [a talk][famlydev-talk] about it
+`famlydev` has evolved quite a lot since I gave [a talk][famlydev-talk] about it
 last year. One of the biggest changes is we've loosened the requirement that
 everything should run inside of Docker. Instead the developer should be able
 to mix-and-match between having things running on the host, in docker, or in
-our staging environment. To make this possible we run a proxy whoose
+our staging environment. To make this possible we run a proxy whose
 configuration I'll go through in this blog post.
 
 ## Background
 
 I alluded to the goal in the in the teaser, but I'll spend a few sentences
-clearing up the use-case a bit as all of this might be very famly specific 😉
+clearing up the use-case a bit as all of this might be very Famly specific 😉
 
-Here's a bit from an internal issue on our famlydev repository explaining the
-need for the proxy.
+All of our services can be configured through environment variables and we use
+these to configure how the services can find each other - in production we use
+Kubernetes' DNS based service discovery, e.g. we simply set `FAMLYAPI` to
+`famlyapi-service` and kubernetes takes takes of the rest. During development we
+used Dockers DNS resolver to achieve the same thing. Here's a bit from an
+internal issue on our `famlydev` repository explaining the need for the proxy.
 
   > The original vision was that everything would be running inside of Docker
   > so routing could be handled entirely by Dockers DNS server but in practice
@@ -31,19 +35,22 @@ need for the proxy.
   > staging. This is why we have a proxy in famlydev.
 
 Alright, so we introduced a proxy that's running on port `80` which routes to
-the right services. However, this came with it's own set of issues, namely
+the right services. However, this came with its own set of issues, namely
 that if you wanted to switch out a service you'd had to jump through a few
 hoops. Here's another excerpt from the same issue.
 
-  > If you want to route traffic to a local version of famlyapi, for example,
+  > If you want to route traffic to a local version of `famlyapi`, for example,
   > you have to update your `environment.env` file, update the `nginx.conf`
   > file and restart the relevant containers as updated environment variables
   > aren't propagated into running containers.
 
-That's because we use environment variables to tell the services where they can find each other (e.g. `FAMLYAPI=famlyapi:8090` and `famlyapi` would be resolved by Docker, and to use the local version you'd use `FAMLYAPI=docker.for.mac.host.internal:8090`, however NGINX doesn't support using environment varialbes in it's config so you'd have to update that as well ☹️)
+The whole purpose of `famlydev` is that everything should just work™️ so forcing
+people to remember these kinds of workflows just to route traffic to a locally
+running service isn't good enough.
 
-The **solution** we have up with to fix this is to use DNS for service
-discovery and use NGINX upstream definitions with fallbacks.
+Our current **solution** is to use DNS for service discovery together with NGINX
+upstream definitions to encode a specific precedence when routing traffic to a
+service. I'll cover each of these techniques in the next two sections.
 
 ## Service discovery through DNS
 
@@ -91,14 +98,25 @@ services:
           - signin.famly.local
 ```
 
-## Host precedence
+Alright, so now `famlyapi.famly.local` will route to `localhost` if resolved
+on the host and will route to NGINX if resolved inside of Docker. So now we just
+need to make sure that the NGXIN proxy routes the traffic to the correct place.
 
-We've defined a precedence for the our services. That is, something running on
-the host takes precedence over anything running inside of Docker. For the
-services in Docker the dev containers take precende over the ``production''
-containers.
+## NGINX upstream definitions
 
-Here's the full NGINX configuration.
+Now that all traffic goes to NGINX we have to make sure it sends the traffic to
+the right service. To do this we define a [server block][server] for each
+service and use [upstream][upstream] blocks to define a set of ports it should
+try to connect to a specific service on.
+
+The trick here is that we've defined a precedence for each "configuration" of a
+service. E.g. running `famlyapi` locally on the host should receive traffic
+before the `famlyapi` instance running inside of Docker (if one is running there
+at all) - we use the port number to distinguish between the various
+configurations.
+
+Here's the full NGINX configuration - I've annotated it with plenty of comments
+to explain some of the oddities of the configuration.
 
 ```nginx
 # famlydevs proxy configuration - all traffic goes through this proxy.
@@ -115,7 +133,8 @@ Here's the full NGINX configuration.
 #    'server famlyapi:8090 backup' As we arent running famlyapi Dockers DNS
 #    server can't resolve `famlyapi` and thus NGINX won't boot.
 #    To work around this we expose a fixed port for each service and map it
-#    out to the Mac, as it can resolve `docker.for.mac.host.internal` just fine
+#    out to the Mac, as it can resolve `docker.for.mac.host.internal`
+#    just fine.
 #
 
 worker_processes auto;
@@ -155,8 +174,7 @@ http {
   # DNS
   #
 
-  # We use dockers internal DNS as that takes care of service discovery inside
-  # of the docker network as well as resolving the `docker.for.mac.host.internal`
+  # We use dockers internal DNS to resolve the docker.for.mac.host.internal
   # host which we rely heavily on.
   resolver 127.0.0.11 valid=5s;
   resolver_timeout 10s;
@@ -187,14 +205,14 @@ http {
     server docker.for.mac.host.internal:8080;        # local
     server docker.for.mac.host.internal:8081 backup; # dev
     server docker.for.mac.host.internal:8082 backup; # prebuilt
-    server docker.for.mac.host.internal:8083 backup; # app
+    server docker.for.mac.host.internal:8083 backup; # prod
   }
 
   upstream app {
     server docker.for.mac.host.internal:4200;        # local
     server docker.for.mac.host.internal:4201 backup; # dev
     server docker.for.mac.host.internal:4202 backup; # prebuilt
-    server docker.for.mac.host.internal:4203 backup; # app
+    server docker.for.mac.host.internal:4203 backup; # prod
   }
 
   upstream demo {
@@ -259,7 +277,9 @@ http {
 }
 ```
 
-I hope this wasn't too niche 😉
+I realize this might be incredibly Famly specific, but I hope you still got something out of it 😉
 
 [famlydev-talk]: https://speakerdex.co/mads-hartmann/automating-developer-environments-ee3c577a
 [network-alias]: https://docs.docker.com/compose/compose-file/#aliases
+[server]: https://nginx.org/en/docs/http/ngx_http_core_module.html#server
+[upstream]: https://nginx.org/en/docs/http/ngx_http_upstream_module.html
