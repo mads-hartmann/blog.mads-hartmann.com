@@ -11,4 +11,5 @@ docker run --rm \
     --watch \
     --host 0.0.0.0 \
     --drafts \
+    --incremental \
     --port 8080
