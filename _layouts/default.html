@@ -14,6 +14,9 @@
     </head>
     <body>
       <div class="container {{page.colors}}">
+        <div class="scroll-indicator-container">
+          <div class="scroll-indicator-progress"></div>
+        </div>
 
         <div class="menu">
           <a href="/">
@@ -49,5 +52,7 @@
 
       </div>
       {% include google-analytics.html %}
+
+      <script type="text/javascript" src="/js/scroll-indicator.js"></script>
     </body>
 </html>

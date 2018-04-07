@@ -8,6 +8,8 @@
 @import "footer";
 @import "syntax-highlighting";
 
+$scroll-indicator-heigght: 10px;
+
 .container.purple { @include color-theme(#54226d, #eac0e7)}
 .container.brownish { @include color-theme(#964729, #5f0303)}
 .container.blueish { @include color-theme(#151d84, #d671ec)}
@@ -24,13 +26,30 @@
   color: rgba(46, 48, 58, 0.6);
 }
 
+/*****************************/
+/* Scroll progress indicator */
+/*****************************/
+
+.scroll-indicator-container {
+  height: $scroll-indicator-heigght;
+  position: fixed;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+
+  .scroll-indicator-progress {
+    height: 100%;
+  }
+}
+
+
 /*************/
 /* container */
 /*************/
 
 .container {
   width: 45%;
-  margin: 0px auto;
+  margin: $scroll-indicator-heigght auto 0px auto;
 }
 
 @media (max-width: 1440px) {
