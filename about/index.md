@@ -36,8 +36,8 @@ Reach out to me on Twitter if you want to chat.
 
 [diku]: http://www.diku.dk/english/
 [famly]: https://famly.co/?skip-geo-ip=1
-[twitter]: http://www.twitter.com/mads_hartmann
-[linkedin]: http://www.linkedin.com/pub/mads-hartmann-jensen/12/857/528
+[twitter]: https://www.twitter.com/mads_hartmann
+[linkedin]: https://www.linkedin.com/pub/mads-hartmann-jensen/12/857/528
 [github]: https://github.com/mads-hartmann
 [talks]: https://speakerdex.co/mads-hartmann
 [automating-dev-envs-talk]: https://www.youtube.com/watch?v=ByFQRa_nLLA
