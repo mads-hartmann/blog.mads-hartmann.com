@@ -108,4 +108,8 @@ researching the material for this blog post.
   compiling to a low-level instruction set. It has a very name
   comparison table in the end.
 
+- [Writing a simple Telegram bot with tagless final, http4s and fs2](http://pavkin.ru/writing-a-simple-telegram-bot-with-tagless-final-http4s-and-fs2/) by Vladimir Pavkin  
+  A concrete example showing how to build a small application using
+  Tagless Final.
+
 [^1]: Lovely quote from Rob Norris' [Talk](https://www.youtube.com/watch?v=po3wmq4S15A).
