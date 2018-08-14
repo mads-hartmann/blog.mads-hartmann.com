@@ -1,6 +1,7 @@
 .DS_Store
 .tern-port
 .sass-cache
+.vscode
 
 _site
 _setup
