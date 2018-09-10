@@ -77,13 +77,13 @@ researching the material for this blog post.
 
 ### Talks
 
-- **[Functional Programming with Effects](https://www.youtube.com/watch?v=po3wmq4S15A) by Rob Norris**.  
+- **[Functional Programming with Effects](https://www.youtube.com/watch?v=po3wmq4S15A) by Rob Norris**.
   This is one of the best and gentlest introductions to Monads that
   I've seen. Even if you can recite the Monad laws in your sleep this
   is still worth a watch as it might give you a new approach to
   teaching Monads to other developers.
 
-- [Effekt: Extensible Algebraic Effects in Scala | Scala Symposium 2017](https://www.youtube.com/watch?v=79CXOlIevVU) by Jonathan Brachthäuser  
+- [Effekt: Extensible Algebraic Effects in Scala | Scala Symposium 2017](https://www.youtube.com/watch?v=79CXOlIevVU) by Jonathan Brachthäuser
   Uses implicit function types (from dotty) to write a library in
   Scala for Extensible Algebraic effect. The library can be found on
   [Github](https://github.com/b-studios/scala-effekt). There's a very brief reference to other techniques (tagless
@@ -95,21 +95,26 @@ researching the material for this blog post.
 
 ### Blog Posts
 
-- [Deferring commitments: Tagless Final](https://medium.com/@calvin.l.fer/deferring-commitments-tagless-final-704d768f15cb) by Calvin F  
+- [Deferring commitments: Tagless Final](https://medium.com/@calvin.l.fer/deferring-commitments-tagless-final-704d768f15cb) by Calvin F
   **TODO**: Haven't read this yet.
 
 - [Typed final (tagless-final) style](http://okmij.org/ftp/tagless-final/index.html) by Oleg Kiselyov
   Has a nice short description of tagless final. It's main an index
   over all the work Oleg has done that's related to tagless final.
 
-- [Free and tagless compared - how not to commit to a monad too early](https://softwaremill.com/free-tagless-compared-how-not-to-commit-to-monad-too-early/) by Adam Warski  
+- [Free and tagless compared - how not to commit to a monad too early](https://softwaremill.com/free-tagless-compared-how-not-to-commit-to-monad-too-early/) by Adam Warski
   Quick introduction to both Free and Tagless Final. Then compares the
   two encoding through a couple of examples: combining languages,
   compiling to a low-level instruction set. It has a very name
   comparison table in the end.
 
-- [Writing a simple Telegram bot with tagless final, http4s and fs2](http://pavkin.ru/writing-a-simple-telegram-bot-with-tagless-final-http4s-and-fs2/) by Vladimir Pavkin  
+- [Writing a simple Telegram bot with tagless final, http4s and fs2](http://pavkin.ru/writing-a-simple-telegram-bot-with-tagless-final-http4s-and-fs2/) by Vladimir Pavkin
   A concrete example showing how to build a small application using
   Tagless Final.
+
+### Might be relevant
+
+- [A roadtrip with monads: from MTL, through tagless, to BIO - Paweł Szulc](https://www.youtube.com/watch?list=PLdefG8qcBW3bIA7p0sT785UkOryzLRg2Z&v=QM86Ab3lL20)
+- [Comment on Reddit about IO](https://www.reddit.com/r/scala/comments/8ygjcq/can_someone_explain_to_me_the_benefits_of_io/e2jfrg8/)
 
 [^1]: Lovely quote from Rob Norris' [Talk](https://www.youtube.com/watch?v=po3wmq4S15A).
