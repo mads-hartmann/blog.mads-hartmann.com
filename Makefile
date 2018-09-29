@@ -5,3 +5,4 @@ build: ; ./_scripts/build.sh
 clean: ; $(QUIET)rm -f $(build_targets)
 distclean: ; $(QUIET)rm -rf $(distclean_targets)
 watch: ; ./_scripts/watch.sh
+shell: ; ./_scripts/shell.sh
