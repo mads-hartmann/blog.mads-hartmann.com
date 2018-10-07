@@ -1,0 +1,12 @@
+@media print {
+  body {
+    font-size: 1rem;
+    line-height: 1.4rem;
+  }
+  .menu ul {
+    display: none;
+  }
+  .footer {
+    display: none;
+  }
+}
