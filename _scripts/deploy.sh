@@ -23,7 +23,7 @@ function invlidate-cache {
 }
 
 function main {
-    jekyll build
+    ./_scripts/build.sh
     deploy-to-s3
     invlidate-cache
 }
