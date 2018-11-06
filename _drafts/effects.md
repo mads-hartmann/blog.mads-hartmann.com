@@ -75,6 +75,11 @@ researching the material for this blog post.
 
 ## Resources
 
+### Ideas
+
+- Functional programming with effects, use case: tracing. Each effect can be
+  traced meaningfully - db, network, filesystem, etc
+
 ### Talks
 
 - **[Functional Programming with Effects](https://www.youtube.com/watch?v=po3wmq4S15A) by Rob Norris**.
