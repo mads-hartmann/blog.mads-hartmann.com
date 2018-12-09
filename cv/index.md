@@ -3,8 +3,9 @@ layout: default
 title: Mads Hartmann - CV
 ---
 
-- **2018 - present: Senior Software Engineer @ Famly** <br/>
-  **2016 - 2018: Fullstack Engineer @ Famly** <br/>
+- **2018 Dec - Now**: DevOps Engineer at [Glitch]
+
+- **2016 - 2018 Nov: Fullstack Engineer @ Famly** <br/>
   Besides the usual work of implementing features and fixing bugs I spearheaded
   our efforts to automate and streamline our infrastructure. Specifically
   dockerizing our applications, setting up a proper CI pipeline, as well as
@@ -36,3 +37,5 @@ title: Mads Hartmann - CV
   Specialised in programming languages.
 
 - **2011: Bachelors degree in Computer Science from the IT University of Copenhagen**
+
+[Glitch]: https://glitch.com
