@@ -5,7 +5,7 @@ title: Mads Hartmann - About
 
 I'm a software engineer with a fondness for **automation** and **programming languages**, especially statically typed functional ones.
 
-I hold a masters degree in computer science from the [University of Copenhagen][diku] and I'm currently working as a DevOps Engineer at [Glitch].
+I hold a masters degree in computer science from the [University of Copenhagen][diku] and I'm currently working as a Site Reliability Engineer at [Glitch].
 
 For everyday random thoughts go to my [twitter feed][twitter], for some professional information check out my [Linked-in profile][linkedin]. For my open-source activities [Github][github] is the place to go.
 

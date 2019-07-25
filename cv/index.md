@@ -3,7 +3,7 @@ layout: default
 title: Mads Hartmann - CV
 ---
 
-- **2018 Dec - Now**: DevOps Engineer at [Glitch]
+- **2018 Dec - Now**: Site Reliability Engineer at [Glitch]
 
 - **2016 - 2018 Nov: Fullstack Engineer @ Famly** <br/>
   Besides the usual work of implementing features and fixing bugs I spearheaded
