@@ -4,7 +4,6 @@
 .vscode
 
 _site
-_setup
 
 # bundler related things
 .bundle/

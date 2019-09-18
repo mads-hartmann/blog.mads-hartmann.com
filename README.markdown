@@ -4,5 +4,8 @@ To build locally:
 
 ```
 bundle install
-bundle exec jekyll serve --watch --drafts
+bundle exec jekyll serve \
+    --watch \
+    --drafts \
+    --source mads-hartmann.com
 ```

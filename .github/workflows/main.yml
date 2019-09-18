@@ -17,7 +17,7 @@ jobs:
       - name: Setup bundler environment
         run: bundle install
       - name: Build site
-        run: bundle exec jekyll build
+        run: bundle exec jekyll build --source mads-hartmann.com
       - name: Upload to S3
         uses: actions/aws/cli@master
         env:
