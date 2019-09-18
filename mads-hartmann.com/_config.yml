@@ -8,3 +8,5 @@ kramdown:
   syntax_highlighter: rouge
 disqus:
   shortname: madshartmann
+plugins:
+  - jekyll-seo-tag
