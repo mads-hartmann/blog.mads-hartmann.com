@@ -8,8 +8,10 @@ jobs:
       - uses: actions/checkout@master
       - uses: actions/setup-ruby@v1
         with:
-          ruby-version: '2.x'
+          ruby-version: "2.x"
+      - name: Install bundler
+        run: gem install bundler
       - name: Setup bundler environment
         run: bundle install
       - name: Build site
-        run: bundle exec jekyll 
+        run: bundle exec jekyll
