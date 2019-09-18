@@ -31,7 +31,7 @@ jobs:
               s3://mads-hartmann.com/ \
                 --acl public-read \
                 --cache-control "max-age=0, no-cache, no-store" \
-                --expires "Thu, 01 Jan 1970 00:00:00 GMT"'
+                --expires "Thu, 01 Jan 1970 00:00:00 GMT"
       - name: Invalidate cache
         uses: actions/aws/cli@master
         env:
