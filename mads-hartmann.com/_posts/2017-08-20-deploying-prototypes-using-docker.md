@@ -232,7 +232,7 @@ if you found it useful or have any questions 🙌
 [dockerfile-guide]: https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/
 [mikkel-hartmann.com]: http://mikkelhartmann.dk/
 [python-images]: https://hub.docker.com/_/python/
-[example]: https://github.com/mads-hartmann/mads-hartmann.github.com/tree/master/_examples/deploying-your-prototypes
+[example]: https://github.com/mads-hartmann/mads-hartmann.github.com/tree/master/examples/deploying-your-prototypes
 [elastic-beanstalk]: https://aws.amazon.com/elasticbeanstalk
 [create-aws-account]: https://aws.amazon.com/free
 [install-aws-cli]: http://docs.aws.amazon.com/cli/latest/userguide/installing.html
