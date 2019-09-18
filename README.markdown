@@ -1,7 +1,6 @@
 # mads-hartmann.com
 
-This is my blog. To run it locally run
-
-```bash
-make watch
+```
+bundle install
+bundle exec jekyll serve
 ```

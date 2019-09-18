@@ -1,7 +1,11 @@
 .DS_Store
-.tern-port
 .sass-cache
+.jekyll-cache
 .vscode
 
 _site
 _setup
+
+# bundler related things
+.bundle/
+vendor/
