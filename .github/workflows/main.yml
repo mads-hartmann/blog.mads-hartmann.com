@@ -14,4 +14,4 @@ jobs:
       - name: Setup bundler environment
         run: bundle install
       - name: Build site
-        run: bundle exec jekyll
+        run: bundle exec jekyll build
