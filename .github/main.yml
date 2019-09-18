@@ -1,0 +1,15 @@
+name: Build & deploy
+on: [push]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.x'
+      - name: Setup bundler environment
+        run: bundle install
+      - name: Build site
+        run: bundle exec jekyll 
