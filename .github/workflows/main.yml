@@ -18,23 +18,27 @@ jobs:
         run: bundle install
       - name: Build site
         run: bundle exec jekyll build
-      - uses: actions/aws/cli@master
+      - name: Upload to S3
+        uses: actions/aws/cli@master
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        args: |
-          s3 sync \
-            --region eu-central-1 \
-            _site/ \
-            s3://mads-hartmann.com/ \
-              --acl public-read \
-              --cache-control "max-age=0, no-cache, no-store" \
-              --expires "Thu, 01 Jan 1970 00:00:00 GMT"'
-      - uses: actions/aws/cli@master
+        with:
+          args: |
+            s3 sync \
+              --region eu-central-1 \
+              _site/ \
+              s3://mads-hartmann.com/ \
+                --acl public-read \
+                --cache-control "max-age=0, no-cache, no-store" \
+                --expires "Thu, 01 Jan 1970 00:00:00 GMT"'
+      - name: Invalidate cache
+        uses: actions/aws/cli@master
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        args: |
-          aws cloudfront create-invalidation \
-            --distribution-id E2PIM647ASI75H \
-            --paths '/*'
+        with:
+          args: |
+            aws cloudfront create-invalidation \
+              --distribution-id E2PIM647ASI75H \
+              --paths '/*'
