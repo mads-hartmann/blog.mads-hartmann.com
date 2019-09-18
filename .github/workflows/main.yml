@@ -1,5 +1,8 @@
 name: Build & deploy
-on: [push]
+on:
+  push:
+    branches:
+      - master
 jobs:
   build:
     name: Build
@@ -15,3 +18,6 @@ jobs:
         run: bundle install
       - name: Build site
         run: bundle exec jekyll build
+      - name: Deploy
+        run: echo "Deploying"
+        if: github.event == "push"
