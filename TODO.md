@@ -1,0 +1,2 @@
+- [ ] Improve font loading https://medium.com/clio-calliope/making-google-fonts-faster-aadf3c02a36d
+- [ ] Update old Python example to get rid of security alert
