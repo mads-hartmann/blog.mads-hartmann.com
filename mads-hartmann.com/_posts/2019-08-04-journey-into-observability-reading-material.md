@@ -75,8 +75,8 @@ Remember, there is more to observability than tracing.
 
 I hope this was useful. I'll do a follow-up post on how we've been rolling out distributed tracing at [Glitch]. Right now we have instrumented about a third of our services using OpenCensus and are sending traces to [Honeycomb](https://www.honeycomb.io) through the OpenCensus Collector. It has been live in production for about a week.
 
-[^1]: https://lightstep.com/blog/three-pillars-zero-answers-towards-new-scorecard-observability/
-[^2]: https://twitter.com/mipsytipsy/status/1044666259898593282
+[^1]: [Lightstep blog "Three Pillars with Zero Answers - Towards a New Scorecard for Observability"](https://lightstep.com/blog/three-pillars-zero-answers-towards-new-scorecard-observability/)
+[^2]: [Tweet by Charity Majors](https://twitter.com/mipsytipsy/status/1044666259898593282)
 [^3]: Episode 7 of [ollycast: the observability podcast](https://twitter.com/o11ycast) around 11:40.
 
 
