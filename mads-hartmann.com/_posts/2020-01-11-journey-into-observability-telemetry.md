@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Journey into Observability: Telemetry"
-date: 2019-12-22 06:00:00
+date: 2020-01-11 12:00:00
 categories: SRE
 colors: pinkred
 excerpt_separator: <!--more-->
