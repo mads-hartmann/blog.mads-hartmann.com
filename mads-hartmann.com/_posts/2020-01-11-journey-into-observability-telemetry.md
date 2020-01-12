@@ -7,7 +7,7 @@ colors: pinkred
 excerpt_separator: <!--more-->
 ---
 
-At [Glitch](https://glitch.com/create) we have been investing in observability tools to help us keep the platform reliable, even as more and more people run their apps on Glitch. In the [previous post](https://mads-hartmann.com/sre/2019/08/04/journey-into-observability-reading-material.html) in this series I highlighted some of the best observability resources I've come across so far. In this post I'll focus on what kinds of telemetry is best suited for observability.
+At [Glitch](https://glitch.com/create) we have been investing in observability tools to help us keep the platform reliable, even as more and more people run their apps on Glitch. In the [previous post](https://mads-hartmann.com/sre/2019/08/04/journey-into-observability-reading-material.html) in this series I highlighted some of the best observability resources I've come across so far. In this post I'll focus on telemetry.
 
 <!--more-->
 
@@ -17,7 +17,7 @@ In general, I use the term _telemetry_ to refer to all the data and signals your
 
 There are other use-cases for telemetry such as providing feedback to other components of your infrastructure like load-balancer, auto-scalers and so on. Likely, other kinds of telemetry - such as a health endpoint or gauge metrics - are more suitable and cost-effective for those purposes; in this post, I focus on what telemetry is best suited if you're trying to make your systems observable.
 
-I hope to provide a quick overview of what the observability telemetry landscape looks like today, as well as highlight some of the best critiques of the status quo I've come across to help you prepare for the observability tools of tomorrow.
+I hope to provide a quick overview of what the observability telemetry landscape looks like today, as well as highlight some of the best critiques of the status quo I've come across.
 
 **Outline**
 
