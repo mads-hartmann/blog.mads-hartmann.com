@@ -48,7 +48,7 @@ So at a quick glance, this looks pretty good - it's a lot of data which can be s
 
 - Secondly, as you might have guessed, this is an expensive way to add tracing to your systems. With no sampling, 65% of all our log lines were timing start/end lines. We were sending 5 million custom metrics monthly to our vendor (we were allowed around 30K) - which resulted in a slightly unhappy mail from our metrics provider and a threat of an astronomically high monthly fee if we didn't stop sending all those high-cardinality metrics. Thankfully we worked it out with them without paying for our overages.
 
-All of this is to say that we were already trying to ask sophisticated questions using high-cardinality data. We just didn't have the tooling in place. They tools weren't built for these kinds of queries, which resulted in a bad user experience and unhappy vendors. And we wanted to add more high-cardinality values - we wanted to understand the latency profile not just for specific routes and projects, but also split by user id, user agent, and so on. So, we needed a new approach, one that was built with these kinds of use-cases in mind.
+All of this is to say that we were already trying to ask sophisticated questions using high-cardinality data. We just didn't have the tooling in place. The tools weren't built for these kinds of queries, which resulted in a bad user experience and unhappy vendors. And we wanted to add more high-cardinality values - we wanted to understand the latency profile not just for specific routes and projects, but also split by user id, user agent, and so on. So, we needed a new approach, one that was built with these kinds of use-cases in mind.
 
 ### Where we are now and how we got here
 
