@@ -89,4 +89,8 @@ Here's a bit of advice if you're considering starting your own journey into obse
 
 - Training sessions - your tools are only worth the money you pay for them if you use them. Help your co-workers understand the value of the tools and teach them how to use them. On a regular basis, not just a single session.
 
+If you're still not sure how you would start rolling out observability at your company I recommend listening to the [Page It to the Limit](https://www.pageittothelimit.com) episode titled [Observability With Christine Yen](https://www.pageittothelimit.com/observability-with-christine-yen/). It's a good introduction to observability, but it also ends with succinct description of the steps involved in rolling out observability; the main theme throughout the episode is that observability isn't only for operations.
+
+Best of luck on your observability journey.
+
 [^1]: If you do the math that's 100 requests per minute per box. On the surface that isn't very impressive, but keep in mind we run full-stack apps for our users - most of these boxes are doing much, **much** more than just serving HTTP requests 😉
