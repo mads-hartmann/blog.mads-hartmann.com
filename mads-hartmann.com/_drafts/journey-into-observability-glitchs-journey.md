@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Journey into Observability: Glitch's journey"
-date: 2020-01-20 12:00:00
+date: 2020-03-05 12:00:00
 categories: SRE
 colors: pinkred
 excerpt_separator: <!--more-->
@@ -24,7 +24,7 @@ As I have alluded to in the other parts of this little series of posts we've  be
 *If this your first encounter with observability I recommend reading my two previous posts on the topic before this one: [reading material](https://mads-hartmann.com/sre/2019/08/04/journey-into-observability-reading-material.html), and [telemetry](https://mads-hartmann.com/sre/2020/01/11/journey-into-observability-telemetry.html)*
 </div>
 
-In observability, context is everything. The same goes for experience reports like this post - otherwise, you have no way of accessing if any of our experiences are applicable to you. So, we are around ~30 developers who maintain ~10 micro-services which run on ~1000 EC2 instances that serve around 100k requests/minute[^1].
+In observability, context is everything. The same goes for experience reports like this post - otherwise, you have no way of accessing if any of our experiences are applicable to you. So, we are around ~30 developers who maintain ~5 micro-services which run on ~1000 EC2 instances that serve around 100k requests/minute[^1].
 
 Now, in the context of observability, the exact value for these numbers isn't important - sure the request/minute is important as a sufficiently high number means you probably have to sample your telemetry - the most important thing is the change rate. In Glitch's case all but the number of micro-services has increased dramatically in the year or so I've been here.
 
@@ -38,7 +38,7 @@ That's not to say that you only need observability to help with incident respons
 
 In some sense, Glitch's journey into observability began way before I started working here. When I joined we had a *sort-of-if-you-squint* custom distributed tracing solution in place. We generated a `request-id` for every incoming request and propagated it throughout our system and attached it to our telemetry - this allowed us to see all logs line for a single request in Kibana, for example. We also had some timing method you could use to record the duration of a task which would result in a timing metric which was sent to our metrics provider, as well as a `timing started: <name>` and `timing ended <name> <duration>` log lines which could be viewed in Kibana. The `request-id` is analogous to a `trace-id` and the timing marks indicate a `span`. We added lots of tags to our telemetry, like `request-route`, `project-id`, etc. This allowed us to ask questions like:
 
-- How long does it take to start cold-start a Glitch project split by mean, p50, p95, p99 - but also drill down to the individual projects.
+- How long does it take to cold-start a Glitch project split by mean, p50, p95, p99 - but also drill down to the individual projects.
 
 - Similarly, we could use the metrics to understand the latency profile of specific routes. If a route had a performance regression we could slice it by a few dimensions, like the EC2 host, or find individual requests to the route in Kibana and look at the timing logs to try to understand where the latency was introduced; essentially constructing a trace-view mentally by reading log lines.
 
@@ -63,7 +63,7 @@ We created a telemetry checklist for each service and methodically worked on get
 
 ## Our experience so far
 
-At this point, we've had all our services instrumented for about three months or so. We still have a few things we haven't sorted out yet - more on that in the next section - but we have used it enough that I feel comfortable sharing some of our experiences so far.
+At this point, we've had all our services instrumented for about six months or so. We still have a few things we haven't sorted out yet - more on that in the next section - but we have used it enough that I feel comfortable sharing some of our experiences so far.
 
 While I don't have any exact numbers to share, I do feel that we're able to handle incidents faster and with more confidence. We're able to disprove our hypotheses more quickly, which means we usually find the problems faster. Overall there are fewer occasions where we draw up blanks during incident response. This alone has made it worth the effort, but one of the most valuable things we've gotten out of this journey is a shift in perspective. We now expect to be able to view and understand what our services are doing in production to a level we didn't before. That means we're now more comfortable carrying out small experiments, and it's starting to influence how we release our software - smaller changes, guarded by feature flags. Adding these capabilities involved work that's outside the scope of observability, but aiming for observability pushed us to do better. I'm not surprised companies that are far into their observability journey start advocating for testing in production - once you have the data and you can slice & dice it as you see fit, testing in production seems like a totally reasonable thing to do.
 
@@ -73,21 +73,19 @@ One thing that has surprised me is that we don't use the trace-view very much. W
 
 There are still a few things we haven't quite sorted out yet:
 
-- Getting sampling right is hard. We still use our metrics provider for some application-level metrics. The general rule-of-thumb internally right now is: If you need to know the exact number of times something happened, then use a metric or a log line alongside tracing. This is mostly for infrequent events where we worry that our aggressive sampling won't catch them. If we could move the sampling decision to the application layer and give the developer the power to choose that an event shouldn't be sampled I think all of our custom application metrics could go away. I also find the idea of using targeted feature flags to control sampling for a specific subset of services or users at runtime very alluring.
+- Getting sampling right is hard. We still rely on metrics and logs in some circumstances. The general rule-of-thumb internally right now is: If you need to know the exact number of times something happened, then use a metric or a log line alongside tracing. This is mostly for infrequent events where we worry that our aggressive sampling won't catch them. If we could move the sampling decision to the application layer and give the developer the power to choose that an event shouldn't be sampled I think all of our custom application metrics could go away. I also find the idea of using targeted feature flags to control sampling for a specific subset of services or users at runtime very alluring; essentially what [Will Sargent](https://twitter.com/will_sargent) describes in his post [Targeted Diagnostic Logging in Production](https://tersesystems.com/blog/2019/07/22/targeted-diagnostic-logging-in-production/) but for traces.
 
-- Getting even more value out of your observability telemetry. Right now we're mainly using Honeycomb to ask questions of our systems. But we could be using the data for so much more, like defining SLOs and error budgets for our services. Honeycomb has a pretty nice SLO feature that we're eager to use. Right now we're experimenting with it for a single service. We hope that SLOs/Error budgets will help us prioritize work and help decide when a service is sufficiently broken that it calls for immediate incident response.
-
-- What about the browser. We don’t instrument our frontends which means there’s a big part of a request’s life-cycle we don’t see. We had a problem with an elevated rate of 502 requests as experienced by our load balancer (ALB) which wasn’t reflected in our traces. If the traces had started in the browser rather than the first service to receive the request from the ALB then we would’ve noticed the problem.
+- Right now we don’t instrument our frontends. This is unfortunate as it means there’s a big part of a request’s life-cycle we can't observe. We had a problem with an elevated rate of 502 requests as experienced by our load balancer (ALB) which wasn’t reflected in our traces. If the traces had started in the browser rather than the first service to receive the request from the ALB then we would’ve noticed the problem much sooner.
 
 ### Advice
 
 Here's a bit of advice if you're considering starting your own journey into observability.
 
-- I highly encourage writing a Telemetry checklist. While you're rolling out tracing you can use it to communicate progress with the rest of your team, and in the long run it helps create a shared vocabulary - for example, which attributes are important and what to call them.
+- I highly encourage writing a Telemetry checklist. Having services produce consistent telemetry makes it easier to debug problems across services and helps build a shared vocabulary. You can also use it to communicate progress with the rest of your company as you're working on having all services conform to the checklist.
 
-- Start at the edges, and work your way backwards in your service hierarchy. Preferably at ELB, or even the browser.
+- Start instrumenting the services that are closest to your users and work your way backwards in your service hierarchy. This makes it possible to observe slow requests as experienced by your users early on - adding more services is then a matter of “filling out the blanks” in your traces. This way you'll get value out of your traces really early in your journey; a little observability goes a long way.
 
-- Training sessions - your tools are only worth the money you pay for them if you use them. Help your co-workers understand the value of the tools and teach them how to use them. On a regular basis, not just a single session.
+- Be sure to advocate for your observability tools internally - your tools are only worth the money you pay for them if people use them.
 
 If you're still not sure how you would start rolling out observability at your company I recommend listening to the [Page It to the Limit](https://www.pageittothelimit.com) episode titled [Observability With Christine Yen](https://www.pageittothelimit.com/observability-with-christine-yen/). It's a good introduction to observability, but it also ends with succinct description of the steps involved in rolling out observability; the main theme throughout the episode is that observability isn't only for operations.
 
