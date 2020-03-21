@@ -284,8 +284,7 @@ error rather than the runtime error we got in the ADT example, that is,
 it is no longer possible to construct an invalid AST.
 
 That's it for this time. If you have any feedback catch me on twitter at
-[@mads\_hartmann](http://twitter.com/mads_hartmann) or send an email my
-way a <mads379@gmail.com>.
+[@mads\_hartmann](http://twitter.com/mads_hartmann).
 
 <div class="notice"> **Jan 20, 2018** Based on the feedback I've gotten
 over the years I've updated the code examples to make them more clear.
