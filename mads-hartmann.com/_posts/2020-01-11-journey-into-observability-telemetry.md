@@ -11,6 +11,12 @@ At [Glitch](https://glitch.com/create) we have been investing in observability t
 
 <!--more-->
 
+{::options parse_block_html="true" /}
+<div class="note-box">
+This is the second post in a [series of post on observability](/series/observability/). If you like this post make sure to also check out the other posts in the series.
+</div>
+
+
 In general, I use the term _telemetry_ to refer to all the data and signals your services produce about themselves. In this case, we're interested in the kinds of telemetry that will help you make your systems observable. Here's my attempt at defining observability from the previous post:
 
 > observability is all about being able to ask questions of your system and get answers based on the existing telemetry it produces; if you have to re-configure or modify the service to get answers to your questions you haven't achieved observability yet.

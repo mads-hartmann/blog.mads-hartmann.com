@@ -11,6 +11,11 @@ I've been reading up on observability over the last three months. In this post I
 
 <!--more-->
 
+{::options parse_block_html="true" /}
+<div class="note-box">
+This is the first post in a [series of post on observability](/series/observability/). If you like this post make sure to also check out the other posts in the series.
+</div>
+
 As [Glitch] is getting an ever-increasing amount of traffic we are sometimes struggling to keep up; what was previously considered performance edge-cases are now commonplace. A lot of *Unknown-Unknowns* are becoming *Known-Unknowns*. We are investing in observability tools now in the hopes that it will help us ensure that everyone has a snappy experience even as more and more people run their apps on Glitch.
 
 Over the last three months, I've been reading up on observability. To be honest I found it to be a quite confusing topic to dive into. You will hear people talk about the *three pillars of observability* - metrics, logs, and traces - which seems comprehensible, but it turns out that it is not really what observability is [^1] [^2]. If you do a glance over the traditional vendors they all claim to give you everything you need to achieve observability - but they all use the same vocabulary to describe their offerings even though they are clearly selling different things. If you research which standards and tools might be relevant you'll find competing standards and a lot of vendor-specific libraries.

@@ -1,4 +1,4 @@
-@mixin color-theme($background, $foreground, $link-color:$background) {
+@mixin color-theme($background, $foreground, $link-color: $background) {
   a {
     color: $link-color;
   }
@@ -33,7 +33,6 @@
   }
 
   .footnotes {
-      border-color: $background;
+    border-color: $background;
   }
-
 }

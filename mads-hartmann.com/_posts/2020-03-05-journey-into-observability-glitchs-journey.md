@@ -11,6 +11,11 @@ As I have alluded to in the other parts of this little series of posts we've  be
 
 <!--more-->
 
+{::options parse_block_html="true" /}
+<div class="note-box">
+This is the third post in a [series of post on observability](/series/observability/). If you like this post make sure to also check out the other posts in the series.
+</div>
+
 **Outline**
 
 {: .no_toc }
