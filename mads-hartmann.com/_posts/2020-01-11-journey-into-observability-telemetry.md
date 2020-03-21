@@ -21,7 +21,7 @@ In general, I use the term _telemetry_ to refer to all the data and signals your
 
 > observability is all about being able to ask questions of your system and get answers based on the existing telemetry it produces; if you have to re-configure or modify the service to get answers to your questions you haven't achieved observability yet.
 
-There are other use-cases for telemetry such as providing feedback to other components of your infrastructure like load-balancer, auto-scalers and so on. Likely, other kinds of telemetry - such as a health endpoint or gauge metrics - are more suitable and cost-effective for those purposes; in this post, I focus on what telemetry is best suited if you're trying to make your systems observable.
+There are other use-cases for telemetry such as providing feedback to other components of your infrastructure like load-balancers, auto-scalers and so on. Likely, other kinds of telemetry - such as a health endpoint or gauge metrics - are more suitable and cost-effective for those purposes; in this post, I focus on what telemetry is best suited if you're trying to make your systems observable.
 
 I hope to provide a quick overview of what the observability telemetry landscape looks like today, as well as highlight some of the best critiques of the status quo I've come across.
 
@@ -63,7 +63,7 @@ My favorite resources on this critique are:
 
 ### The problems with logs and the inadequacy of metrics
 
-Now, I want to re-iterate there are other use-cases for logs and metrics. such as feedback mechanisms to other components of your infrastructure like load-balancer, auto-scalers and so on. It's very likely, for example, that gauge metrics are more suitable and cost-effective for those purposes; this post focuses on what telemetry is best suited if you're trying to make your systems observable. So let's look at why logs and metrics are inadequate.
+Now, I want to re-iterate there are other use-cases for logs and metrics. such as feedback mechanisms to other components of your infrastructure like load-balancers, auto-scalers and so on. It's very likely, for example, that gauge metrics are more suitable and cost-effective for those purposes; this post focuses on what telemetry is best suited if you're trying to make your systems observable. So let's look at why logs and metrics are inadequate.
 
 - **metrics** There a few things that make metrics unsuitable for observability, but they come all come down to lack of context; and in observability context is everything. (1) metric systems usually don't allow for high-cardinality values. This means there's a limit on how many distinct values you are allowed to have for your tags. For example, adding the `hostname` is probably fine if you just have a few hundred hosts, but adding user ids is probably not okay. Effectively this restricts how you can later slice & dice your metrics when debugging things, making metrics suitable for alerting on known problems but bad at uncovering new ones. (2) metrics are pre-aggregated, which means a lot of information is thrown away; this is information you can't recover no matter how sophisticated your tooling might be. (3) metrics often rely on averages of averages to report values. For example, a requests/second metric will be averaged on the host and then again when aggregated by your metrics system; [Averages of averages can be deceiving](http://mathforum.org/library/drmath/view/52790.html).
 
