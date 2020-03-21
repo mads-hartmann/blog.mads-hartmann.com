@@ -13,7 +13,7 @@ I've been reading up on observability over the last three months. In this post I
 
 {::options parse_block_html="true" /}
 <div class="note-box">
-This is the first post in a [series of post on observability](/series/observability/). If you like this post make sure to also check out the other posts in the series.
+This is the first post in a [series of post on observability](/series/observability/index.html). If you like this post make sure to also check out the other posts in the series.
 </div>
 
 As [Glitch] is getting an ever-increasing amount of traffic we are sometimes struggling to keep up; what was previously considered performance edge-cases are now commonplace. A lot of *Unknown-Unknowns* are becoming *Known-Unknowns*. We are investing in observability tools now in the hopes that it will help us ensure that everyone has a snappy experience even as more and more people run their apps on Glitch.
