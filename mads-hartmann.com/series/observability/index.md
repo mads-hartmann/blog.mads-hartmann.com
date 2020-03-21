@@ -1,7 +1,12 @@
 ---
 layout: default
 title: Mads Hartmann - Observability
+colors: pinkred
 ---
+
+<div class="title">
+  <h1>Journey into Observability</h1>
+</div>
 
 At [Glitch](https://glitch.com) we have been investing in observability tools to help us keep the platform reliable, even as more and more people run their apps on Glitch.
 
