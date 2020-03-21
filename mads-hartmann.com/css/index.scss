@@ -11,13 +11,27 @@
 
 $scroll-indicator-heigght: 10px;
 
-.container.purple { @include color-theme(#54226d, #eac0e7)}
-.container.brownish { @include color-theme(#964729, #5f0303)}
-.container.blueish { @include color-theme(#151d84, #d671ec)}
-.container.yellowgreen { @include color-theme(#266922, #fde32b)}
-.container.pinkred { @include color-theme(#d45252, #f7d2e2)}
-.container.orangepink { @include color-theme(#FFA801, #d83fd2)}
-.container.yellowblue {  @include color-theme(#fde32b, #000, #000)}
+.container.purple {
+  @include color-theme(#54226d, #eac0e7);
+}
+.container.brownish {
+  @include color-theme(#964729, #5f0303);
+}
+.container.blueish {
+  @include color-theme(#151d84, #d671ec);
+}
+.container.yellowgreen {
+  @include color-theme(#266922, #fde32b);
+}
+.container.pinkred {
+  @include color-theme(#d45252, #f7d2e2);
+}
+.container.orangepink {
+  @include color-theme(#ffa801, #d83fd2);
+}
+.container.yellowblue {
+  @include color-theme(#fde32b, #000, #000);
+}
 
 .appetizer {
   font-style: italic;
@@ -42,7 +56,6 @@ $scroll-indicator-heigght: 10px;
     height: 100%;
   }
 }
-
 
 /*************/
 /* container */
@@ -113,7 +126,6 @@ $scroll-indicator-heigght: 10px;
     background: none;
     padding: 0;
   }
-
 }
 
 .emphasis_block {
@@ -139,61 +151,61 @@ $scroll-indicator-heigght: 10px;
 /**************/
 
 #home {
-    margin-top: 40px;
+  margin-top: 40px;
 }
 
 .posts h2 {
-    font-weight: bold;
-    margin-bottom: 10px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .posts ul {
-    list-style: none;
-    margin: 0px;
-    padding: 0px;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
 }
 
 .posts li {
-    display: flex;
-    justify-content: space-between;
-    margin: 5px 0px;
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0px;
 }
 
 .posts .date {
-    font-style: italic;
-    font-size: 14px;
+  font-style: italic;
+  font-size: 14px;
 }
 
 pre.highlight {
-    text-align: left;
-    overflow: auto;
-    margin-bottom: 0.7em;
-    font-family: Monaco,'Courier New','Courier',monospace;
-    font-size: 1em;
-    line-height: 1.1em;
-    padding: 1em;
-    white-space: pre-wrap;
-    margin-left: 0px;
-    margin-right: 0px;
-    box-shadow: none;
+  text-align: left;
+  overflow: auto;
+  margin-bottom: 0.7em;
+  font-family: Monaco, "Courier New", "Courier", monospace;
+  font-size: 1em;
+  line-height: 1.1em;
+  padding: 1em;
+  white-space: pre-wrap;
+  margin-left: 0px;
+  margin-right: 0px;
+  box-shadow: none;
 }
 
 .highlighter-rouge + .highlighter-rouge pre {
-    margin-top: -0.5em;
-    background: rgba(191, 239, 206, 0.5);
-    margin-bottom: 20px;
+  margin-top: -0.5em;
+  background: rgba(191, 239, 206, 0.5);
+  margin-bottom: 20px;
 }
 
 .footnotes {
-    font-size: 0.9rem;
-    border-top: 2px dotted;
-    padding-top: 1rem;
-    ol {
-        margin: 0 0 0 20px;
-        padding: 0;
+  font-size: 0.9rem;
+  border-top: 2px dotted;
+  padding-top: 1rem;
+  ol {
+    margin: 0 0 0 20px;
+    padding: 0;
 
-        p {
-            margin: 0;
-        }
+    p {
+      margin: 0;
     }
+  }
 }
