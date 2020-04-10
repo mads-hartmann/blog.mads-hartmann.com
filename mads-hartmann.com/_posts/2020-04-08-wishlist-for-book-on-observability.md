@@ -15,7 +15,7 @@ Recently Charity Majors asked a few hypothetical questions ([tweet](https://twit
 
 There seems to be two camps in the observability space. While they have the same goal - to be able to ask arbitrary questions of your systems without modifying them - they're focusing on different things and seem to be approaching the problem differently:
 
-- *Linux Observability* focuses on a individual hosts and relies on existing instrumentation of the Linux kernel (uprobes, kprobes) to understand what programs are doing through BPF.
+- *Linux Observability* focuses on individual hosts and relies on existing instrumentation of the Linux kernel (uprobes, kprobes) to understand what programs are doing through BPF.
 
 - *Distributed systems observability* focuses on the services that make up a distributed system and relies on developers instrumenting their services uniformly so context can be propagated correctly. This makes it possible to understand where errors and latencies are introduced as requests flow through the system.
 
