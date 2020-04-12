@@ -1,6 +1,9 @@
 ---
 ---
 
+$default-link-color: #ad141e;
+$scroll-indicator-height: 10px;
+
 @import "mixins";
 
 @import "typography";
@@ -9,13 +12,11 @@
 @import "syntax-highlighting";
 @import "print";
 
-$scroll-indicator-heigght: 10px;
-
 .container.purple {
   @include color-theme(#54226d, #eac0e7);
 }
 .container.brownish {
-  @include color-theme(#964729, #5f0303);
+  @include color-theme(#d57b4c, #5f0303);
 }
 .container.blueish {
   @include color-theme(#151d84, #d671ec);
@@ -32,6 +33,9 @@ $scroll-indicator-heigght: 10px;
 .container.yellowblue {
   @include color-theme(#fde32b, #000, #000);
 }
+.container.default {
+  @include color-theme(#edeceb, #000, $default-link-color);
+}
 
 .appetizer {
   font-style: italic;
@@ -46,7 +50,7 @@ $scroll-indicator-heigght: 10px;
 /*****************************/
 
 .scroll-indicator-container {
-  height: $scroll-indicator-heigght;
+  height: $scroll-indicator-height;
   position: fixed;
   width: 100%;
   top: 0px;
@@ -63,7 +67,7 @@ $scroll-indicator-heigght: 10px;
 
 .container {
   width: 45%;
-  margin: $scroll-indicator-heigght auto 0px auto;
+  margin: $scroll-indicator-height auto 0px auto;
 }
 
 @media (max-width: 1440px) {
@@ -146,9 +150,9 @@ $scroll-indicator-heigght: 10px;
   line-height: 1.3em;
 }
 
-/**************/
-/* Front page */
-/**************/
+/***************************/
+/* Front page / Collections*/
+/***************************/
 
 #home {
   margin-top: 40px;
@@ -207,5 +211,23 @@ pre.highlight {
     p {
       margin: 0;
     }
+  }
+}
+
+/****************/
+/* Book reviews */
+/****************/
+
+.book_review {
+  .title h2 {
+    text-align: center;
+    margin-top: 0px;
+  }
+  .review_of {
+    display: block;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 3rem;
+    line-height: 3rem;
   }
 }

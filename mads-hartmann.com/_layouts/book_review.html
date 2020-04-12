@@ -1,0 +1,30 @@
+---
+layout: default
+---
+<div class="book_review">
+
+    <div class="title">
+
+        <h1>
+            <span class="review_of">Review of</span>
+            {{ page.title }}
+        </h1>
+
+        {% if page.subtitle %}
+            <h2>
+                {{page.subtitle}}
+            </h2>
+        {% endif %}
+
+        <section class="meta">
+            by
+            {{ page.author }}
+            -
+            {{ page.release_year}}
+        </section>
+    </div>
+
+    <div class="post">
+        {{ page.content}}
+    </div>
+</div>

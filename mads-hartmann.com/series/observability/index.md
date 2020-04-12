@@ -2,6 +2,7 @@
 layout: default
 title: Mads Hartmann - Observability
 colors: pinkred
+disable_scroll_indicator: true
 ---
 
 <div class="title">

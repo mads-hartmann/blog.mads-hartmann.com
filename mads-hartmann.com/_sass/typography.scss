@@ -2,7 +2,7 @@ body {
   font-size: 1.2rem;
   line-height: 1.7rem;
   font-display: swap;
-  font-family: 'Muli', sans-serif;
+  font-family: "Muli", sans-serif;
   -webkit-font-smoothing: antialiased;
   color: rgba(46, 48, 58, 0.96);
   margin: 0px;
@@ -30,7 +30,7 @@ h2 {
   letter-spacing: -0.02em;
   font-weight: 300;
   font-style: normal;
-  font-size: 2.0em;
+  font-size: 2em;
   margin-left: -1.5px;
   line-height: 1.2;
   margin-top: 40px;
@@ -38,7 +38,7 @@ h2 {
 }
 
 a {
-  color: #ad141e;
+  color: $default-link-color;
   transition: color 0.1s linear;
 }
 

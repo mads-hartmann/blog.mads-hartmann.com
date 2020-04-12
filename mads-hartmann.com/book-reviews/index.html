@@ -1,0 +1,30 @@
+---
+layout: default
+title: Mads Hartmann - Book Reviews
+disable_scroll_indicator: true
+---
+
+
+<div class="title">
+    <h1>
+        Book reviews
+    </h1>
+</div>
+
+<div class="posts">
+    {% assign progress_order = "reviewed, pending review, reading" | split: ", " %}
+    {% for progress in progress_order %}
+        {% assign reviews = site.book_reviews | where: 'progress', progress %}
+        <h2>{{ progress | capitalize }}</h2>
+        <ul>
+            {% for review in reviews %}
+                <li>
+                    <a href="{{ review.url }}">
+                        {{ review.title }}
+                    </a>
+                </li>
+
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</div>
