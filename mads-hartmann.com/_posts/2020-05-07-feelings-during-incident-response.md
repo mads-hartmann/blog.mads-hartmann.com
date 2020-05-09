@@ -29,7 +29,7 @@ Here's the notes of what points I intended to make - it's a bit different from w
 
 As for the feeling you experience during incident response, for me, I go through almost the full spectrum of feelings, not just the bad ones as you might think.
 
-- When I first get paged there’s a short time where I’m feeling **dead**, or at least a bit **afraid** - I’m worried it might be an actual incident that will affect our users.
+- When I first get paged there’s a short time where I’m feeling **dread**, or at least a bit **afraid** - I’m worried it might be an actual incident that will affect our users.
 
 - If it turns out it is an incident, then you go into incident response mode, you’re very **focused**. You assemble a team, so that means picking a scribe to take notes, and a communicator that’s responsible for keeping the rest of the company updated as we work through the indent. 
 
