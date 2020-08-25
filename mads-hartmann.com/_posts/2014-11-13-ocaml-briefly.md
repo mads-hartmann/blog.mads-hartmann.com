@@ -31,6 +31,8 @@ online REPL.
 following: pattern matching, modules, functors, Abstract Data Types, and much
 more.
 
+_You can find a Japanese translation of this post [here](https://postd.cc/ocaml-briefly/)_
+
 ## Table of Contents
 
 -   [1. Lists, Arrays, and Tuples](#lists-arrays-and-tuples)
