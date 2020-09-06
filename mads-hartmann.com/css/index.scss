@@ -82,6 +82,22 @@ $scroll-indicator-height: 10px;
   }
 }
 
+/* Landing page */
+
+.featured {
+  background: #f9f9f9;
+  border: 2px solid #ccc;
+  margin: 1.5em 0;
+  padding: 1em 20px;
+  font-size: 0.9em;
+  line-height: 1.3em;
+}
+
+.featured h2 {
+  font-size: 1em;
+  margin-top: 0;
+}
+
 /***********/
 /* Content */
 /***********/
