@@ -12,6 +12,14 @@ $scroll-indicator-height: 10px;
 @import "syntax-highlighting";
 @import "print";
 
+$scroll-indicator-heigght: 10px;
+
+body {
+  --background: #d45252;
+  --foreground: #f7d2e2;
+  --link-color: #d45252;
+}
+
 .container.purple {
   @include color-theme(#54226d, #eac0e7);
 }
@@ -164,6 +172,38 @@ $scroll-indicator-height: 10px;
   padding: 1em 20px;
   font-size: 0.9em;
   line-height: 1.3em;
+}
+
+.boxes {
+  display: flex;
+}
+
+@media (max-width: 1024px) {
+  .boxes {
+    flex-direction: column;
+  }
+}
+
+.boxes:last-child {
+  margin-right: 0;
+}
+
+.box {
+  background: #f9f9f9;
+  border: 2px solid #ccc;
+  margin: 1.5em 1em 1.5em 0;
+
+  font-size: 0.9em;
+  line-height: 1.3em;
+}
+
+.box__header {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.box__content {
+  padding: 1em 20px;
 }
 
 /***************************/
