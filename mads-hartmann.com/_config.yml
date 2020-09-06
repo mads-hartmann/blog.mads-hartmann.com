@@ -1,6 +1,7 @@
 name: Mads Hartmann
 description: Blog by Mads Hartmann
 url: https://mads-hartmann.com
+
 highlighter: rouge
 
 collections:
@@ -17,3 +18,10 @@ disqus:
 
 plugins:
   - jekyll-seo-tag
+
+# Serving
+detach: false
+port: 4000
+host: 0.0.0.0
+baseurl: "" # does not include hostname
+show_dir_listing: false
