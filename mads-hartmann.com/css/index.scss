@@ -174,38 +174,6 @@ body {
   line-height: 1.3em;
 }
 
-.boxes {
-  display: flex;
-}
-
-@media (max-width: 1024px) {
-  .boxes {
-    flex-direction: column;
-  }
-}
-
-.boxes:last-child {
-  margin-right: 0;
-}
-
-.box {
-  background: #f9f9f9;
-  border: 2px solid #ccc;
-  margin: 1.5em 1em 1.5em 0;
-
-  font-size: 0.9em;
-  line-height: 1.3em;
-}
-
-.box__header {
-  background-color: var(--background);
-  color: var(--foreground);
-}
-
-.box__content {
-  padding: 1em 20px;
-}
-
 /***************************/
 /* Front page / Collections*/
 /***************************/

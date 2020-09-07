@@ -9,29 +9,35 @@ excerpt_separator: <!--more-->
 
 At Glitch we've recently completed a project to migrate to SLO-based alerts. It's too early to tell if this has been a success or not, but in this post I'll write about our motivation for going down this route, and give an introduction to all the concepts you need to know, should you want to give it a go as well.
 
-This post is based on two internal documents I wrote at Glitch. The first is a tech spec that we used to discuss if this was the right approach for us, the second is based off a presentation I gave to the Platform team to introduce SLO-based alerting - thanks to our VP of Engineering [Victoria Kirst](https://twitter.com/bictolia) for allowing me to use excerpts of these documents in this post.
+SLOs are useful for a lot of things; this post focuses on using SLOs to
+improve communication during incidents, reduce the toil on on-callers, and help improve our reliability in a way that's meaningful to our users.
+
+This post is based on two internal documents I wrote at Glitch. The first is the tech spec that we used to discuss if this was the right approach for us, the second is a presentation I gave to the Platform team to introduce SLO-based alerting - thanks to our VP of Engineering [Victoria Kirst](https://twitter.com/bictolia) for allowing me to use excerpts of these documents in this post.
 
 <!--more-->
 
-**Outline**
-
 {: .no_toc }
+## Outline
 * TOC
 {:toc}
 
-## Why we're switching to SLO-based alerting
+## Why we're adopting SLO-based alerting
 
-The reasoning for switching to error budget burn-rate based alerts is best described by pulling out sections of the internal tech spec i wrote at Glitch before starting the work. Each tech spec follows a template, in this post I've extracted the **TL;DR**, **Background**, and **Goals** sections - the tech spec is from 2020-07-01.
+The motivation for adopting SLO-based alerting is best described by pulling out a few sections of the "SLO-based alerting" tech spec I wrote at Glitch - the spec was used to discuss if this was the right approach for us.
+
+Each tech spec at Glitch is based off a common template, in this post I've extracted the **TL;DR**, **Background**, and **Goals** sections as those nicely cover where we're coming from and what we're hoping to achieve. The tech spec is from 2020-07-01 - I have fixed a few typos, but otherwise the content is left unaltered.
+
+----
 
 ### TL;DR
 
 Currently most of our alerts are based on symptoms such as high system load, low available disk space, etc. This means that when an on-caller is alerted they have to figure out what the user-facing impact is and make a judgement call to figure out if a page warrants an incident or not.
 
-We want to turn this around so we're alerting on the end-user experience directly  based on SLOs, error budgets, and burn rates. **We're hoping this will improve communication during incidents, reduce the toil on on-callers, and help improve our reliability in a  way that's meaningful to our users.**
+We want to turn this around so we're alerting on the end-user experience directly based on SLOs, error budgets, and burn rates. **We're hoping this will improve communication during incidents, reduce the toil on on-callers, and help improve our reliability in a way that's meaningful to our users.**
 
 ### Background
 
-**Example of what a page might look like today**. The on-caller gets alerted on high-system load on the apiproxies (let's say it's 10 and the alert threshold is 4) at 3am. The on-caller investigates and sees that the system load is indeed high and doesn't seem to go down again. An incident channel is created. The on-caller pages support but it's not clear what the impact of the high system load is so it's hard to come up with a good status update at this time. Based on prior experience the on-caller spends 15 minutes checking a few different signals to gauge the impact of the incident and it seems like requests to Glitch apps are slower than usual - the information is passed on to support who update StatusPage accordingly. The on-caller eventually resolves the system load issue and tells support who closes the incident.
+**Example of what a page might look like today**. The on-caller gets alerted on high-system load on the apiproxies (let's say it's 10 and the alert threshold is 4) at 3am. The on-caller investigates and sees that the system load is indeed high and doesn't seem to go down again. An incident channel is created. The on-caller pages support but it's not clear what the impact of the high system load is so it's hard to come up with a good status update at this time. Based on prior experience the on-caller spends 15 minutes checking a few different signals to gauge the impact of the incident and it seems like requests to Glitch apps are slower than usual - the information is passed on to support who update StatusPage accordingly. The on-caller eventually resolves the system load issue and tells support, who then closes the incident.
 
 There are a few problems with this:
 
@@ -47,9 +53,9 @@ While this might be manageable if you have a handful of alerts, it really doesn'
 
 As with so many things, the road to *alert fatigue* is paved with good intentions of improving reliability.
 
-All of these alerts were created for a reason. Mostly likely each of them came into existence like this. We had a terrible incident. Some part of Glitch was down and a lot of users were affected. During the incident retrospective the team talks through action items for how we can avoid having a terrible incident like this again, and we all agree that if we had been alerted about X in time we could have stopped the issue from escalating into an incident. So we create an alert for X.
+All of these alerts were created for a reason. Most likely each of them came into existence like this. We had a terrible incident. Some part of Glitch was down and a lot of users were affected. During the incident retrospective the team talks through action items for how we can avoid having a terrible incident like this again, and we all agree that if we had been alerted about X in time we could have stopped the issue from escalating into an incident. So we create an alert for X.
 
-The problem is that once the alert is created, the user-facing impact that the alert was supposed to warn about is quickly forgotten. Even if how to deal with the alert is documented in a runbook it might not be clear what impact the alert has on our users. This might be solvable with strict guidelines for alerts, but this product spec suggests another approach - to switch to SLO based alerting.
+The problem is that once the alert is created, the user-facing impact that the alert was supposed to warn about is quickly forgotten. Even if how to deal with the alert is documented in a runbook it might not be clear what impact the alert has on our users. This might be solvable with strict guidelines for alerts, but this spec suggests another approach - to switch to SLO based alerting.
 </div>
 
 ### Goals
@@ -63,68 +69,93 @@ The overall goals are
   * Make it clear when we're having an incident and when they're resolved.
 * Make it easier (and faster) to provide support with the information they need to make user-relevant updates on statuspage.io for our incidents.
 
-## Introduction to SLO-based alerting
+----
 
-With the motivation in place, let us look at the relevant concepts and how they relate to each other. I used Google SRE books to study these concepts, I especially recommend [Chapter 5 - Alerting on SLOs](https://landing.google.com/sre/workbook/chapters/alerting-on-slos/) of the Google [SRE Workbook](https://landing.google.com/sre/workbook/toc/) as it contains a lot of details if you want to dive deeper.
+Hopefully this sets the scene; what our previous alerting looked like, and what we were hoping to achieve by adoption SLO-based alerting. Below I've written a getting started guide of sorts that hopefully works as a good introduction to SLO-based alerting, should you want to go down that route as well.
 
-The concepts are SLIs, SLOs, error budgets, and burn rates (and SLO windows and alert windows). As these concepts build upon each other, we can start with a simple use-case and add layers.
+## Introduction to alerting using SLOs and error budgets
 
-{::options parse_block_html="false" /}
-<div class="boxes">
-<div class="box">
-<div class="box__header">
-Some section
-</div>
-<div class="box__content">
-* How are our systems doing right now?
-* Useful seeing reliability trends; are we doing better or worse? Do we need to invest more in reliability?
-</div>
-</div>
-<div class="box">
-<div class="box__header">
-Some other section
-</div>
-<div class="box__content">
-* Can use recent performance to extrapolate future SLO compliance and alert us ahead of time. This gives us highly contextual alerts.
-</div>
-</div>
-</div>
+Whole chapters (["Service Level Objectives"](https://landing.google.com/sre/sre-book/chapters/service-level-objectives/),["Implementing SLOs"](https://landing.google.com/sre/workbook/chapters/implementing-slos/), ["Alerting on SLOs"](https://landing.google.com/sre/workbook/chapters/alerting-on-slos/)) and a book (["Implementing Service Level Objectives"](https://www.oreilly.com/library/view/implementing-service-level/9781492076803/)) have been written on SLOs, error budgets, and burn rates, but I'll do my best to keep it short.
 
-### SLIs, SLOs, and SLO windows
+Here is a _very short_ introduction. It's probably too short, and it uses terminology that I won't define until later, but I personally find it useful to see how the pieces fit together before diving into the details:
+
+1. First you **ensure your system is producing appropriate telemetry** that can be used to measure how certain aspects of your system is performing. That is, you define and implement your SLIs.
+
+2. Then you **pick thresholds for the SLIs to indicate if the system is operating at an acceptable level**, that is, you define your SLOs.
+
+3. Inherent in those SLOs is an error budget; how often the SLI is allowed to fall below the threshold in a given period before the system is considered to be operating at an unacceptable level. Finally you **configure an alert based on how fast your system is burning through its error budget**, e.g. if it has burned through 5% of the error budget in the last hour, you decide that signals a significant event, and you should page the on-caller.
+
+That's it, you now have highly contextual alerts that are based on the affected user experience. Now let's take a step back and look at some of the details I skimmed over.
+
+### Important terminology
+
+Before we can talk about alerting on SLOs we'll have to cover the key terminology.
 
 #### SLIs
 
-TODO: Add concrete examples: 
-* how do you instrument an SLI (metric if that's what you use, event (span) if you use something like Honeycomb)
-* List the different kinds of SLI categories (availaiblity, latency, durability, etc). -> Show how you might instrument a latency SLI.
+The most succinct description I've seen is from the [SRE Book chapter 4 - Service Level Objectives, Indicators](https://landing.google.com/sre/sre-book/chapters/service-level-objectives#indicators-o8seIAcZ)
 
-TODO: Change the quote below  so it's from the google book, I don't have to re-invent descriptions, I'll just add longer descriptions and clarify things.
+>An SLI is a service level indicator—a carefully defined quantitative measure of some aspect of the level of service that is provided.
+>
+> Most services consider request latency—how long it takes to return a response to a request—as a key SLI. Other common SLIs include the error rate, often expressed as a fraction of all requests received, and system throughput, typically measured in requests per second. The measurements are often aggregated: i.e., raw data is collected over a measurement window and then turned into a rate, average, or percentile.
 
-> Service level indicator (SLI) - quantitative measure of some aspect of the level of service that is provided. Common examples are latency (how long it took to provide a response to the user) and Availability (what percentage of requests succeeded with a 200 status code)
+So, to implement an SLI you have to ensure your system produces some appropriate telemetry about how it is performing. That could be aggregated metrics, log lines, or tracing data. SLIs are telemetry-agnostic - what telemetry to use depends on your use case and what tools you have available at your disposal.
 
+What the telemetry should be measuring depends on what kind og service you're dealing with. If it's a web API you generally care about availability, latency, and throughput. For storage systems it might be latency, availability, and durability. If you want to dive deeper, I recommend reading [SRE Book chapter 4 - Service Level Objectives](https://landing.google.com/sre/sre-book/chapters/service-level-objectives), it really is very good.
 
-#### SLOs and SLO windwos
+One of the SLIs we picked for our "Project Hosting" system was a latency SLI: How long it takes to start a Glitch project.
 
-Let's start with SLIs and SLOs
+#### SLOs
 
-* Service level objective - a target value or range of values for a service level that is measured by an SLI. E.g. Based on the latency and availability SLIs above we might define three SLOs:
-  * availability should be 97%
-  * latency should be < 450ms for 90% of requests
-* SLO Window - ...
+Again, a good description can be found in [SRE Book chapter 4 - Service Level Objectives, Objectives](https://landing.google.com/sre/sre-book/chapters/service-level-objectives#objectives-g0s1tdcz).
 
-Let us make it concrete. Our SLI is how fast we're able to start Glitch projects. Based on that SLI would could define an SLO:
+> An SLO is a service level objective: a target value or range of values for a service level that is measured by an SLI. A natural structure for SLOs is thus SLI ≤ target, or lower bound ≤ SLI ≤ upper bound. For example, we might decide that we will return Shakespeare search results "quickly," adopting an SLO that our average search request latency should be less than 100 milliseconds.
+
+In other words, once you decided what signals to use for measuring the performance of your system (SLIs), you can define what should be considered "acceptable" performance by selecting a target value for the SLI.
+
+Let us make it concrete. Based on the SLI from the previous section, how long it takes to start a Glitch project, we can define an SLO:
 
 > __99%__ of projects should start in __under 15 seconds__
 
-Assuming we've instrumented our code that's responsible for starting Glitch projects, we can then use these measurements to tell us:
+The above SLO sets a target value of 99% with a threshold on the latency of 15s. Figuring out the exact value for the thresholds is rarely obvious - often the discussions around what values to pick are useful in themselves! For a few tips & tricks I suggest reading [SRE Book chapter 4 - Service Level Objectives, Objectives in Practice](https://landing.google.com/sre/sre-book/chapters/service-level-objectives#objectives-in-practice-o8squl).
 
-* How are our systems doing right now? Okay, maybe not *right now*, but a minute ago.
-* Useful seeing reliability trends; are we doing better or worse? Do we need to invest more in reliability?
+To see how an SLO like this is useful, we have to introduce a few more concepts.
 
-### Error budgets, burn-rates, and alert windows
+#### SLO Window
 
-While all SLOs have an error budget (it's the derived from the SLO target, that is), I have  found that it's mainly relevant in the context of alerting.
+In order to measure if a service is complying to the SLO, e.g. did 99% of projects actually start in under 15 seconds, we have to select a measurement window. In case of SLOs that measurement window is called the SLO window.
 
-* Can use recent performance to extrapolate future SLO compliance and alert us ahead of time. This gives us highly contextual alerts.
+A popular choice is 28 days, as it contains "the same number of weekends". While this is helpful to tell if the service has performed acceptably the last 28 days, it doesn't contain any information how it performed at specific times in those 28 days.
 
-Concepts: Error budget, alert window, burn rate.
+So while a 28 day SLO window can be useful, you often also want to calculate the SLO using a sliding window of 1 hour and record it at intervals (e.g. every minute); **This is, in my opinion, where SLOs become really powerful, they show both the current and historic performance of your systems expressed in terms that align with your users' experience.**
+
+If you want to alert on the SLOs though, there are two more concepts to grasp.
+
+#### Error budget
+
+Once you have defined an SLO and an SLO window you have also implicitly defined an error budget. Between the SLO and the SLI you have defined when an 'event' should be considered a failure or a success. The error budget is then the total number of failures that are allowed while still staying within the SLO.
+
+Concretely, we have chosen to use the "Project start time" SLI and defined an SLO that states that "99% of projects should in under 15 seconds". This means that if a project takes more than 15 seconds to start we consider it a failure. The SLO target of 99% means that our error budget is 1%.
+
+One thing, that to me, makes it a bit hard to describe error budgets is that SLO targets are defined in percentages, but we can't know ahead of time how many requests our services will receive. E.g. we don't know how many projects we are going to attempt to start up over the next 28 days, so how do we calculate the error budget? The answer is we cheat and make a bunch of assumptions, but that will become more clear in the [Alerting on SLOs](#alerting-on-slos) section below.
+
+We're almost there, there's just one more concept to cover..
+
+#### Burn rates
+
+From the [SRE Workbook Chapter 5 - Alerting on SLOs, Alert on Burn Rate](https://landing.google.com/sre/workbook/chapters/alerting-on-slos/#4-alert-on-burn-rate)
+
+> Burn rate is how fast, relative to the SLO, the service consumes the error budget.
+
+Concretely, if the SLO window is 28 days and the burn rate is 1 we'll have consumed the error budget 28 days from now. If the burn rate is 2 we'll have consumed it in 14 days. If it is 4 we will have consumed it in 7 days, and so on.
+
+That it, in the next section we'll tie all of these concepts together.
+
+### Alerting on SLOs
+
+## SLO-based alerting & observability
+
+TODO:
+
+- Are they related? Sort of, SLO based alerts are less concrete in terms of telling you how something is broken.
+- Check if they mention this in the o11y chapter of the new SLO book.
