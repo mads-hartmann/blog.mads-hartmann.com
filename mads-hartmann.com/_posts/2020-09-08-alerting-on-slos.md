@@ -1,7 +1,7 @@
 ---
 layout: post-no-separate-excerpt
-title: "SLIs, SLOs, error budgets, and burn rates"
-date: 2020-08-23 10:00:00
+title: "Alerting on SLOs"
+date: 2020-09-08 10:00:00
 categories: SRE
 colors: pinkred
 excerpt_separator: <!--more-->
@@ -22,7 +22,7 @@ At Glitch we've recently completed a project to migrate to SLO-based alerts. It'
 
 SLOs are useful for a lot of things. As you'll see below, we're hoping that by implementing SLOs - and alerting on them - we'll be able to improve communication during incidents, reduce the toil on on-callers, and help improve our reliability in a way that's meaningful to our users.
 
-This post is based on two internal documents I wrote at Glitch. The first is the tech spec that we used to discuss if this was the right approach for us, the second is a presentation I gave to the Platform team to introduce SLO-based alerting - thanks to our VP of Engineering [Victoria Kirst](https://twitter.com/bictolia) for allowing me to use excerpts of these documents in this post.
+This post is based on two internal documents I wrote at Glitch. The first is the tech spec that we used to discuss if this was the right approach for us, the second is a presentation I gave to the Platform team to introduce SLO-based alerting - thanks to our VP of Engineering [Victoria Kirst](https://twitter.com/bictolia) for allowing me to use excerpts of these documents in this post. We're currently looking for a [Staff Software Engineer](https://glitch.bamboohr.com/jobs/) so if want to help us make Glitch even better and more reliable in the future, you should have a look at the posting!
 
 <!--more-->
 
