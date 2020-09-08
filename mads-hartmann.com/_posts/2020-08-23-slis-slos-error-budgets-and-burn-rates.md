@@ -7,6 +7,17 @@ colors: pinkred
 excerpt_separator: <!--more-->
 ---
 
+<style>
+  .document {
+    padding: 1em;
+
+    background: #f9f9f9;
+    border: 2px solid #ccc;
+
+    font-size: 0.85em;
+  }
+</style>
+
 At Glitch we've recently completed a project to migrate to SLO-based alerts. It's too early to tell if this has been a success or not, but in this post I'll write about our motivation for going down this route, and give an introduction to all the concepts you need to know, should you want to give it a go as well.
 
 SLOs are useful for a lot of things; this post focuses on using SLOs to
@@ -29,6 +40,9 @@ Each tech spec at Glitch is based off a common template, in this post I've extra
 
 ----
 
+{::options parse_block_html="true" /}
+<div class="document">
+
 ### TL;DR
 
 Currently most of our alerts are based on symptoms such as high system load, low available disk space, etc. This means that when an on-caller is alerted they have to figure out what the user-facing impact is and make a judgement call to figure out if a page warrants an incident or not.
@@ -47,16 +61,13 @@ There are a few problems with this:
 
 While this might be manageable if you have a handful of alerts, it really doesn't scale. Right now we have 49 alerts based on metrics in Grafana, 10 uptime checks in Pingdom, 6 system checks in StatusPage, 12 triggers in Honeycomb. Having to remember the user-facing impact for each of these at 3am is hard.
 
-{::options parse_block_html="true" /}
-<div class="note-box">
-**📜 How did we get to this state**
+#### How did we get to this state?
 
 As with so many things, the road to *alert fatigue* is paved with good intentions of improving reliability.
 
 All of these alerts were created for a reason. Most likely each of them came into existence like this. We had a terrible incident. Some part of Glitch was down and a lot of users were affected. During the incident retrospective the team talks through action items for how we can avoid having a terrible incident like this again, and we all agree that if we had been alerted about X in time we could have stopped the issue from escalating into an incident. So we create an alert for X.
 
 The problem is that once the alert is created, the user-facing impact that the alert was supposed to warn about is quickly forgotten. Even if how to deal with the alert is documented in a runbook it might not be clear what impact the alert has on our users. This might be solvable with strict guidelines for alerts, but this spec suggests another approach - to switch to SLO based alerting.
-</div>
 
 ### Goals
 
@@ -68,6 +79,8 @@ The overall goals are
   * Only paging the on-caller when the end-user experience is affected. 
   * Make it clear when we're having an incident and when they're resolved.
 * Make it easier (and faster) to provide support with the information they need to make user-relevant updates on statuspage.io for our incidents.
+
+</div>
 
 ----
 
@@ -83,7 +96,7 @@ Here is a _very short_ introduction. It's probably too short, and it uses termin
 
 2. Then you **pick thresholds for the SLIs to indicate if the system is operating at an acceptable level**, that is, you define your SLOs.
 
-3. Inherent in those SLOs is an error budget; how often the SLI is allowed to fall below the threshold in a given period before the system is considered to be operating at an unacceptable level. Finally you **configure an alert based on how fast your system is burning through its error budget**, e.g. if it has burned through 5% of the error budget in the last hour, you decide that signals a significant event, and you should page the on-caller.
+3. Inherent in those SLOs is an error budget; how often the SLI is allowed to fall below the threshold in a given period before the system is considered to be operating at an unacceptable level. Finally you **configure an alert based on how fast your system is burning through its error budget**, e.g. you might decide that if the system burned through 5% of the error budget in the last hour, that signals a significant event, and you should page the on-caller.
 
 That's it, you now have highly contextual alerts that are based on the affected user experience. Now let's take a step back and look at some of the details I skimmed over.
 
@@ -149,11 +162,61 @@ From the [SRE Workbook Chapter 5 - Alerting on SLOs, Alert on Burn Rate](https:/
 
 Concretely, if the SLO window is 28 days and the burn rate is 1 we'll have consumed the error budget 28 days from now. If the burn rate is 2 we'll have consumed it in 14 days. If it is 4 we will have consumed it in 7 days, and so on.
 
+To compute the burn rate you need to be able to compute the error rate of the SLI in relation to the thresholds set by your SLO. E.g. in our case, the error rate is how many of the total projects we started that took longer than 15 seconds. Once you have that, computing the burn rate is quite simple:
+
+```
+burn rate = error rate the last hour / (100 - <slo target>)
+```
+
+If 5 out of 50 projects were slower than 15 seconds to start, that's an error rate of 10%. With an SLO target of 99% that then becomes a burn rate of 10. If we had an SLO target of 85% it would've been a burn rate of 0.6:
+
+```
+burn rate = 10 / (100 - 99) = 10
+burn rate = 10 / (100 - 85) = 0.6
+```
+
 That it, in the next section we'll tie all of these concepts together.
 
 ### Alerting on SLOs
 
-## SLO-based alerting & observability
+**TODO**: Why would you want to alert on SLOs?
+
+Once you've defined an SLO, you have agreed upon an error budget; that is, some number of failure is acceptable and expected. The challenge of alerting then becomes to figure out a numerical way to express that the service is not performing at an acceptable level.
+
+A nice way to express a significant event is in terms of how much of the error budget was consumed in some alerting window. For example:
+
+> We should page someone if we spent 10% of the error budget in the last hour
+
+In order to alert on this we'll have to translate that phrase into a concrete burn rate. To do that we have to make a few assumptions:
+
+1. We assume all minutes are equal
+2. We only look at performance in the alert window, and extrapolate from there. That is, we ignore any errors outside of the alerting window.
+
+Given those assumptions, we can calculate the targeted burn rate:
+
+1. SLO window of 28 days - there are 40,320 minutes in 28 days
+2. Alerting window of 1 hour - there are 60 minutes in an hour
+3. To spend 10% of 40,320 minutes in an hour, we need a burn rate of 67,2
+
+Here's the calculations
+
+```
+28*24*60 = 40,320
+40320 * 0.1 = 4,032
+4,032 / 60 = 33,6
+```
+
+If you want to dive even deeper into the various approaches and trade-off when it comes to alerting on SLOs you should head over to [SRE Workbook Chapter 5 - Alerting on SLOs](https://landing.google.com/sre/workbook/chapters/alerting-on-slos/).
+
+We have adopted the "Multiple Burn Rate Alerts" approach and are currently using the following rules:
+
+1. A burn rate of 2 is a low-urgency alert. They are meant to represent degraded performance at a level we don't need to urgently investigate; these alerts are meant to be investigated by the on-caller during work hours.
+
+2. A burn rate of ? is a high-urgency alert. These alerts represent a signification event in terms of degraded performance and warrant a full incident response
+
+So far that seems to be working fairly well, but we're still iterating.
+
+## A side-note: SLO-based alerting & observability
 
 TODO:
 
