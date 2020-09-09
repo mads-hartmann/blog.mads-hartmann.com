@@ -35,7 +35,7 @@ This post is based on two internal documents I wrote at Glitch. The first is the
 
 The motivation for adopting SLO-based alerting is best described by pulling out a few sections of the "SLO-based alerting" tech spec I wrote at Glitch - the spec was used to discuss if this was the right approach for us.
 
-Each tech spec at Glitch is based off a common template, in this post I've extracted the **TL;DR**, **Background**, and **Goals** sections as those nicely cover where we're coming from, and what we're hoping to achieve. The tech spec is from 2020-07-01 - I have fixed a few typos, but otherwise the content is left unaltered.
+Each tech spec at Glitch is based on a common template, in this post I've extracted the **TL;DR**, **Background**, and **Goals** sections as those nicely cover where we're coming from, and what we're hoping to achieve. The tech spec is from 2020-07-01 - I have fixed a few typos, but otherwise the content is left unaltered.
 
 ----
 
@@ -58,7 +58,7 @@ There are a few problems with this:
 - Figuring out what impact the incident has on our users (if any at all) is slow and depends on the experience of the on-caller. This delays our StatusPage updates.
   - Sometimes we never manage to establish what the user-facing impact was for an incident, which means that after 3 hours of stressful incident response you're left doubting if we even had an incident at all.
 
-While this might be manageable if you have a handful of alerts, it really doesn't scale. Right now we have 49 alerts based on metrics in Grafana, 10 uptime checks in Pingdom, 6 system checks in StatusPage, 12 triggers in Honeycomb. Having to remember the user-facing impact for each of these at 3am is hard.
+While this might be manageable if you have a handful of alerts, it really doesn't scale. Right now we have 49 alerts based on metrics in Prometheus, 10 uptime checks in Pingdom, 6 system checks in StatusPage, 12 triggers in Honeycomb. Having to remember the user-facing impact for each of these at 3am is hard.
 
 #### How did we get to this state?
 
@@ -101,7 +101,7 @@ That's it, provided you've based your SLOs on the end-user experience, **you now
 
 ### Important terminology
 
-All of these concepts build upon each other, so it's easiest to go through them one by one. Once the terminology is in place we'll look how you can alert on them in the [alerting on SLOs](#alerting-on-slos) section.
+All of these concepts build upon each other, so it's easiest to go through them one by one. Once the terminology is in place we'll look at how you can alert on them in the [alerting on SLOs](#alerting-on-slos) section.
 
 #### SLIs
 
@@ -139,7 +139,7 @@ To see how an SLO like this is useful, we have to introduce a few more concepts.
 
 In order to measure if a system is complying to the SLO, e.g. did 99% of projects actually start in under 15 seconds, we have to select a measurement window. In case of SLOs that measurement window is called the SLO window.
 
-A popular choice is 28 days, as it contains "the same number of weekends". While this is helpful to tell if the system has performed acceptably in the last 28 days, it doesn't contain any information about how it performed at specific times in those 28 days.
+A popular choice is 28 days. While this is helpful to tell if the system has performed acceptably in the last 28 days, it doesn't contain any information about how it performed at specific times in those 28 days.
 
 So while a 28 day SLO window can be useful, you often also want to calculate the SLO using a sliding window recorded at intervals. For example, you might record the SLO every minute using a sliding window of one hour. **This is, in my opinion, where SLOs become really powerful, they show both the current and historic performance of your systems expressed in terms that align with your users' experience.**
 
@@ -207,6 +207,8 @@ Given those assumptions, we can calculate the targeted burn rate:
 1. We have selected an SLO window of 28 days - there are 40,320 minutes in 28 days.
 2. We have selected an alerting window of 1 hour - there are 60 minutes in an hour.
 3. To spend 10% of 40,320 minutes in an hour, we need a burn rate of 67,2: `(10% of 40320) / 60 = 67,2`
+
+Now that we have a threshold for the burn rate, we can simply configure an alert to trigger if the burn rate ever surpasses 67.2 looking at data for the last hour.
 
 As mentioned previously, we have adopted the "Multiple Burn Rate Alerts" approach as outlined in [SRE Workbook Chapter 5 - Alerting on SLOs - Multiple Burn Rate Alerts](https://landing.google.com/sre/workbook/chapters/alerting-on-slos/#5-multiple-burn-rate-alerts). Concretely we've pciked:
 
