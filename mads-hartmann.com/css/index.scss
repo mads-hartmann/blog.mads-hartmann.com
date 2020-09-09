@@ -10,7 +10,14 @@ $scroll-indicator-height: 10px;
 @import "header";
 @import "footer";
 @import "syntax-highlighting";
-@import "print";
+
+$scroll-indicator-heigght: 10px;
+
+body {
+  --background: #d45252;
+  --foreground: #f7d2e2;
+  --link-color: #d45252;
+}
 
 .container.purple {
   @include color-theme(#54226d, #eac0e7);
@@ -247,3 +254,6 @@ pre.highlight {
     line-height: 3rem;
   }
 }
+
+// Import last so it overrides everything. Sort of hacky, I know.
+@import "print";

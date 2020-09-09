@@ -7,6 +7,15 @@ colors: pinkred
 excerpt_separator: <!--more-->
 ---
 
+<!-- 
+Rigtig god tråd om hvorfor events er smarte i forhold til volume. Kunne være godt i min blog post om telemetry
+https://twitter.com/mipsytipsy/status/1218805884681211904?s=11
+
+
+En anden god tråd:
+https://twitter.com/el_bhs/status/1181975708072996864?s=11
+-->
+
 At [Glitch](https://glitch.com/create) we have been investing in observability tools to help us keep the platform reliable, even as more and more people run their apps on Glitch. In the [previous post](https://mads-hartmann.com/sre/2019/08/04/journey-into-observability-reading-material.html) in this series I highlighted some of the best observability resources I've come across so far. In this post I'll focus on telemetry.
 
 <!--more-->
