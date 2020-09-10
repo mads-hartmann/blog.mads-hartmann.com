@@ -1,10 +1,7 @@
 ---
 ---
 
-$default-link-color: #ad141e;
 $scroll-indicator-height: 10px;
-
-@import "mixins";
 
 @import "typography";
 @import "header";
@@ -14,34 +11,45 @@ $scroll-indicator-height: 10px;
 $scroll-indicator-heigght: 10px;
 
 body {
+  --background: #edeceb;
+  --foreground: #000;
+  --link-color: #ad141e;
+}
+
+.container.purple {
+  --background: #54226d;
+  --foreground: #eac0e7;
+  --link-color: #54226d;
+}
+.container.brownish {
+  --background: #d57b4c;
+  --foreground: #5f0303;
+  --link-color: #d57b4c;
+}
+.container.blueish {
+  --background: #151d84;
+  --foreground: #d671ec;
+  --link-color: #151d84;
+}
+.container.yellowgreen {
+  --background: #266922;
+  --foreground: #fde32b;
+  --link-color: #266922;
+}
+.container.pinkred {
   --background: #d45252;
   --foreground: #f7d2e2;
   --link-color: #d45252;
 }
-
-.container.purple {
-  @include color-theme(#54226d, #eac0e7);
-}
-.container.brownish {
-  @include color-theme(#d57b4c, #5f0303);
-}
-.container.blueish {
-  @include color-theme(#151d84, #d671ec);
-}
-.container.yellowgreen {
-  @include color-theme(#266922, #fde32b);
-}
-.container.pinkred {
-  @include color-theme(#d45252, #f7d2e2);
-}
 .container.orangepink {
-  @include color-theme(#ffa801, #d83fd2);
+  --background: #ffa801;
+  --foreground: #d83fd2;
+  --link-color: #ffa801;
 }
 .container.yellowblue {
-  @include color-theme(#fde32b, #000, #000);
-}
-.container.default {
-  @include color-theme(#edeceb, #000, $default-link-color);
+  --background: #fde32b;
+  --foreground: #000;
+  --link-color: #000;
 }
 
 .appetizer {
@@ -57,6 +65,7 @@ body {
 /*****************************/
 
 .scroll-indicator-container {
+  color: var(--background);
   height: $scroll-indicator-height;
   position: fixed;
   width: 100%;
@@ -112,13 +121,24 @@ body {
 .title {
   margin: 1em 0 2em 0;
   padding: 2em;
+  background-color: var(--background);
+  color: var(--foreground);
 
   h1 {
+    color: var(--foreground);
     text-align: center;
     margin: 0px;
     font-size: 5rem;
     padding-bottom: 0.2em;
     line-height: 5.5rem;
+  }
+
+  h2 {
+    color: var(--foreground);
+  }
+
+  a {
+    color: var(--foreground);
   }
 
   section {
@@ -162,6 +182,12 @@ body {
   padding: 1em 20px;
   font-size: 0.9em;
   line-height: 1.3em;
+}
+
+.notice {
+  background: var(--background);
+  color: var(--foreground);
+  padding: 5px 10px;
 }
 
 .note-box {
@@ -224,6 +250,7 @@ pre.highlight {
 }
 
 .footnotes {
+  border-color: var(--background);
   font-size: 0.9rem;
   border-top: 2px dotted;
   padding-top: 1rem;

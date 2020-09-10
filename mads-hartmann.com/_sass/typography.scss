@@ -38,7 +38,7 @@ h2 {
 }
 
 a {
-  color: $default-link-color;
+  color: var(--link-color);
   transition: color 0.1s linear;
 }
 
@@ -48,6 +48,7 @@ em {
 }
 
 hr {
+  border-color: var(--background);
   width: 25%;
   margin-top: 3rem;
   margin-bottom: 3rem;
@@ -71,7 +72,7 @@ blockquote {
   quotes: "\201C""\201D""\2018""\2019";
 
   &:before {
-    color: #ccc;
+    color: var(--background);
     content: open-quote;
     font-size: 4em;
     line-height: 0.1em;
