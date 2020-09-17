@@ -1,6 +1,7 @@
 title: Mads Hartmann
 description: Blog by Mads Hartmann
 url: https://mads-hartmann.com
+author: Mads Hartmann
 
 highlighter: rouge
 
@@ -18,6 +19,12 @@ disqus:
 
 plugins:
   - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Atom feed
+feed:
+  posts_limit: 100
 
 # Serving
 detach: false
