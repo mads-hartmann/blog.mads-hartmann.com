@@ -3,7 +3,7 @@
 ## With Docker
 
 ```sh
-docker-compose up --renew-anon-volumes
+docker-compose up --build --renew-anon-volumes
 ```
 
 ## Without Docker
