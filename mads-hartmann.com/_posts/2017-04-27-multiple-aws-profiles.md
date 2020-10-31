@@ -54,7 +54,7 @@ If you don't specify a profile it will use the `default` profile. See the
 
 ## Don't have a default profile
 
-**Update(2020-10-31): In [Abusing the AWS SDK](https://blog.ryanjarv.sh/2020/10/17/abusing-the-aws-sdk.html) Ryan shows how it's possible for an attacker with access to your local subset to potentially steal secrets uploaded to the SSM parameter store. Whe you don't have a default profile set, the AWS CLI will try to ask a locally running meta-data server for credentials. The attacker can intercept this request and serve a set of credentials they control. It's a bit of en edge case, but if you want to get around it you have to set `AWS_EC2_METADATA_DISABLED=true` in your shell.**
+**Update(2020-10-31):** In [Abusing the AWS SDK](https://blog.ryanjarv.sh/2020/10/17/abusing-the-aws-sdk.html) Ryan shows how it's possible for an attacker with access to your local subset to potentially steal secrets uploaded to the SSM parameter store. When you don't have a default profile set, the AWS CLI will try to ask a locally running meta-data server for credentials. The attacker can run their own little meta-data server and serve a set of credentials they control. It's a bit of en edge case, but if you want to get around it you have to set `AWS_EC2_METADATA_DISABLED=true` in your shell.
 
 Don't set `AWS_PROFILE` or `AWS_DEFAULT_PROFILE` or any of the other
 environment variables in your shell's profile file (`~/.zshrc`, `~/.profile`,
