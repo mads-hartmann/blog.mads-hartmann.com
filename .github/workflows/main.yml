@@ -15,8 +15,8 @@ jobs:
       - id: install-aws-cli
         uses: unfor19/install-aws-cli-action@v1
         with:
-          version: 2
-          verbose: false
+          version: "2.1.16"
+          verbose: true
       - name: Install bundler
         run: gem install bundler
       - name: Setup bundler environment
@@ -32,4 +32,9 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: aws cloudfront create-invalidation --distribution-id E2PIM647ASI75H --paths '/*'
+          # if a region is not specified, the CLI will try to contact the local meta-data service
+          # to determine the region.
+          # cloudfront is global so we don't need to specify a region and we don't have the meta-data
+          # service running as we're not in AWS, so we tell the CLI to not query the meta-data service.
+          AWS_EC2_METADATA_DISABLED: true
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
