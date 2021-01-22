@@ -6,13 +6,9 @@ colors: pinkred
 excerpt_separator: <!--more-->
 ---
 
-Recently I've been porting [ocaml-graphql-server][ocaml-graphql-server] to Scala. It's been
+Recently I've been porting ocaml-graphql-server to Scala. It's been
 super fun and has forced me to re-learn a lot of Scala type-level
 programming techniques.
-
-In this blog post I'll cover one of the techniques I needed during the
-port: XXX
-
 
 <!--more-->
 

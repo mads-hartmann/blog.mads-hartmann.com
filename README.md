@@ -3,6 +3,12 @@
 ## With Docker
 
 ```sh
+docker-compose up
+```
+
+To get a clean install in case I've changed the Gemfile, configuration, and things like that.
+
+```sh
 docker-compose up --build --renew-anon-volumes
 ```
 

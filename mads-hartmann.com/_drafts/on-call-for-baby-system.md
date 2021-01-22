@@ -1,6 +1,6 @@
 ---
-layout: post
-title: "Effects"
+layout: post-no-separate-excerpt
+title: "On call for baby system"
 date: 2020-10-02 12:00:00
 ---
 
@@ -15,6 +15,10 @@ The signals are vague, and how to deal with them unclear. Below I've documented 
 ## Signals & alerts
 
 ### Hiccups
+
+This alert is harmless and can safely be ignored.
+
+**Update** if this alert is firing it can be challenging to run the [nap](#nap) or [feed](#feed) runbooks 😅
 
 ### Farts
 
@@ -45,5 +49,7 @@ The signals are vague, and how to deal with them unclear. Below I've documented 
 **note** the Baby will eject the pacifier at the most inconvenient time. Be alert.
 
 ### Feed
+
+### Nap
 
 ### Circular motions on tommy
