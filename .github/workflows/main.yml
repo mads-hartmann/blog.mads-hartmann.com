@@ -6,35 +6,43 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@master
+
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: "2.x"
-      - id: install-aws-cli
-        uses: unfor19/install-aws-cli-action@v1
-        with:
-          version: "2.1.16"
-          verbose: true
+
       - name: Install bundler
         run: gem install bundler
+
       - name: Setup bundler environment
         run: bundle install
+
       - name: Build site
         run: bundle exec jekyll build --source mads-hartmann.com
-      - name: Upload to S3
+
+      - name: Upload to S3 (mads-hartmann.com)
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: aws s3 sync --region eu-central-1 _site/ s3://mads-hartmann.com/ --acl public-read --cache-control 'max-age=0,no-cache,no-store' --expires 'Thu, 01 Jan 1970 00:00:00 GMT'
-      - name: Invalidate cache
+
+      - name: Invalidate cache (mads-hartmann.com)
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          # if a region is not specified, the CLI will try to contact the local meta-data service
-          # to determine the region.
-          # cloudfront is global so we don't need to specify a region and we don't have the meta-data
-          # service running as we're not in AWS, so we tell the CLI to not query the meta-data service.
-          AWS_EC2_METADATA_DISABLED: true
-        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
+        run: aws cloudfront create-invalidation --region us-east-1 --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
+
+      - name: Upload to S3 (blog.mads-hartmann.com)
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.BLOG_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.BLOG_AWS_SECRET_ACCESS_KEY }}
+        run: aws s3 sync --region us-east-1 _site/ s3://${{ secrets.BLOG_BUCKET_NAME }}/
+
+      - name: Invalidate cache (blog.mads-hartmann.com)
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.BLOG_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.BLOG_AWS_SECRET_ACCESS_KEY }}
+        run: aws cloudfront create-invalidation --region us-east-1 --distribution-id ${{ secrets.BLOG_CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
