@@ -61,7 +61,7 @@ command like this `#compdef _foobar foobar`
 The `fpath` is the list of directories that zsh will look at when searching for
 functions. If you're unsure what it's set to simply run `echo $fpath`. If you
 want to append a directory just reassign the variable like so
-`fpath = ($fpath <path-to-folder>)`
+`fpath=($fpath <path-to-folder>)`
 {: .sidenote}
 
 With the basics out of the way, let's have a look at a full example.
