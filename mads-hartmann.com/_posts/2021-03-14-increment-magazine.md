@@ -2,7 +2,7 @@
 layout: post-no-separate-excerpt
 title: "Increment Magazine"
 date: 2021-03-14 10:00:00
-categories: SRE, reliability
+categories: SRE
 colors: pinkred
 ---
 
