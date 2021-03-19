@@ -3,29 +3,32 @@ layout: default
 title: Mads Hartmann - About
 ---
 
-I love diving head first into production issues, especially the weird ones. When I'm not rummaging around in production I spend my energy making it easier to understand, and eventually more reliable. I have a fondness for **automation** and **programming languages**, especially statically typed functional ones.
+## About
+
+I love diving head first into production issues, especially the weird ones. When I'm not rummaging around in production I spend my energy making it easier to understand, and eventually more reliable.
 
 I hold a masters degree in computer science from the [University of Copenhagen][diku] and I'm currently working as a Site Reliability Engineer at [Glitch].
 
-For everyday random thoughts go to my [twitter feed][twitter], for some professional information check out my [Linked-in profile][linkedin]. For my open-source activities [Github][github] is the place to go.
+## Experience
 
-I like giving talks -- being able to dwell on a topic and create a good narrative to make a subject more approachable is very rewarding. You can check out some of the talks I've given [here][talks].
+- **2018 Dec - Now**: Site Reliability Engineer at [Glitch]
 
-I try to contribute to the open source software I use whenever possible. Here's some of the projects I'm proud to have contributed to:
+- **2016 - 2018 Nov: Fullstack Engineer @ Famly**  
+  Besides the usual work of implementing features and fixing bugs I spearheaded our efforts to automate and streamline our infrastructure. Specifically dockerizing our applications, setting up a proper CI pipeline, as well as setting up our Kubernetes cluster. I worked mostly in Scala with a focus on utilizing functional programming techniques.
 
-- [Scala][scala]
-- [Dotty][dotty]
-- Tree sitter grammars ([scala](tree-sitter-scala), [bash](tree-sitter-bash))
+- **2013 - 2016: Software Engineer @ issuu**  
+  During my time at issuu I worked in two different teams. In general I consider the work I did for issuu as full-stack and it was part of the job as a software engineer to ensure the quality of the product, pushing it to production, and monitoring the performance.
 
-Reach out to me on Twitter if you want to chat.
+  One of the key products I worked on while on the first team was a system for analysing user-behaviour based on JSON pingbacks sent from our various clients. This system was written in OCaml and consisted of an analytics engine for processing the JSON and aggregating numbers into a database and a DSL (parser and evaluator) for writing analytics reports used by our business analysts; the work I did for this team was almost exclusively backend development.
+
+  The other team I worked in was responsible for the reading experience on issuu. I joined this team at its inception and our main goal was to write a completely new reader that would replace our previous Flash reader and the HTML fallback reading experience.
+
+## Education
+
+- **2013: Masters degree in Computer Science from University of Copenhagen** <br />
+  Specialised in programming languages and type systems.
+
+- **2011: Bachelors degree in Computer Science from the IT University of Copenhagen**
 
 [diku]: http://www.diku.dk/english/
 [Glitch]: https://glitch.com
-[twitter]: https://www.twitter.com/mads_hartmann
-[linkedin]: https://www.linkedin.com/pub/mads-hartmann-jensen/12/857/528
-[github]: https://github.com/mads-hartmann
-[talks]: https://speakerdex.co/mads-hartmann
-[dotty]: https://github.com/lampepfl/dotty
-[scala]: https://github.com/lampepfl/scala
-[tree-sitter-bash]: https://github.com/tree-sitter/tree-sitter-bash/
-[tree-sitter-scala]: https://github.com/tree-sitter/tree-sitter-scala/
