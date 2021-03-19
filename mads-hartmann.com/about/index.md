@@ -5,23 +5,70 @@ title: Mads Hartmann - About
 
 ## About
 
-I love diving head first into production issues, especially the weird ones. When I'm not rummaging around in production I spend my energy making it easier to understand, and eventually more reliable.
-
-I hold a masters degree in computer science from the [University of Copenhagen][diku] and I'm currently working as a Site Reliability Engineer at [Glitch].
+I'm **Mads Hartmann** an experienced software engineer with a focus on reliability. I love diving head first into production issues, especially the weird ones. When I'm not rummaging around in production I spend my energy making it easier to understand, and eventually more reliable.
 
 ## Experience
 
-- **2018 Dec - Now**: Site Reliability Engineer at [Glitch]
-
-- **2016 - 2018 Nov: Fullstack Engineer @ Famly**  
-  Besides the usual work of implementing features and fixing bugs I spearheaded our efforts to automate and streamline our infrastructure. Specifically dockerizing our applications, setting up a proper CI pipeline, as well as setting up our Kubernetes cluster. I worked mostly in Scala with a focus on utilizing functional programming techniques.
-
-- **2013 - 2016: Software Engineer @ issuu**  
-  During my time at issuu I worked in two different teams. In general I consider the work I did for issuu as full-stack and it was part of the job as a software engineer to ensure the quality of the product, pushing it to production, and monitoring the performance.
-
-  One of the key products I worked on while on the first team was a system for analysing user-behaviour based on JSON pingbacks sent from our various clients. This system was written in OCaml and consisted of an analytics engine for processing the JSON and aggregating numbers into a database and a DSL (parser and evaluator) for writing analytics reports used by our business analysts; the work I did for this team was almost exclusively backend development.
-
-  The other team I worked in was responsible for the reading experience on issuu. I joined this team at its inception and our main goal was to write a completely new reader that would replace our previous Flash reader and the HTML fallback reading experience.
+<ul class="experience">
+    <li>
+        <span class="experience__company">Glitch</span>
+        <span class="experience__duration">2 years 4 months</span>
+        <span class="experience__description">
+            <p>
+                As a Site Reliability Engineer I worked across the company to improve the reliability of the platform. I lead projects to improve our observability, reduce blast radius of code changes through feature flags, improve our alerting through SLO-based alerts, and helped improve our incident response process.
+            </p>
+        </span>
+        <ul class="experience__progression">
+            <li>
+                <span class="experience__title">Engineering Manager</span>
+                <span class="experience__duration">Nov 2020 – Present 5 months</span>
+                <span class="experience__location">Remote</span>
+            </li>
+            <li>
+                <span class="experience__title">Staff Site Reliability Engineer</span>
+                <span class="experience__duration">Aug 2020 – Nov 2020 4 months</span>
+                <span class="experience__location">Remote</span>
+            </li>
+            <li>
+                <span class="experience__title">Site Reliability Engineer</span>
+                <span class="experience__duration">Dec 2018 – Aug 2020 1 yr 9 months</span>
+                <span class="experience__location">Remote</span>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <span class="experience__company">Famly</span>
+        <span class="experience__duration">2 years 3 months</span>
+        <span class="experience__description">
+            <p>
+                I spearheaded our efforts to automate and streamline our infrastructure. Specifically dockerizing our applications, setting up a proper CI pipeline, as well as setting up our Kubernetes cluster. I worked mostly in Scala with a focus on utilizing functional programming techniques.
+            </p>
+        </span>
+        <ul class="experience__progression">
+            <li>
+                <span class="experience__title">Fullstack Engineer</span>
+                <span class="experience__duration">Sep 2016 - Nov 2018</span>
+                <span class="experience__location">Copenhagen</span>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <span class="experience__company">Issuu</span>
+        <span class="experience__duration">2 years 11 months</span>
+        <span class="experience__description">
+            <p>
+                I worked as a fullstack engineer developing features end-to-end, which included making sure everything was performing well and ran reliably in production. I worked in OCaml, Erlang, Python, and Javascript.
+            </p>
+        </span>
+        <ul class="experience__progression">
+            <li>
+                <span class="experience__title">Fullstack Engineer</span>
+                <span class="experience__duration">Oct 2013 - Aug 2016</span>
+                <span class="experience__location">Copenhagen</span>
+            </li>
+        </ul>
+    </li>
+</ul>
 
 ## Education
 
