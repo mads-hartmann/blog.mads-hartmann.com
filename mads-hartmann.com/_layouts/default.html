@@ -23,7 +23,7 @@
 </head>
 
 <body>
-    <div class="container {{page.colors | default: 'default' }}">
+    <div class="container {{page.colors | default: 'default' }} {{page.class}}">
 
         {% unless page.disable_scroll_indicator %}
         <div class="scroll-indicator-container">

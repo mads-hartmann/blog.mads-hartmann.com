@@ -1,43 +1,44 @@
 ---
 layout: default
 title: Mads Hartmann - About
+class: about
 ---
 
 ## About
 
-I'm **Mads Hartmann** an experienced software engineer and tech lead with a focus on reliability. I love diving head first into production issues, especially the weird ones. When I'm not rummaging around in production I spend my energy making it easier to understand, and eventually more reliable.
+I'm **Mads Hartmann**, an experienced software engineer and tech lead with a focus on reliability. I love diving head first into production issues, especially the weird ones. When I'm not rummaging around in production I spend my energy making it easier to understand, and eventually more reliable.
 
 ## Experience
 
 <ul class="experience">
-    <li>
-        <span class="experience__company">Glitch</span>
+    <li class="experience__company">
+        <h3 class="experience__company_name">Glitch</h3>
         <span class="experience__duration">2 years 4 months</span>
         <span class="experience__description">
             <p>
-                As a Site Reliability Engineer I worked across the company to improve the reliability of the platform. I lead projects to improve our observability, reduce blast radius of code changes through feature flags, improve our alerting through SLO-based alerts, and helped improve our incident response process.
+                As a Site Reliability Engineer I worked across the company to improve the reliability of the platform. I lead projects to improve our observability, reduce the blast radius of code and configuration changes, improve our alerting through SLO-based alerts, and helped improve our incident response process.
             </p>
         </span>
         <ul class="experience__progression">
             <li>
                 <span class="experience__title">Engineering Manager</span>
-                <span class="experience__duration">Nov 2020 – Present 5 months</span>
+                <span class="experience__duration">Nov 2020 – Present (5 months)</span>
                 <span class="experience__location">Remote</span>
             </li>
             <li>
                 <span class="experience__title">Staff Site Reliability Engineer</span>
-                <span class="experience__duration">Aug 2020 – Nov 2020 4 months</span>
+                <span class="experience__duration">Aug 2020 – Nov 2020 (4 months)</span>
                 <span class="experience__location">Remote</span>
             </li>
             <li>
                 <span class="experience__title">Site Reliability Engineer</span>
-                <span class="experience__duration">Dec 2018 – Aug 2020 1 yr 9 months</span>
+                <span class="experience__duration">Dec 2018 – Aug 2020 (1 yr 9 months)</span>
                 <span class="experience__location">Remote</span>
             </li>
         </ul>
     </li>
-    <li>
-        <span class="experience__company">Famly</span>
+    <li class="experience__company">
+        <h3 class="experience__company_name">Famly</h3>
         <span class="experience__duration">2 years 3 months</span>
         <span class="experience__description">
             <p>
@@ -47,13 +48,13 @@ I'm **Mads Hartmann** an experienced software engineer and tech lead with a focu
         <ul class="experience__progression">
             <li>
                 <span class="experience__title">Fullstack Engineer</span>
-                <span class="experience__duration">Sep 2016 - Nov 2018</span>
+                <span class="experience__duration">Sep 2016 - Nov 2018 (2 years 3 months)</span>
                 <span class="experience__location">Copenhagen</span>
             </li>
         </ul>
     </li>
-    <li>
-        <span class="experience__company">Issuu</span>
+    <li class="experience__company">
+        <h3 class="experience__company_name">Issuu</h3>
         <span class="experience__duration">2 years 11 months</span>
         <span class="experience__description">
             <p>
@@ -63,7 +64,7 @@ I'm **Mads Hartmann** an experienced software engineer and tech lead with a focu
         <ul class="experience__progression">
             <li>
                 <span class="experience__title">Fullstack Engineer</span>
-                <span class="experience__duration">Oct 2013 - Aug 2016</span>
+                <span class="experience__duration">Oct 2013 - Aug 2016 (2 years 11 months)</span>
                 <span class="experience__location">Copenhagen</span>
             </li>
         </ul>

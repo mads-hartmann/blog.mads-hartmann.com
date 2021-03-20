@@ -1,6 +1,16 @@
+.experience {
+  list-style: none;
+  padding: 0;
+}
+
 .experience__company {
+  padding: 1em 0;
+}
+
+.experience__company_name {
   font-weight: bold;
   display: block;
+  margin: 0;
 }
 
 .experience__title {
@@ -21,6 +31,11 @@
 }
 
 .experience__progression {
+  list-style: none;
+  padding-left: 0;
+  font-size: 0.9em;
+  line-height: 1.3em;
+
   li {
     margin: 1em 0;
   }
