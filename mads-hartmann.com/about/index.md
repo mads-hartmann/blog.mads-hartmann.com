@@ -16,7 +16,7 @@ I'm **Mads Hartmann**, an experienced software engineer and tech lead with a foc
         <span class="experience__duration">2 years 4 months</span>
         <span class="experience__description">
             <p>
-                As a Site Reliability Engineer I worked across the company to improve the reliability of the platform. I lead projects to improve our observability, reduce the blast radius of code and configuration changes, improve our alerting through SLO-based alerts, and helped improve our incident response process.
+                As a Site Reliability Engineer I worked across the company to improve the reliability of the platform. I led projects to improve our observability, reduce the blast radius of code and configuration changes, improve our alerting through SLO-based alerts, and helped improve our incident response process. Our services were written in Node.js, hosted on AWS, and provisioned using Terraform.
             </p>
         </span>
         <ul class="experience__progression">
