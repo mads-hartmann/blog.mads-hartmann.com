@@ -5,7 +5,7 @@ title: Mads Hartmann - About
 
 ## About
 
-I'm **Mads Hartmann** an experienced software engineer with a focus on reliability. I love diving head first into production issues, especially the weird ones. When I'm not rummaging around in production I spend my energy making it easier to understand, and eventually more reliable.
+I'm **Mads Hartmann** an experienced software engineer and tech lead with a focus on reliability. I love diving head first into production issues, especially the weird ones. When I'm not rummaging around in production I spend my energy making it easier to understand, and eventually more reliable.
 
 ## Experience
 
