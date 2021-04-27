@@ -1,20 +1,12 @@
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/mads-hartmann/mads-hartmann.com)
+
 
 # mads-hartmann.com
 
-## With Docker
+## With Gitpod
 
-```sh
-docker-compose up
-```
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/mads-hartmann/mads-hartmann.com)
 
-To get a clean install in case I've changed the Gemfile, configuration, and things like that.
-
-```sh
-docker-compose up --build --renew-anon-volumes
-```
-
-## Without Docker
+## Without Gitpod
 
 This depends on having [Ruby](https://www.ruby-lang.org/en/) and [Bundler](https://rubygems.org/gems/bundler) installed locally.
 
