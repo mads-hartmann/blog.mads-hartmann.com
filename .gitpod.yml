@@ -5,6 +5,12 @@ tasks:
   - init: bundle install
     command: bundle exec jekyll serve --watch --incremental --drafts --source mads-hartmann.com
 
+github:
+  prebuilds:
+    master: true
+    branches: true
+    addComment: true
+
 ports:
   - port: 4000
     onOpen: open-preview
