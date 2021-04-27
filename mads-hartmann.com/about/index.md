@@ -12,8 +12,22 @@ I'm **Mads Hartmann**, an experienced software engineer and tech lead with a foc
 
 <ul class="experience">
     <li class="experience__company">
+        <h3 class="experience__company_name">Gitpod</h3>
+        <span class="experience__duration">Current</span>
+        <span class="experience__description">
+            <p></p>
+        </span>
+        <ul class="experience__progression">
+            <li>
+                <span class="experience__title">Site Reliability Engineer</span>
+                <span class="experience__duration">April 2021 – Present</span>
+                <span class="experience__location">Remote</span>
+            </li>
+        </ul>
+    </li>
+    <li class="experience__company">
         <h3 class="experience__company_name">Glitch</h3>
-        <span class="experience__duration">2 years 4 months</span>
+        <span class="experience__duration">2 years 5 months</span>
         <span class="experience__description">
             <p>
                 As a Site Reliability Engineer I worked across the company to improve the reliability of the platform. I led projects to improve our observability, reduce the blast radius of code and configuration changes, improve our alerting through SLO-based alerts, and helped improve our incident response process. Our services were written in Node.js, hosted on AWS, and provisioned using Terraform.
@@ -22,7 +36,7 @@ I'm **Mads Hartmann**, an experienced software engineer and tech lead with a foc
         <ul class="experience__progression">
             <li>
                 <span class="experience__title">Engineering Manager</span>
-                <span class="experience__duration">Nov 2020 – Present (5 months)</span>
+                <span class="experience__duration">Nov 2020 – April 2021 (6 months)</span>
                 <span class="experience__location">Remote</span>
             </li>
             <li>
