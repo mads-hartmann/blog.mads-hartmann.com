@@ -3,3 +3,8 @@ image:
 
 tasks:
   - init: bundle install
+    command: bundle exec jekyll serve --watch --incremental --drafts --source mads-hartmann.com
+
+ports:
+  - port: 4000
+    onOpen: open-preview
