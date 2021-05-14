@@ -1,2 +1,0 @@
-- __Load shedding__ - purposefully reducing requests to your systems to avoid them falling over.
-    - [Keeping Netflix Reliable Using Prioritized Load Shedding](https://netflixtechblog.com/keeping-netflix-reliable-using-prioritized-load-shedding-6cc827b02f94)
