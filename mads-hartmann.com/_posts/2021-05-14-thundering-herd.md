@@ -6,7 +6,7 @@ categories: SRE
 colors: pinkred
 ---
 
-Thundering herds, noisy neighbours, retry storm.
+Thundering herds, noisy neighbours, retry storms.
 
 I love the names that people have come up with over the years. Some of them describe observed patterns, as [Lorin Hochstein](https://surfingcomplexity.blog/) so eloquently put it "Operators give names to recurring patterns of system behavior that they observe" ([tweet](https://twitter.com/norootcause/status/1392721477447733249)), others describe techniques used to mitigate these observed patterns.
 
