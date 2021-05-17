@@ -12,6 +12,8 @@ I love the names that people have come up with over the years. Some of them desc
 
 I don't know what you'd call these names, and I haven't been able to find a dictionary or list of them anywhere, so I've wanted to create a list for a while now. 
 
+**Update (17th May 2021)**: [Lex Neva](https://sreweekly.com/bio/) suggested calling these "operational patterns" and I love it.
+
 So here we go, I'll add some now based on the few I can remember and notes I have on my computer, and then I can always come back and add more as a I come across them.
 
 I'd love your help growing this list. If you know of a name that is missing from the list please send me a [tweet](https://twitter.com/Mads_Hartmann) with the name and a short description of it and I'll include it in the list with a link to your tweet 😍
@@ -91,6 +93,12 @@ And [Lorin Hochstein](https://twitter.com/norootcause) in this [tweet](https://t
 
 > I’ve heard of flapping alerts.
 
+### Death spiral
+
+Submitted by [Lex Neva](https://sreweekly.com/bio/):
+
+> I'm talking about the pattern where the system reacts to a failure or degradation in certain ways that act to amplify the problem.  An example is the db struggling under load, and the auto-scaler notices the degradation and starts adding front-ends, but the front-ends have to boot up by running a few intensive queries, exacerbating the load, so the auto-scaler adds more instances...
+
 ## Changelog
 
 ### 2021 May 14
@@ -103,3 +111,4 @@ Added
 
 - [Haunted Graveyard](#haunted-graveyard)
 - [Flapping](#flapping)
+- [Death spiral](#death-spiral)
