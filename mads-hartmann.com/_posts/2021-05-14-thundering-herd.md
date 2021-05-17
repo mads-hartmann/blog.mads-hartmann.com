@@ -99,6 +99,12 @@ Submitted by [Lex Neva](https://sreweekly.com/bio/):
 
 > I'm talking about the pattern where the system reacts to a failure or degradation in certain ways that act to amplify the problem.  An example is the db struggling under load, and the auto-scaler notices the degradation and starts adding front-ends, but the front-ends have to boot up by running a few intensive queries, exacerbating the load, so the auto-scaler adds more instances...
 
+### Verbalmatic
+
+This was submitted by Paul de Lange who writes "I would like to contribute one that we use at Expedia. This was coined by Mike Peterson, and first appeared in an internal conversation on 18 September, 2020."
+
+> When the answer should be automatic but it isn't, and so we rely on talking to a bunch of people to come up with the answer. This goes against the tenants of SRE because it is manual toil to answer the question each time and the reliability of the answer depends on the specific person you ask.
+
 ## Changelog
 
 ### 2021 May 14
@@ -112,3 +118,4 @@ Added
 - [Haunted Graveyard](#haunted-graveyard)
 - [Flapping](#flapping)
 - [Death spiral](#death-spiral)
+- [Verbalmatic](#verbalmatic)
