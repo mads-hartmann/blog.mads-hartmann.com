@@ -57,7 +57,9 @@ This is specific to time series databases that don't support high cardinality la
 
 > The number of time series quickly becomes overwhelming, and impossible to store for tools that aren’t designed to handle it, much less read it back quickly enough to help you figure out where issues lie.
 
-I don't know the source of the description above. I found it in a note on my computer, but I doubt I wrote it. If you know where it might be from send me a tweet and I'll link to it here.
+~~I don't know the source of the description above. I found it in a note on my computer, but I doubt I wrote it. If you know where it might be from send me a tweet and I'll link to it here.~~
+
+This is from [How Does Honeycomb Compare to Metrics, Log Management, and APM Tools?](https://www.honeycomb.io/blog/how-does-honeycomb-compare-to-metrics-log-management-and-apm-tools/), thanks to Kevin Collas-Arundell for spotting the reference ([tweet](https://twitter.com/kcollasarundell/status/1394105640293867520?s=20))!
 
 ### Load shedding
 
