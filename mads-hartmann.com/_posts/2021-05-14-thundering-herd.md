@@ -67,6 +67,20 @@ Purposefully reducing requests to your systems to avoid them falling over. Netfl
 
 [[wikipedia](https://en.wikipedia.org/wiki/Circuit_breaker_design_pattern)]
 
+### Haunted Graveyard
+
+Submitted by [Lorin Hochstein](https://twitter.com/norootcause) in [this tweet](https://twitter.com/norootcause/status/1394085634789154820?s=20)
+
+> I like "haunted graveyards" (learned this one from @john_p_looney), about systems that people are afraid to change.
+
+Another related name for this is Haunted Forrest (see [tweet](https://twitter.com/jhscott/status/1394089724701151234) from [Jacob](https://twitter.com/jhscott))
+
 ## Changelog
 
-- 2021 May 14 - I created the initial list
+### 2021 May 14
+
+Initial version of the list
+
+### 2021 May 17
+
+Added [haunted graveyard](#haunted-graveyard)
