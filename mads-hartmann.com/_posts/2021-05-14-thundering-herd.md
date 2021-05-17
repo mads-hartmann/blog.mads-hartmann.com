@@ -75,6 +75,20 @@ Submitted by [Lorin Hochstein](https://twitter.com/norootcause) in [this tweet](
 
 Another related name for this is Haunted Forrest (see [tweet](https://twitter.com/jhscott/status/1394089724701151234) from [Jacob](https://twitter.com/jhscott))
 
+### Flapping
+
+Submitted by [James Cheng](https://twitter.com/lorax_james) in [this tweet](https://twitter.com/lorax_james/status/1394090072836689921)
+
+> "flapping". When something repeatedly switches back and forth between "good" and "bad". Imagine a health check for something that is healthy, then gets overwhelmed, then recovers, then again gets overwhelmed.
+
+With follow up additions by [rat rancher](https://twitter.com/__eel__) [tweet](https://twitter.com/__eel__/status/1394111889571860485)
+
+> I've heard "flapping" mainly with regard to flapping links on network devices:
+
+And [Lorin Hochstein](https://twitter.com/norootcause) in this [tweet](https://twitter.com/norootcause/status/1394112070140841991)
+
+> I’ve heard of flapping alerts.
+
 ## Changelog
 
 ### 2021 May 14
@@ -83,4 +97,7 @@ Initial version of the list
 
 ### 2021 May 17
 
-Added [haunted graveyard](#haunted-graveyard)
+Added 
+
+- [Haunted Graveyard](#haunted-graveyard)
+- [Flapping](#flapping)
