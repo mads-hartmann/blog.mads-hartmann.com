@@ -105,6 +105,18 @@ This was submitted by Paul de Lange who writes "I would like to contribute one t
 
 > When the answer should be automatic but it isn't, and so we rely on talking to a bunch of people to come up with the answer. This goes against the tenants of SRE because it is manual toil to answer the question each time and the reliability of the answer depends on the specific person you ask.
 
+### Numbers from Lost
+
+Submitted by [Mark Ellens]
+
+> Another is 'numbers from Lost' wherein a human being has to perform a certain action (entering a series of numbers, applying a specific piece of config) on a regular basis, at a specific interval, otherwise dire consequence (island explosion, catastrophic system failure) will ensue.  Like in Lost, you see.
+
+### turn it off and on again...and again
+
+Submitted by [Mark Ellens]
+
+> The scenario is that you have a message queue and one of the consumers stops processing messages and so the queue backs up. A naive fix for your immediate issue is to, predictably, turn it off and on again.  With a certain type of issue it will then start to look like it is processing normally, perhaps even long enough to make the SRE / person on call close the ticket, go back to bed, set off for the office or whatever.  At which point the actual cause (perhaps a badly formed message) would come in, cause monitoring to back up, and trigger another alert.  An optimistic / inexperienced SRE can waste a good few hours in this way.
+
 ## Changelog
 
 ### 2021 May 14
@@ -119,3 +131,13 @@ Added
 - [Flapping](#flapping)
 - [Death spiral](#death-spiral)
 - [Verbalmatic](#verbalmatic)
+
+### 2021 May 23
+
+Added 
+
+- [Numbers from Lost](#numbers-from-lost)
+- [turn it off and on again...and again](#turn-it-off-and-on-againand-again)
+
+<!-- Links -->
+[Mark Ellens]: https://www.linkedin.com/in/mellens/
