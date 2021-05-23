@@ -93,6 +93,12 @@ And [Lorin Hochstein](https://twitter.com/norootcause) in this [tweet](https://t
 
 > I’ve heard of flapping alerts.
 
+### Flaky
+
+[Jan Keromnes](https://twitter.com/jankeromnes) calls out the similarity to Flaky in this [tweet](https://twitter.com/jankeromnes/status/1396408454722506752); I've heard them used interchangeably and think of them as synonyms:
+
+> The definition of "flapping" makes me think of "flaky" (as in "flaky tests" -- personally I've never heard "flapping" used that way)
+
 ### Death spiral
 
 Submitted by [Lex Neva](https://sreweekly.com/bio/):
@@ -149,6 +155,7 @@ Added
 - [Numbers from Lost](#numbers-from-lost)
 - [turn it off and on again...and again](#turn-it-off-and-on-againand-again)
 - [Chesterton Fences](#chesterton-fences)
+- [Flaky](#flaky) which I believe is a synonym for [Flapping](#flapping)
 
 <!-- Links -->
 [Mark Ellens]: https://www.linkedin.com/in/mellens/
