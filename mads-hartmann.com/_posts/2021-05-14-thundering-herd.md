@@ -117,6 +117,16 @@ Submitted by [Mark Ellens]
 
 > The scenario is that you have a message queue and one of the consumers stops processing messages and so the queue backs up. A naive fix for your immediate issue is to, predictably, turn it off and on again.  With a certain type of issue it will then start to look like it is processing normally, perhaps even long enough to make the SRE / person on call close the ticket, go back to bed, set off for the office or whatever.  At which point the actual cause (perhaps a badly formed message) would come in, cause monitoring to back up, and trigger another alert.  An optimistic / inexperienced SRE can waste a good few hours in this way.
 
+### Chesterton Fences
+
+Submitted by [motxilo](https://twitter.com/motxilo) in this [tweet](https://twitter.com/motxilo/status/1394371924201988114) which links to [this blog post](https://josephwoodward.co.uk/2020/04/software-the-chestertons-fence-principle):
+
+> The sun is shining and you're walking through a wood when you happen upon quiet, desolate road. As you walk along the road you encounter an rather peculiar placed fence running from one side of the road to the other. "This fence has no use" you mutter under your breath as you remove it.
+>
+> Removing the fence could very well be the correct thing to do, nonetheless you have fallen victim to the principle of Chesterton's Fence. Before removing something we should first seek to understand the reasoning and rationale for why it was there in the first place.
+
+I've definitely fallen victim to this. I can just see the PR "Removed superfluous config" and down went production 😅
+
 ## Changelog
 
 ### 2021 May 14
@@ -138,6 +148,7 @@ Added
 
 - [Numbers from Lost](#numbers-from-lost)
 - [turn it off and on again...and again](#turn-it-off-and-on-againand-again)
+- [Chesterton Fences](#chesterton-fences)
 
 <!-- Links -->
 [Mark Ellens]: https://www.linkedin.com/in/mellens/
