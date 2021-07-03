@@ -21,7 +21,7 @@ jobs:
         run: bundle install
 
       - name: Build site
-        run: bundle exec jekyll build --source mads-hartmann.com
+        run: bundle exec jekyll build --source blog.mads-hartmann.com
 
       - name: Upload to S3 (blog.mads-hartmann.com)
         env:

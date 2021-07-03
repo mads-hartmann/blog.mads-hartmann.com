@@ -186,7 +186,7 @@ you have any other tips please leave a comment below or reach out to me on
 [Twitter][twitter]
 
 [dotfiles]: https://github.com/mads-hartmann/dotfiles
-[famlyplan]: http://mads-hartmann.com/2017/01/15/automating-developer-environments.html
+[famlyplan]: http://blog.mads-hartmann.com/2017/01/15/automating-developer-environments.html
 [epoch]: https://en.wikipedia.org/wiki/Unix_time
 [bash-functions]: https://stackoverflow.com/a/7917086/119357
 [twitter]: https://twitter.com/mads_hartmann

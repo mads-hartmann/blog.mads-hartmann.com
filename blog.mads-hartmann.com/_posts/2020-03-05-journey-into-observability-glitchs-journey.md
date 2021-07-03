@@ -26,7 +26,7 @@ This is the third post in a [series of post on observability](/series/observabil
 
 {::options parse_block_html="true" /}
 <div class="emphasis_block">
-*If this your first encounter with observability I recommend reading my two previous posts on the topic before this one: [reading material](https://mads-hartmann.com/sre/2019/08/04/journey-into-observability-reading-material.html), and [telemetry](https://mads-hartmann.com/sre/2020/01/11/journey-into-observability-telemetry.html)*
+*If this your first encounter with observability I recommend reading my two previous posts on the topic before this one: [reading material](https://blog.mads-hartmann.com/sre/2019/08/04/journey-into-observability-reading-material.html), and [telemetry](https://blog.mads-hartmann.com/sre/2020/01/11/journey-into-observability-telemetry.html)*
 </div>
 
 In observability, context is everything. The same goes for experience reports like this post - otherwise, you have no way of accessing if any of our experiences are applicable to you. So, we are around ~30 developers who maintain ~5 micro-services which run on ~1000 EC2 instances that serve around 100k requests/minute[^1].

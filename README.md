@@ -1,10 +1,10 @@
 
 
-# mads-hartmann.com
+# blog.mads-hartmann.com
 
 ## With Gitpod
 
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/mads-hartmann/mads-hartmann.com)
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/mads-hartmann/blog.mads-hartmann.com)
 
 ## Without Gitpod
 
@@ -15,5 +15,5 @@ bundle install
 bundle exec jekyll serve \
     --watch \
     --drafts \
-    --source mads-hartmann.com
+    --source blog.mads-hartmann.com
 ```

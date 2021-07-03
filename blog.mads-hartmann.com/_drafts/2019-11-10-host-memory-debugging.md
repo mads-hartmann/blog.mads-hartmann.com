@@ -31,7 +31,7 @@ Let's start off with the tools I used.
 - `free` - Display amount of free and used memory in the system  
   `free -h` will list all number in human-readable format.
 
-- awk. A cool text-processing programming language. I've previously written a [blog post about awk](https://mads-hartmann.com/2018/09/29/enough-awk-to-get-by.html).
+- awk. A cool text-processing programming language. I've previously written a [blog post about awk](https://blog.mads-hartmann.com/2018/09/29/enough-awk-to-get-by.html).
 
 ## Questions 
 

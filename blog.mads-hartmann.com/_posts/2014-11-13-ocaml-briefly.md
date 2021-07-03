@@ -35,19 +35,20 @@ _You can find a Japanese translation of this post [here](https://postd.cc/ocaml-
 
 ## Table of Contents
 
--   [1. Lists, Arrays, and Tuples](#lists-arrays-and-tuples)
--   [2. Let-bindings](#let-bindings)
--   [3. Functions](#functions)
-    -   [3.1. Defining functions](#defining-functions)
-        -   [3.1.1. Labeled arguments](#labeled-arguments)
-        -   [3.1.2. Optional arguments](#optional-arguments)
-        -   [3.1.3. Default arguments](#default-arguments)
--   [4. Records](#records)
--   [5. Variants](#variants)
-    -   [5.1. Polymorphic Variants](#polymorphic-variants)
-    -   [5.2. Extensible Variants](#extensible-variants)
--   [6. Exceptions](#exceptions)
--   [7. Generalized Algebraic Datatypes](#generalized-algebraic-datatypes)
+- [Table of Contents](#table-of-contents)
+- [Lists, Arrays, and Tuples](#lists-arrays-and-tuples)
+- [Let-bindings](#let-bindings)
+- [Functions](#functions)
+  - [Defining functions](#defining-functions)
+    - [Labeled arguments](#labeled-arguments)
+    - [Optional arguments](#optional-arguments)
+    - [Default arguments](#default-arguments)
+- [Records](#records)
+- [Variants](#variants)
+  - [Polymorphic Variants](#polymorphic-variants)
+  - [Extensible Variants](#extensible-variants)
+- [Exceptions](#exceptions)
+- [Generalized Algebraic Datatypes](#generalized-algebraic-datatypes)
 
 ## Lists, Arrays, and Tuples
 
@@ -437,13 +438,13 @@ Generalized Algebraic Datatypes (GADTs) are an extension of the normal
 variants (algebraic datatypes). They can be used to allow the OCaml
 compiler to perform more sophisticated type checking or to control the
 memory representation of your data. I wrote a [blog
-post](http://mads-hartmann.com/ocaml/2015/01/05/gadt-ocaml.html) about
+post](http://blog.mads-hartmann.com/ocaml/2015/01/05/gadt-ocaml.html) about
 the former and Janestreet has written a great [blog
 post](https://blogs.janestreet.com/why-gadts-matter-for-performance/?utm_source=rss&utm_medium=rss&utm_campaign=why-gadts-matter-for-performance)
 on the latter.
 
 The following is an example from my [blog
-post](http://mads-hartmann.com/ocaml/2015/01/05/gadt-ocaml.html). I
+post](http://blog.mads-hartmann.com/ocaml/2015/01/05/gadt-ocaml.html). I
 include it here as an example of the syntax you use to define GADTs.
 
 ```ocaml

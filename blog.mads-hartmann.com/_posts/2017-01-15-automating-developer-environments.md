@@ -90,7 +90,7 @@ developer environment, as well as managing it once it's running.
 </a>
 
 It consists of a rather small
-[Makefile](http://mads-hartmann.com/2016/08/20/make.html), a collection
+[Makefile](http://blog.mads-hartmann.com/2016/08/20/make.html), a collection
 of Bash scripts, and a very small README. The Makefile take care of
 cloning the relevant Famly repositories, installing various system
 dependencies (such as Docker and the docker-rsync gem) as well as

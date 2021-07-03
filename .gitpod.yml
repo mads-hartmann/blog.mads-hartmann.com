@@ -3,7 +3,7 @@ image:
 
 tasks:
   - init: bundle install
-    command: bundle exec jekyll serve --watch --incremental --drafts --source mads-hartmann.com
+    command: bundle exec jekyll serve --watch --incremental --drafts --source blog.mads-hartmann.com
 
 github:
   prebuilds:
