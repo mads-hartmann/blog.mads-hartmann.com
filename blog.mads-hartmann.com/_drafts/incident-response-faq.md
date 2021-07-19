@@ -10,6 +10,11 @@ Idea: Some FAQs about incident response and related topics. To goal is not to gi
   - Who do you put on call
   - How do you structure the schedule
   - How do you compensate on-call
+  - Onboarding
+    - What are the requirements to be on-call
+  - Training / practice
+    - Do you need to have ongoing training/practice processes
+      - [The SRE Incident Response game](https://medium.com/@bruce_25864/the-sre-incident-response-game-db242fff391c)
 - Incident retrospective
   - When to you need a incident retrospective report
   - Who writes the report
