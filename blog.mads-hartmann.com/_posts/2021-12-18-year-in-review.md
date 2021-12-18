@@ -13,7 +13,7 @@ Even so, I managed to get some writing done in 2021, and I got an [article publi
 
 I left a bunch of really lovely people at Glitch to join a bunch of really lovely people at [Gitpod](https://www.gitpod.io/). I went from being a manager back to being an IC. While I really loved managing my team at Glitch, I also realized that now is not the time in my life to do a career switch. I need something in my comfort zone that I can do well even if I only got 3 hours of sleep five weeks in a row. For me, that's being an IC[^1]. It's something I enjoy and something I'm really good at. Maybe in another few years I'll try being an engineering manager again.
 
-I joined Gitpod in Mays so I've been with them 7 months already - though for 3 of them I was out for parental leave. It's a wonderful team and an incredible product. Everyone is humble, kind, and extremely competent. I really do believe that ephemeral cloud-based developer environments are the future and Gitpod is leading the way.
+I joined Gitpod in May so I've been with them 7 months already - though for 3 of them I was out for parental leave. It's a wonderful team and an incredible product. Everyone is humble, kind, and extremely competent. I really do believe that ephemeral cloud-based developer environments are the future and Gitpod is leading the way.
 
 Looking forward to 2022. Have a great New Years ❤️
 
