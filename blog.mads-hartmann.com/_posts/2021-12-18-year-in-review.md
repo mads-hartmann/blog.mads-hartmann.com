@@ -5,7 +5,7 @@ date: 2021-12-18 10:00:00
 colors: pinkred
 ---
 
-In [2017](https://blog.mads-hartmann.com/2017/12/25/2017.html) I posted a "year in review" post with the intention of writing one every following year. I never wrote another one. It has been five years now so I thought I'd give it a go again.
+In [2017](https://blog.mads-hartmann.com/2017/12/25/2017.html) I posted a "year in review" post with the intention of writing one every following year. I never wrote another one. It has been four years now so I thought I'd give it a go again.
 
 This was my first full year of being a parent. More importantly, it was the first time being parents while also being back at work full time both of us. It's crazy. Looking back at all the colleagues I've had over the years who were parents, I have to say you hid it well. I now cringe when I look back at a breakfast conversation I had at work when I was 25 at a table full of colleagues who were parents. It went something like this: "Omg I slept so much yesterday that I had a headache just from sleeping so much" to which the reply was "haha yeah, I hate when that happens". At the time I didn't understand why the other people at the table seemed so quiet. Now I know it's because they wanted to murder me. Which is completely fair.
 
