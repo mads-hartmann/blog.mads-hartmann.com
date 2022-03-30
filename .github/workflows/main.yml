@@ -1,8 +1,6 @@
 name: Build & deploy
-on:
-  push:
-    branches:
-      - master
+on: push
+
 jobs:
   build:
     name: Build
@@ -10,27 +8,20 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - uses: actions/setup-ruby@v1
+      - name: Build
+        uses: dagger/dagger-for-github@v3 # https://github.com/dagger/dagger-for-github
         with:
-          ruby-version: "2.x"
+          version: 0.2
+          cmds: |
+            project init
+            project update
+            do build
 
-      - name: Install bundler
-        run: gem install bundler
-
-      - name: Setup bundler environment
-        run: bundle install
-
-      - name: Build site
-        run: bundle exec jekyll build --source blog.mads-hartmann.com
-
-      - name: Upload to S3 (blog.mads-hartmann.com)
+      - name: Upload to S3 and invalidate cache
+        if: github.ref == 'refs/heads/main'
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.BLOG_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.BLOG_AWS_SECRET_ACCESS_KEY }}
-        run: aws s3 sync --region us-east-1 _site/ s3://${{ secrets.BLOG_BUCKET_NAME }}/
-
-      - name: Invalidate cache (blog.mads-hartmann.com)
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.BLOG_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.BLOG_AWS_SECRET_ACCESS_KEY }}
-        run: aws cloudfront create-invalidation --region us-east-1 --distribution-id ${{ secrets.BLOG_CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
+        run: |
+          aws s3 sync --region us-east-1 _site/ s3://${{ secrets.BLOG_BUCKET_NAME }}/
+          aws cloudfront create-invalidation --region us-east-1 --distribution-id ${{ secrets.BLOG_CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
