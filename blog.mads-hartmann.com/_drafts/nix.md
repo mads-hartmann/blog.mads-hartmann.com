@@ -52,6 +52,8 @@ So let's get hands-on and see how to use Nix.
 
 ### nix-build
 
+## Nix ecosystem
+
 ## Resources
 
 Official manuals
