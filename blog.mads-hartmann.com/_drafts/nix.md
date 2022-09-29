@@ -1,3 +1,9 @@
+---
+layout: post-no-separate-excerpt
+title: "Nix"
+colors: pinkred
+---
+
 # Nix
 
 I have been vaguely aware of Nix for a very long time but never really took the time to sit down and play around with it until recently. In this post I'll go over what I've picked up so far.
@@ -113,8 +119,6 @@ nix-instantiate --eval attribute-set.nix
 
 TODO: add any other interesting "core features" and then create the first derivation.
 
-</table>
-
 ### nix-env
 
 > The command nix-env is used to manipulate Nix user environments. User environments are sets of software packages available to a user at some point in time. 
@@ -185,11 +189,54 @@ I personally find this really neat, and this on it's own is a huge improvement t
 
 ### nix-shell
 
+To me nix-shell is the start of the show.
+
+> The command nix-shell will build the dependencies of the specified derivation, but not the derivation itself. It will then start an interactive shell in which all environment variables defined by the derivation path have been set to their corresponding values, and the script $stdenv/setup has been sourced. This is useful for reproducing the environment of a derivation for development.
+>
+> https://nixos.org/manual/nix/stable/command-ref/nix-shell.html
+
+A minimal `shell.nix` file is
+
+```nix
+let
+  nixpkgs = import <nixpkgs> {};
+in
+nixpkgs.mkShell {
+  nativeBuildInputs = [];
+
+  shellHook = ''
+    echo "Welcome to an empty shell"
+  '';
+}
+```
+
+```sh
+$ nix-shell empty.nix 
+Welcome to an empty shell
+
+[nix-shell]$ which go
+/home/gitpod/go/bin/go
+```
+
+Now using `--pure` it can't even find which
+
+```sh
+$ nix-shell --pure empty.nix 
+Welcome to an empty shell
+
+[nix-shell]$ which go
+bash: which: command not found
+```
+
+It doens't even have `which` 😅 
+
 #### Version pinning
 
 ### nix-build
 
 ## Nix ecosystem
+
+- [Cachix](https://www.cachix.org/)
 
 ## Resources
 
