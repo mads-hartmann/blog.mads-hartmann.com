@@ -117,6 +117,72 @@ TODO: add any other interesting "core features" and then create the first deriva
 
 ### nix-env
 
+> The command nix-env is used to manipulate Nix user environments. User environments are sets of software packages available to a user at some point in time. 
+>
+> https://nixos.org/manual/nix/stable/command-ref/nix-env.html
+
+nix-env will look at `~/.nix-profile` by default, which means that your Nix user envrionment is going to be your "normal" user by default - that means you can use Nix as a way to install software for your user, and it comes iwth some neat features. Here's a quick introduction to how to use is.
+
+To list installed pacakges
+
+```sh
+nix-env -q
+```
+
+To install a package
+
+```sh
+nix-env --install gawk
+```
+
+Here's a short command log what it does; it creates a symlink to the binary in the Nix store.
+
+```sh
+gitpod /workspace/random (master) $ which awk
+/home/gitpod/.nix-profile/bin/awk
+
+gitpod /workspace/random (master) $ awk --version
+GNU Awk 5.1.1, API: 3.1
+... REDACTED ...
+
+gitpod /workspace/random (master) $ file /home/gitpod/.nix-profile/bin/awk
+/home/gitpod/.nix-profile/bin/awk: symbolic link to /nix/store/7rd34k5jnjwhpk7i9dwjc9xd93psp4gg-gawk-5.1.1/bin/awk
+```
+
+A neat thing is that Nix keeps a "changelog" of the changes that you make to your user envrionment, which allows you to rollback changes.
+
+Here's a short example:
+
+```
+gitpod /workspace/random (master) $ nix-env --list-generations
+   1   2022-09-06 23:29:03
+   2   2022-09-06 23:29:23
+   3   2022-09-06 23:29:50
+   4   2022-09-29 18:59:26
+   5   2022-09-29 19:05:14   (current)
+
+gitpod /workspace/random (master) $ nix-env --rollback
+switching profile from version 5 to 4
+
+gitpod /workspace/random (master) $ which awk
+/usr/bin/awk
+
+gitpod /workspace/random (master) $ nix-env --list-generations
+   1   2022-09-06 23:29:03
+   2   2022-09-06 23:29:23
+   3   2022-09-06 23:29:50
+   4   2022-09-29 18:59:26   (current)
+   5   2022-09-29 19:05:14
+
+gitpod /workspace/random (master) $ nix-env --switch-generation 5
+switching profile from version 4 to 5
+
+gitpod /workspace/random (master) $ which awk
+/home/gitpod/.nix-profile/bin/awk
+```
+
+I personally find this really neat, and this on it's own is a huge improvement to how I've been management software on my systems previously. However, I don't use `nix-env` directly, I use `nix-shell`.
+
 ### nix-shell
 
 #### Version pinning
