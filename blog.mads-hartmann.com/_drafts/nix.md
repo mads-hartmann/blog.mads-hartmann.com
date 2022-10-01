@@ -6,6 +6,8 @@ colors: pinkred
 
 # Nix
 
+TODO: To lower the barrier of how polished I want this to be, maybe try to write this a "Notes from Learning Nix".
+
 I have been vaguely aware of Nix for a very long time but never really took the time to sit down and play around with it until recently. In this post I'll go over what I've picked up so far.
 
 ## What is Nix
