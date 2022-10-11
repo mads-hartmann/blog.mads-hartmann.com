@@ -241,6 +241,8 @@ It doesn't even have `which` 😅
 
 ### Version pinning
 
+TODO: See https://nix.dev/tutorials/towards-reproducibility-pinning-nixpkgs#pinning-packages-with-urls-inside-a-nix-expression and reference it
+
 TODO: Explain the following
 - nixpkgs and what their version strategy is (e.g. ruby, ruby_3_0, ruby_3_1) - I think they only track major/minor and ignore patch.
 - How would you pin a minor version of ruby to e.g. `ruby 3.1.1` or `ruby 3.1.2` - I think you have to pin your version of nixpks to the commit that happens to have the minor version you want - you can use this tool to find it https://lazamar.co.uk/nix-versions/ - but I think you are not guaranteed that a specific minor version will be available.
