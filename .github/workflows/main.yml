@@ -7,16 +7,13 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@master
-
-      - name: Build
-        uses: dagger/dagger-for-github@v3 # https://github.com/dagger/dagger-for-github
+      - uses: cachix/install-nix-action@v15
         with:
-          version: 0.2
-          cmds: |
-            project init
-            project update
-            do build
-
+          nix_path: nixpkgs=channel:release-22.05
+      - name: Setup bundler environment
+        run: nix-shell --run 'bundle install'
+      - name: Build
+        run: nix-shell --run 'bundle exec jekyll build --source blog.mads-hartmann.com'
       - name: Upload to S3 and invalidate cache
         if: github.ref == 'refs/heads/main'
         env:
