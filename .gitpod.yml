@@ -1,23 +1,12 @@
-image:
-  file: .gitpod.Dockerfile
+image: gitpod/workspace-full:2022-10-10-01-40-34
 
 tasks:
   - name: Start
     init: |
-      dagger project init
-      dagger project update
+      nix-shell --run 'bundle install'
     command: |
-      dagger do watch
-
-github:
-  prebuilds:
-    master: true
-    branches: true
+      nix-shell --run 'bundle exec jekyll serve --watch --drafts --source blog.mads-hartmann.com'
 
 ports:
   - port: 4000
     onOpen: open-preview
-
-vscode:
-  extensions:
-    - brody715.vscode-cuelang
