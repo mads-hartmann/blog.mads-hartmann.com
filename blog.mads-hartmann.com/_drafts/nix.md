@@ -1,18 +1,19 @@
 ---
 layout: post-no-separate-excerpt
-title: "Nix"
+title: "Learning Nix"
 colors: pinkred
 ---
 
-# Nix
+I have been vaguely aware of Nix for a very long time but never really took the time to sit down and play around with it until recently. As I read up on the docs, watched presentations, and did a few proof-of-concepts, I wrote down a few notes to help guide my learning. I'm sharing them here in case they might be useful to someone else.
 
-TODO: To lower the barrier of how polished I want this to be, maybe try to write this a "Notes from Learning Nix".
+{: .no_toc }
+## Table of contents
+* TOC
+{:toc}
 
-I have been vaguely aware of Nix for a very long time but never really took the time to sit down and play around with it until recently. In this post I'll go over what I've picked up so far.
+## Introduction to Nix
 
-## What is Nix
-
-The [official manual](https://nixos.org/manual/nix/stable) is quite good so I'd recommend reading that to get a sense of what Nix is. Below I've highlighted the passages that stand out to me and will provide a bit of context on why.
+The [official manual](https://nixos.org/manual/nix/stable) is quite good, but also rather comprehensive. I do recommend giving it a read to dive deeper, but below I've highlighted the passages that stand out to me and will provide a bit of context on why.
 
 > Nix is a purely functional package manager
 
@@ -36,7 +37,7 @@ This bit I find nice as gives a bit more information about how Nix achieves the 
 
 > Nix expressions generally describe how to build a package from source [...] This is a source deployment model. For most users, building from source is not very pleasant as it takes far too long. However, Nix can automatically skip building from source and instead use a binary cache, a web server that provides pre-built binaries. For instance, when asked to build `/nix/store/b6gvzjyb2pg0…-firefox-33.1` from source, Nix would first check if the file https://cache.nixos.org/b6gvzjyb2pg0….narinfo exists, and if so, fetch the pre-built binary referenced from there; otherwise, it would fall back to building from source.
 
-Now this is where things start to get exciting, and where the importance of the functional programming foundations shine through. If package has a "complete dependency specification" and "Nix expressions are deterministic" then of course, why would you ever build the same package twice?
+Now this is where things start to get exciting, and where the importance of the functional programming foundations shine through. If a package has a "complete dependency specification" and "Nix expressions are deterministic" then of course, why would you ever build the same package twice?
 
 > We provide a large set of Nix expressions containing hundreds of existing Unix packages, the Nix Packages collection (Nixpkgs).
 
@@ -48,11 +49,9 @@ At this point I'm more then a little excited. You have a package manager that's 
 
 Now I'm sold. Setting up reproducible build environment has so far been a struggle. The move to using Docker for developer environments hasn't fixed that, as `Dockerfile`s are generally not reproducible as they `apt-get update` or perform other operations that depend on what time you happened to build the image.
 
-So let's get hands-on and see how to use Nix.
+So let's dive into Nix the language and the related tools.
 
-## Hands on with Nix
-
-### Nix the language
+## Nix the language
 
 Again, [the manual](https://nixos.org/manual/nix/stable/language/index.html) is quite good, so give it a read to dive deeper.
 
@@ -78,7 +77,11 @@ The primary concepts are [expressions](https://nixos.org/manual/nix/stable/gloss
 
 So when programming in Nix you'll be writing expressions which are typically derivations that produce store objects.
 
-Lets dive into how you can write and evaluate these expressions. When you [install Nix](https://nixos.org/manual/nix/stable/installation/installation.html) you get a few different commands, I'll cover them below.
+Lets dive into how you can write and evaluate these expressions - to do so we need to look at the tools that ship with Nix.
+
+## Nix tools
+
+When you [install Nix](https://nixos.org/manual/nix/stable/installation/installation.html) you get a few different commands, I'll cover them below.
 
 ### nix-instantiate
 
@@ -123,13 +126,13 @@ TODO: add any other interesting "core features" and then create the first deriva
 
 ### nix-env
 
-> The command nix-env is used to manipulate Nix user environments. User environments are sets of software packages available to a user at some point in time. 
+> The command nix-env is used to manipulate Nix user environments. User environments are sets of software packages available to a user at some point in time.
 >
 > https://nixos.org/manual/nix/stable/command-ref/nix-env.html
 
-nix-env will look at `~/.nix-profile` by default, which means that your Nix user envrionment is going to be your "normal" user by default - that means you can use Nix as a way to install software for your user, and it comes iwth some neat features. Here's a quick introduction to how to use is.
+nix-env will look at `~/.nix-profile` by default, which means that your Nix user environment is going to be your "normal" user by default - that means you can use Nix as a way to install software for your user, and it comes with some neat features. Here's a quick introduction to how to use is.
 
-To list installed pacakges
+To list installed packages
 
 ```sh
 nix-env -q
@@ -141,57 +144,57 @@ To install a package
 nix-env --install gawk
 ```
 
-Here's a short command log what it does; it creates a symlink to the binary in the Nix store.
+Here's a short command log showing what it does; it creates a symlink to the binary in the Nix store - these commands were executed from a [Gitpod Workspace](https://www.gitpod.io/) off [mads-hartmann/random](https://github.com/mads-hartmann/random)
 
 ```sh
-gitpod /workspace/random (master) $ which awk
+$ which awk
 /home/gitpod/.nix-profile/bin/awk
 
-gitpod /workspace/random (master) $ awk --version
+$ awk --version
 GNU Awk 5.1.1, API: 3.1
 ... REDACTED ...
 
-gitpod /workspace/random (master) $ file /home/gitpod/.nix-profile/bin/awk
+$ file /home/gitpod/.nix-profile/bin/awk
 /home/gitpod/.nix-profile/bin/awk: symbolic link to /nix/store/7rd34k5jnjwhpk7i9dwjc9xd93psp4gg-gawk-5.1.1/bin/awk
 ```
 
-A neat thing is that Nix keeps a "changelog" of the changes that you make to your user envrionment, which allows you to rollback changes.
+A neat thing is that Nix keeps a "changelog" of the changes that you make to your user environment, which allows you to rollback changes.
 
 Here's a short example:
 
 ```
-gitpod /workspace/random (master) $ nix-env --list-generations
+$ nix-env --list-generations
    1   2022-09-06 23:29:03
    2   2022-09-06 23:29:23
    3   2022-09-06 23:29:50
    4   2022-09-29 18:59:26
    5   2022-09-29 19:05:14   (current)
 
-gitpod /workspace/random (master) $ nix-env --rollback
+$ nix-env --rollback
 switching profile from version 5 to 4
 
-gitpod /workspace/random (master) $ which awk
+$ which awk
 /usr/bin/awk
 
-gitpod /workspace/random (master) $ nix-env --list-generations
+$ nix-env --list-generations
    1   2022-09-06 23:29:03
    2   2022-09-06 23:29:23
    3   2022-09-06 23:29:50
    4   2022-09-29 18:59:26   (current)
    5   2022-09-29 19:05:14
 
-gitpod /workspace/random (master) $ nix-env --switch-generation 5
+$ nix-env --switch-generation 5
 switching profile from version 4 to 5
 
-gitpod /workspace/random (master) $ which awk
+$ which awk
 /home/gitpod/.nix-profile/bin/awk
 ```
 
-I personally find this really neat, and this on it's own is a huge improvement to how I've been management software on my systems previously. However, I don't use `nix-env` directly, I use `nix-shell`.
+I personally find this really neat, and this on its own is a huge improvement to how I've been management software on my systems previously. However, I don't use `nix-env` directly, I use `nix-shell`.
 
 ### nix-shell
 
-To me nix-shell is the start of the show.
+For the use-cases I'm interested in at the moment `nix-shell` is the star of the show.
 
 > The command nix-shell will build the dependencies of the specified derivation, but not the derivation itself. It will then start an interactive shell in which all environment variables defined by the derivation path have been set to their corresponding values, and the script $stdenv/setup has been sourced. This is useful for reproducing the environment of a derivation for development.
 >
@@ -213,7 +216,7 @@ nixpkgs.mkShell {
 ```
 
 ```sh
-$ nix-shell empty.nix 
+$ nix-shell empty.nix
 Welcome to an empty shell
 
 [nix-shell]$ which go
@@ -223,18 +226,28 @@ Welcome to an empty shell
 Now using `--pure` it can't even find which
 
 ```sh
-$ nix-shell --pure empty.nix 
+$ nix-shell --pure empty.nix
 Welcome to an empty shell
 
 [nix-shell]$ which go
 bash: which: command not found
 ```
 
-It doens't even have `which` 😅 
-
-#### Version pinning
+It doesn't even have `which` 😅
 
 ### nix-build
+
+## Nix packages
+
+### Version pinning
+
+TODO: Explain the following
+- nixpkgs and what their version strategy is (e.g. ruby, ruby_3_0, ruby_3_1) - I think they only track major/minor and ignore patch.
+- How would you pin a minor version of ruby to e.g. `ruby 3.1.1` or `ruby 3.1.2` - I think you have to pin your version of nixpks to the commit that happens to have the minor version you want - you can use this tool to find it https://lazamar.co.uk/nix-versions/ - but I think you are not guaranteed that a specific minor version will be available.
+
+Tools for management dependencies more easily:
+
+- https://github.com/nmattia/niv
 
 ## Nix ecosystem
 
