@@ -11,6 +11,11 @@ I have been vaguely aware of Nix for a very long time but never really took the 
 * TOC
 {:toc}
 
+## TODOs
+
+- Is there a standard library for Nix worth mentioning?
+- What about tooling? Any LSP-based tools worth trying?
+
 ## Introduction to Nix
 
 The [official manual](https://nixos.org/manual/nix/stable) is quite good, but also rather comprehensive. I do recommend giving it a read to dive deeper, but below I've highlighted the passages that stand out to me and will provide a bit of context on why.
