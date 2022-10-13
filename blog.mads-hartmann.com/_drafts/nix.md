@@ -13,6 +13,7 @@ I have been vaguely aware of Nix for a very long time but never really took the 
 
 ## TODOs
 
+- [Nix Pills](https://nixos.org/guides/nix-pills/) seems like a great resource! Check it out and reference it as needed.
 - Is there a standard library for Nix worth mentioning?
 - What about tooling? Any LSP-based tools worth trying?
 
