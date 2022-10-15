@@ -18,6 +18,7 @@ I have been vaguely aware of Nix for a very long time but never really took the 
 - What about tooling? Any LSP-based tools worth trying?
 - Explain what part of the language the tokens <nixpkgs> comes from, e.g. in `let pkgs = import <nixpkgs> {}; in { a = "foo"; }`
 - Mention `nix repl`
+- Is [NixOps](https://github.com/NixOS/nixops) relevant to me?
 
 ## Introduction to Nix
 
