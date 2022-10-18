@@ -13,7 +13,7 @@ I have three primary use-cases: Declarative developer environments, building and
 
 To be fair "Developer Environments" is a rather loosely defined term, and as far as I can tell, Nix can only help with a sub-set of what I'd consider a "Developer Environment". Even so, it's an important part. I'm hoping to use Nix to install all the tools that I need, and do so in a **declarative** and **reproducible** way.
 
-The industry seems to have standardized on using container images as a way to package developer environments and I can understand why: It's very flexible and has a look of great tools and services that developers already know how to use.
+The industry seems to have standardized on using container images as a way to package developer environments and I can understand why: It's very flexible and there is a whole ecosystem of great tools and services that developers already know how to use.
 
 However, I have two qualms about using container images:
 
@@ -22,7 +22,7 @@ However, I have two qualms about using container images:
 
 So far I'm experimenting with using a minimal container image which primarily contains Nix, and then use Nix itself to installing all the remaining tools. This works quite well when you're using Gitpod (my employer) though there are a few things we could improve to make the experience better - see my current explorations in the README of [mads-hartmann/new](https://github.com/mads-hartmann/new).
 
-I'm especially interested in declarative developer environments for mono-repos where many teams have to co-exist and might need different tools installed as they're working on different services and perform different tasks. This is one case where the one-size-fits-all approach of container images seems to be a bit challenging, and as far as I can tell, Nix is well suited for this use-case. I haven't done any experiments in this area yet though. If you have, please reach out and I'd be happy to link to any relevant blog posts or resources on this topic below.
+I'm especially interested in declarative developer environments for monorepos where many teams have to co-exist and might need different tools installed as they're working on different services and perform different tasks. This is one case where the one-size-fits-all approach of container images seems to be a bit challenging, and as far as I can tell, Nix is well suited for this use-case. I haven't done any experiments in this area yet though. If you have, please reach out and I'd be happy to link to any relevant blog posts or resources on this topic below.
 
 ## Building and sharing tools
 
