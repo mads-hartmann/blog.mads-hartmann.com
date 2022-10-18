@@ -32,6 +32,8 @@ This means that I - as the author of the tool - don't have to worry about cuttin
 
 I haven't done any prototypes in this area yet, so I don't know if this works out well in practice or not, but the use-case is appealing to me at least.
 
+**Update 2022-10-18**: [@GeoffreyHuntley](https://twitter.com/GeoffreyHuntley) shared an interesting thread diving into the source/binary substitution approach that Nix takes and how that can impact the OSS community in a positive way [here](https://twitter.com/GeoffreyHuntley/status/1582376205260820480?s=20&t=Ygb_IVzyWp-b8LaMPwY3rw).
+
 ## Managing my personal development server
 
 The last use-case is to manage my development server in a more declarative way. I have an old Hackintosh which I now use a development/toy server. I use it to host a private Gitpod installation which is accessible through Tailscale.
