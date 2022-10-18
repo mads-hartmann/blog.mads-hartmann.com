@@ -20,7 +20,7 @@ However, I have two qualms about using container images:
 1. The images are not necessarily reproducible as they usually use `apt-get`.
 2. Updating these images is (currently) rather tedious and slow, forcing you to think about details such as layer ordering when all you want to do is just install a bunch of tools.
 
-So far I'm experimenting with using a minimal container image which primarily contains Nix, and then use Nix itself to installing all the remaining tools. This works quite well when you're using Gitpod (my employer) though there are a few things we could improve to make the experience better - see my current explorations in the README of [mads-hartmann/new](https://github.com/mads-hartmann/new).
+So far I'm experimenting with using a minimal container image which primarily contains Nix, and then use Nix itself to install all the remaining tools. This works quite well when you're using Gitpod (my employer) though there are a few things we could improve to make the experience better - see my current explorations in the README of [mads-hartmann/new](https://github.com/mads-hartmann/new).
 
 I'm especially interested in declarative developer environments for monorepos where many teams have to co-exist and might need different tools installed as they're working on different services and perform different tasks. This is one case where the one-size-fits-all approach of container images seems to be a bit challenging, and as far as I can tell, Nix is well suited for this use-case. I haven't done any experiments in this area yet though. If you have, please reach out and I'd be happy to link to any relevant blog posts or resources on this topic below.
 
