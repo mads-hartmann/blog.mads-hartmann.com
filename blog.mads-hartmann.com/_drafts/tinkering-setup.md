@@ -31,3 +31,60 @@ You're right. I'm relying on a single shared resource between many Gitpod worksp
 In my case that's okay. I run as much as possible in Gitpod and I mainly run a Kubernetes cluster and a few other things on the Linux box; besides, this is only for doing a bit of hobby development and tinkering with new tools like acorn.io.
 
 However, if your development flow is tightly coupled with the resources you can't run in Gitpod, it's worht investing some energy into ensuring that those resoruces can share a lifecycle with Gitpod workspaces. This is what we do at Gitpod. We spin up VMs with a k3s cluster for each branch in gitpod-io/gitpod so that people have a cluster avaiable to use during development, if needed.
+
+
+## Mac <> Gitpod connection test
+
+### Mac setup
+
+```sh
+# Make the CLI available
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+
+# List nodes
+tailscale status
+
+# SSH to a node
+ssh <device ip>
+
+# Get ip of specific node
+tailscale ip <device name> 
+```
+
+### Gitpod setup
+
+See [mads-hartmann/new](https://github.com/mads-hartmann/new).
+
+1. `tailscale` is installed in the workspace.
+2. It's configured to connect to the network on startup using the Workspace ID as the hostname. It uses an emphereal auth key I have created in keys (https://login.tailscale.com/admin/settings/keys) and added as an environment variable `TAILSCALE_AUTH_KEY`
+
+### SSH
+
+SSH doesn't work with Gitpod
+
+ssh gitpod@100.97.252.131 results in Unable to change owner or mode of tty stdin: Operation not permittedConnection to 100.97.252.131 closed.
+
+https://github.com/gitpod-io/gitpod/issues/11195
+
+### Connecting
+
+Testing the connection using `nc` - first with my MBP as the host:
+
+```
+# MBP
+nc -l 0.0.0.0 8080
+
+# Workspace
+sudo apt-get install netcat
+nc "$(tailscale ip --1 mbp)" 8080
+```
+
+And the other way around 
+
+```
+# Workspace
+nc -l 0.0.0.0 8080
+
+# MBP
+nc "$(tailscale ip --1 madshartmann-new-xvq3ore8bs4)" 8080
+```
