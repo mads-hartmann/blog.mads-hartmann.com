@@ -1,0 +1,3 @@
+This is similar as "Nix as your dotfiles" but focuses on how Nix might be a good tool for enablement teams who want to create environments for other teams to consume in an easy way; or enable teams own parts of the environments and then compose them.
+
+This works equally well in a mono-repo as multiple repos. For mono-repos you'd place the Nix code in a folder. For many-repo "projects" you'd create a separate repo for the Nix code.
