@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full:2022-10-10-01-40-34
+FROM madshartmann/gitpod-nix-base:1
 
 # This populates the Nix store with all the packages needed by shell.nix
 #
