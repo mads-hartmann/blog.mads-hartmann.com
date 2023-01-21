@@ -1,7 +1,1 @@
-# blog.mads-hartmann.com
-
-## Development setup
-
-### With Gitpod
-
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/mads-hartmann/blog.mads-hartmann.com)
+Moved to my monorepo [mads-hartmann/mads-hartmann.com](https://github.com/mads-hartmann/mads-hartmann.com) at [sites/blog.mads-hartmann.com](https://github.com/mads-hartmann/mads-hartmann.com/tree/main/sites/blog.mads-hartmann.com)
